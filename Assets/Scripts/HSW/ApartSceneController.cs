@@ -46,11 +46,11 @@ public class ApartSceneController : MonoBehaviour
     [LabelText("상단")] [SerializeField] private Sprite topStair;
     [LabelText("하단")] [SerializeField] private Sprite bottomStair;
 
-    [LabelText("층 간 간격(Y축)")]
-    [SerializeField] private float gapY = 1.5f;
+    // 층 간 간격(Y축)
+    private float gapY = 4f;
 
-    [LabelText("생성 시작 위치 (월드 좌표)")]
-    [SerializeField] private Vector2 startPos = new Vector2(0f, 0f);
+    // 생성 시작 위치 (월드 좌표)
+    private Vector2 startPos = new Vector2(0f, 0f);
 
     void Start()
     {
