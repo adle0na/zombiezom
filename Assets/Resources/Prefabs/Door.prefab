@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2802c44e2a5051a4cab83f874493254f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorSprite: {fileID: 0}
+  doorSprite: {fileID: 8836396769013686662}
   doorData:
     doorType: 0
     isOpenable: 0
