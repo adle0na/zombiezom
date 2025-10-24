@@ -55,12 +55,12 @@ public class ItemData
 }
 
 [Serializable]
-public class ItemTableData
+public class ItemCsvRow
 {
-    private int index;
-    private int itemName;
-    private int itemSprite;
-    private int itemDes;
-    private int cureFloor;
-    private int appearFloor;
+    public int index;
+    public string itemName;
+    public Sprite itemSprite; // CSV의 ItemSprite 문자열을 Resources 경로로 사용
+    public string itemDes;
+    public int[] cureFloor;
+    public int[] appearFloor;
 }

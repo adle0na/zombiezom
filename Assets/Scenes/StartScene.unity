@@ -646,6 +646,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1776af45fd2bf384b976035e681323c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startCount: 3
+  tryCount: 0
   playerInven: []
 --- !u!1 &1543723351
 GameObject:
