@@ -1,10 +1,13 @@
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using static IInteractable;
 
 public class Box : MonoBehaviour, IInteractable
 {
+    [LabelText("박스 이미지")]
     public SpriteRenderer boxSprite;
+    [LabelText("박스 데이터")]
     public BoxData boxData;
     public InteractHoldType HoldType { get; } = InteractHoldType.Long;
     public bool IsInteractable => !boxData.isOpened;

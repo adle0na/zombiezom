@@ -23,16 +23,18 @@ public enum DoorType
 
 public enum BoxType
 {
-    [InspectorName("작은피묻은박스")]
-    BloodBox_S,
-    [InspectorName("작은구겨진박스")]
+    [InspectorName("작은 일반 박스")]
+    NormalBox_S,
+    [InspectorName("작은 더러운 박스")]
+    DirtyBox_S,
+    [InspectorName("작은 찌그러진 박스")]
     CrumpledBox_S,
-    [InspectorName("작은열린박스")]
-    OpendBox_S,
-    [InspectorName("큰피묻은박스")]
-    BloodBox_L,
-    [InspectorName("큰구겨진박스")]
+    [InspectorName("작은 피묻은 박스")]
+    BloodBox_S,
+    [InspectorName("큰 일반 박스")]
+    NormalBox_L,
+    [InspectorName("큰 찌그러진 박스")]
     CrumpledBox_L,
-    [InspectorName("큰열린박스")]
-    OpendBox_L
+    [InspectorName("큰 피묻은 박스")]
+    BloodBox_L
 }
