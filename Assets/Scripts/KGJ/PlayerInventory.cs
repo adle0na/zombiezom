@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInventory : MonoBehaviour
+public class PlayerInventory : GenericSingleton<PlayerInventory>
 {
     [Header("Inventory Settings")]
     [SerializeField] private int maxSlots = 10; // 인벤토리 최대 슬롯 개수
 
     [Header("Current Inventory")]
-    [SerializeField] private List<ItemData> _inventory = new(); 
-
-    public IReadOnlyList<ItemData> Inventory => _inventory;
+    [SerializeField] private List<ItemData> _inventory = new List<ItemData>(); 
+    
+    public IReadOnlyList<ItemData> Inventory => _inventory; 
 
     public int ItemCount => _inventory.Count;
     
@@ -18,12 +18,12 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     public bool IsFull => _inventory.Count >= maxSlots;
 
+    // --- 인벤토리 기능 메서드 ---
+
     /// <summary>
     /// 아이템 추가
     /// </summary>
-    /// <param name="item">추가할 아이템 데이터</param>
-    /// <returns>추가 성공 여부</returns>
-    public bool AddItem(ItemData item)
+    public bool AddItem(ItemData item) 
     {
         if (IsFull)
         {
@@ -37,27 +37,11 @@ public class PlayerInventory : MonoBehaviour
     }
 
     /// <summary>
-    /// 아이템 삭제 (이름 기준)
-    /// </summary>
-    public bool RemoveItemByName(string itemName)
-    {
-        var target = _inventory.Find(i => i.itemName == itemName);
-        if (target != null)
-        {
-            _inventory.Remove(target);
-            Debug.Log($"[Inventory] {itemName} 제거됨.");
-            return true;
-        }
-
-        Debug.LogWarning($"[Inventory] {itemName}은(는) 인벤토리에 없습니다.");
-        return false;
-    }
-
-    /// <summary>
-    /// 아이템 삭제 (인덱스 기준)
+    /// 아이템 삭제 (인덱스 기준 - ItemData의 itemIndex 필드 기준)
     /// </summary>
     public bool RemoveItemByIndex(int itemIndex)
     {
+        // ItemData의 itemIndex 필드가 일치하는 첫 번째 아이템을 찾습니다.
         var target = _inventory.Find(i => i.itemIndex == itemIndex);
         if (target != null)
         {
@@ -93,7 +77,6 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     public void ClearInventory()
     {
-        // private 필드를 사용하도록 수정
         _inventory.Clear();
         Debug.Log("[Inventory] 모든 아이템 삭제됨.");
     }
