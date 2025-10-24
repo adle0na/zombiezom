@@ -52,6 +52,9 @@ public class ApartSceneController : MonoBehaviour
     [LabelText("층 프리팹")]
     [SerializeField] private GameObject floorPrefab;
 
+    [LabelText("플레이어 프리팹")]
+    [SerializeField] private GameObject playerPrefab;
+
     [LabelText("판자문A")] 
     [SerializeField] private Sprite closedDoorA;
     [LabelText("판자문B")] 
@@ -136,6 +139,8 @@ public class ApartSceneController : MonoBehaviour
 
             SetDoorSprite(floor.doorDatas);
         }
+        
+        //Instantiate(playerPrefab)
     }
 
     public void SetDoor(List<Door> doors)

@@ -53,3 +53,14 @@ public class ItemData
     [LabelText("아이템 설명")]
     public string itemDes;
 }
+
+[Serializable]
+public class ItemTableData
+{
+    private int index;
+    private int itemName;
+    private int itemSprite;
+    private int itemDes;
+    private int cureFloor;
+    private int appearFloor;
+}
