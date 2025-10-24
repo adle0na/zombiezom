@@ -59,3 +59,14 @@ public class ItemData : IEnumerable
         throw new NotImplementedException();
     }
 }
+
+[Serializable]
+public class ItemTableData
+{
+    private int index;
+    private int itemName;
+    private int itemSprite;
+    private int itemDes;
+    private int cureFloor;
+    private int appearFloor;
+}

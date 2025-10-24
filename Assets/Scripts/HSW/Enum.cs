@@ -13,12 +13,20 @@ public enum FloorType
 
 public enum DoorType
 {
-    [InspectorName("일반문")]
-    NormalDoor,
-    [InspectorName("피묻은문")]
-    BloodDoor,
-    [InspectorName("판자문")]
-    ClosedDoor
+    [InspectorName("판자문1")]
+    ClosedDoorA,
+    [InspectorName("판자문2")]
+    ClosedDoorB,
+    [InspectorName("일반문1")]
+    NormalDoorA,
+    [InspectorName("일반문2")]
+    NormalDoorB,
+    [InspectorName("피묻은문1")]
+    BloodDoorA,
+    [InspectorName("피묻은문2")]
+    BloodDoorB,
+    [InspectorName("피묻은문3")]
+    BloodDoorC
 }
 
 public enum BoxType

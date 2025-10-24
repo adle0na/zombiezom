@@ -36,16 +36,43 @@ public class ApartSceneController : MonoBehaviour
     }
 
     [LabelText("층별 데이터")]
-    [SerializeField] private List<FloorData> floorDatas = new List<FloorData>();
+    [SerializeField] private List<FloorData> floorDatas;
 
-    [LabelText("층 프리팹")]
-    [SerializeField] private GameObject floorPrefab;
+    [LabelText("생성된 층 정보")]
+    [SerializeField] private List<ApartmentFloor> floors;
 
-    [Title("계단 이미지")]
+    [LabelText("최소 열리는문")]
+    [SerializeField] private int minOpenDoor;
+    
+    [Title("맵 리소스")]
     [LabelText("중앙")] [SerializeField] private Sprite middleStair;
     [LabelText("상단")] [SerializeField] private Sprite topStair;
     [LabelText("하단")] [SerializeField] private Sprite bottomStair;
 
+    [LabelText("층 프리팹")]
+    [SerializeField] private GameObject floorPrefab;
+
+    [LabelText("플레이어 프리팹")]
+    [SerializeField] private GameObject playerPrefab;
+
+    [LabelText("판자문A")] 
+    [SerializeField] private Sprite closedDoorA;
+    [LabelText("판자문B")] 
+    [SerializeField] private Sprite closedDoorB;
+    
+    [LabelText("일반문A")] 
+    [SerializeField] private Sprite normalDoorA;
+    [LabelText("일반문B")] 
+    [SerializeField] private Sprite normalDoorB;
+
+    [LabelText("피묻은문A")] 
+    [SerializeField] private Sprite bloodDoorA;
+    [LabelText("피묻은문B")] 
+    [SerializeField] private Sprite bloodDoorB;
+    [LabelText("피묻은문C")] 
+    [SerializeField] private Sprite bloodDoorC;
+    
+    
     [LabelText("레이어 컬러")]
     [SerializeField] private Color targetColor;
     
@@ -101,26 +128,92 @@ public class ApartSceneController : MonoBehaviour
             {
                 Debug.LogWarning($"ApartmentFloor 컴포넌트가 {floor.name}에 없습니다.");
             }
+            
+            floors.Add(getFloor);
+        }
+
+        // 랜덤 문 값 적용
+        foreach (var floor in floors)
+        {
+            SetDoor(floor.doorDatas);
+
+            SetDoorSprite(floor.doorDatas);
+        }
+        
+        //Instantiate(playerPrefab)
+    }
+
+    public void SetDoor(List<Door> doors)
+    {
+        if (doors == null || doors.Count == 0)
+        {
+            Debug.LogWarning($"{name}: doorDatas 비어 있음");
+            return;
+        }
+
+        // 1개를 랜덤으로 뽑아 '닫힌 판자문'으로 지정
+        int lockedIndex = UnityEngine.Random.Range(0, doors.Count);
+
+        // 일반/피묻은 문 타입 후보
+        DoorType[] openablePool =
+        {
+            DoorType.NormalDoorA,
+            DoorType.NormalDoorB,
+            DoorType.BloodDoorA,
+            DoorType.BloodDoorB,
+            DoorType.BloodDoorC
+        };
+
+        for (int i = 0; i < doors.Count; i++)
+        {
+            var door = doors[i];
+            if (door == null) continue;
+            
+            if (i == lockedIndex)
+            {
+                // 닫힌 판자문(A/B) 50:50
+                bool pickA = UnityEngine.Random.value < 0.5f;
+                door.doorData.doorType = pickA ? DoorType.ClosedDoorA : DoorType.ClosedDoorB;
+                door.doorData.isOpenable = false;
+            }
+            else
+            {
+                // 나머지는 5종 중 랜덤 + 열림
+                var t = openablePool[UnityEngine.Random.Range(0, openablePool.Length)];
+                door.doorData.doorType = t;
+                door.doorData.isOpenable = true;
+            }
         }
     }
 
-    private void ApplyFloorTypeVisual(GameObject floor, FloorType type)
+    public void SetDoorSprite(List<Door> doors)
     {
-        // 필요 시 프리팹에 SpriteRenderer가 있는 경우 스프라이트 교체
-        var sr = floor.GetComponent<SpriteRenderer>();
-        if (sr == null) return;
-
-        switch (type)
+        foreach (var door in doors)
         {
-            case FloorType.Top:
-                sr.sprite = topStair;
-                break;
-            case FloorType.Middle:
-                sr.sprite = middleStair;
-                break;
-            case FloorType.Bottom:
-                sr.sprite = bottomStair;
-                break;
+            switch (door.doorData.doorType)
+            {
+                case DoorType.BloodDoorA:
+                    door.ApplySpriteByType(bloodDoorA);
+                    break;
+                case DoorType.BloodDoorB:
+                    door.ApplySpriteByType(bloodDoorB);
+                    break;
+                case DoorType.BloodDoorC:
+                    door.ApplySpriteByType(bloodDoorC);
+                    break;
+                case DoorType.ClosedDoorA:
+                    door.ApplySpriteByType(closedDoorA);
+                    break;
+                case DoorType.ClosedDoorB:
+                    door.ApplySpriteByType(closedDoorB);
+                    break;
+                case DoorType.NormalDoorA:
+                    door.ApplySpriteByType(normalDoorA);
+                    break;
+                case DoorType.NormalDoorB:
+                    door.ApplySpriteByType(normalDoorB);
+                    break;
+            }
         }
     }
 }
