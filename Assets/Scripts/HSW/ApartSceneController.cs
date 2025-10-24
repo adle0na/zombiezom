@@ -89,8 +89,20 @@ public class ApartSceneController : MonoBehaviour
             // 다음 층은 위로 쌓기 (위로 갈수록 Y 증가)
             currentY += height + gapY;
 
-            // 층 타입에 따라 다른 스프라이트나 계단 이미지 부착 가능
-            ApplyFloorTypeVisual(floor, data.floorType);
+            ApartmentFloor getFloor = floor.GetComponent<ApartmentFloor>();
+            
+            if (data.floorValue == 1)
+            {
+                getFloor.SetFloor(bottomStair);
+            }
+            else if (data.floorValue == floorValue)
+            {
+                getFloor.SetFloor(topStair);
+            }
+            else
+            {
+                getFloor.SetFloor(middleStair);
+            }
         }
     }
 
