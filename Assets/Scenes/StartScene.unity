@@ -119,6 +119,236 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &92710414
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 92710416}
+  - component: {fileID: 92710415}
+  m_Layer: 0
+  m_Name: ItemDataManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &92710415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92710414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6efedd713cbf98543be86e578b9e154f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemList:
+  - index: 0
+    itemName: "\uC548\uACBD"
+    itemSprite: {fileID: 0}
+    itemDes: "\uC138\uC0C1\uC744 \uC880 \uB354 \uC120\uBA85\uD558\uAC8C \uBCFC \uC218
+      \uC788\uB294 \uC548\uACBD\uC785\uB2C8\uB2E4."
+    cureFloor: 05000000
+    appearFloor: 01000000
+  - index: 1
+    itemName: "\uCCB4\uD06C\uBB34\uB2AC \uC154\uCE20"
+    itemSprite: {fileID: 2425849018946063292, guid: 32c6398c95bc41749a3bbc33d3242a72, type: 3}
+    itemDes: "\uC5B8\uC81C \uC785\uC5B4\uB3C4 \uBB34\uB09C\uD55C \uCCB4\uD06C\uBB34\uB2AC
+      \uC154\uCE20\uC785\uB2C8\uB2E4."
+    cureFloor: 05000000
+    appearFloor: 02000000
+  - index: 2
+    itemName: "\uC2A4\uB9C8\uD2B8\uD3F0"
+    itemSprite: {fileID: 0}
+    itemDes: "\uC77C\uC0C1\uC5D0 \uAF2D \uD544\uC694\uD55C \uC2A4\uB9C8\uD2B8\uD55C
+      \uB3C4\uAD6C\uC785\uB2C8\uB2E4."
+    cureFloor: 05000000
+    appearFloor: 03000000
+  - index: 3
+    itemName: "\uB0C9\uB3D9 \uACF1\uCC3D"
+    itemSprite: {fileID: 0}
+    itemDes: "\uCAC4\uAE43\uD55C \uC2DD\uAC10\uACFC \uC9C4\uD55C \uB0B4\uC7A5 \uB9DB\uC774
+      \uB9E4\uB825\uC778 \uB0C9\uB3D9 \uACF1\uCC3D\uC785\uB2C8\uB2E4."
+    cureFloor: 05000000
+    appearFloor: 04000000
+  - index: 4
+    itemName: "\uD6A8\uC790\uC190"
+    itemSprite: {fileID: 0}
+    itemDes: "\uC2DC\uC6D0\uD55C \uD734\uC2DD\uC744 \uC120\uC0AC\uD558\uB294 \uD6A8\uC790\uC190\uC785\uB2C8\uB2E4."
+    cureFloor: 05000000
+    appearFloor: 05000000
+  - index: 5
+    itemName: "\uC8FC\uC0AC\uAE30"
+    itemSprite: {fileID: 0}
+    itemDes: "\uD53C\uB97C \uC548\uC804\uD558\uAC8C \uCC44\uCDE8\uD560 \uC218 \uC788\uB294
+      \uC8FC\uC0AC\uAE30\uC785\uB2C8\uB2E4."
+    cureFloor: ffffffff
+    appearFloor: 
+  - index: 6
+    itemName: "\uD53C \uB2F4\uAE34 \uC8FC\uC0AC\uAE30"
+    itemSprite: {fileID: 0}
+    itemDes: "\uD53C\uB85C \uAC00\uB4DD \uCC2C \uC8FC\uC0AC\uAE30\uC785\uB2C8\uB2E4."
+    cureFloor: 
+    appearFloor: ffffffff
+  - index: 7
+    itemName: "\uCEF5\uB77C\uBA74"
+    itemSprite: {fileID: 0}
+    itemDes: "\uC5B8\uC81C \uC5B4\uB514\uC11C\uB098 \uB4E0\uB4E0\uD558\uAC8C \uC990\uAE38
+      \uC218 \uC788\uB294 \uCEF5\uB77C\uBA74\uC785\uB2C8\uB2E4."
+    cureFloor: ffffffff
+    appearFloor: 
+  - index: 8
+    itemName: "\uC369\uC740 \uBC14\uB098\uB098 \uAECD\uC9C8"
+    itemSprite: {fileID: 0}
+    itemDes: "\uC545\uCDE8\uAC00 \uB098\uB294 \uB0A1\uC740 \uBC14\uB098\uB098 \uAECD\uC9C8\uC785\uB2C8\uB2E4."
+    cureFloor: 04000000
+    appearFloor: 
+  - index: 9
+    itemName: "\uB3CC\uB9F9\uC774"
+    itemSprite: {fileID: 0}
+    itemDes: "\uD2B9\uBCC4\uD560 \uAC83 \uC5C6\uB294 \uC77C\uBC18 \uB3CC\uB9F9\uC774\uC785\uB2C8\uB2E4."
+    cureFloor: 01000000
+    appearFloor: 
+  - index: 10
+    itemName: "\uCC0C\uADF8\uB7EC\uC9C4 \uAE61\uD1B5"
+    itemSprite: {fileID: 0}
+    itemDes: "\uC4F8\uBAA8\uB97C \uC783\uC740 \uCC44 \uBC84\uB824\uC9C4 \uAE61\uD1B5\uC785\uB2C8\uB2E4."
+    cureFloor: 04000000
+    appearFloor: 
+  - index: 11
+    itemName: "\uCC0C\uADF8\uB7EC\uC9C4 \uAE61\uD1B5"
+    itemSprite: {fileID: 0}
+    itemDes: "\uC4F8\uBAA8\uB97C \uC783\uC740 \uCC44 \uBC84\uB824\uC9C4 \uAE61\uD1B5\uC785\uB2C8\uB2E4."
+    cureFloor: ffffffff
+    appearFloor: 03000000
+  - index: 12
+    itemName: "\uBC15\uC2A4"
+    itemSprite: {fileID: 0}
+    itemDes: "\uC548\uC5D0\uB294 \uC544\uBB34\uAC83\uB3C4 \uC5C6\uB294 \uB0A1\uACE0
+      \uB354\uB7EC\uC6B4 \uBC15\uC2A4\uC785\uB2C8\uB2E4."
+    cureFloor: ffffffff
+    appearFloor: 01000000
+  - index: 13
+    itemName: "\uBC15\uC2A4"
+    itemSprite: {fileID: 0}
+    itemDes: "\uC548\uC5D0\uB294 \uC544\uBB34\uAC83\uB3C4 \uC5C6\uB294 \uB0A1\uACE0
+      \uB354\uB7EC\uC6B4 \uBC15\uC2A4\uC785\uB2C8\uB2E4."
+    cureFloor: ffffffff
+    appearFloor: 
+  - index: 14
+    itemName: "\uBC15\uC2A4"
+    itemSprite: {fileID: 0}
+    itemDes: "\uC548\uC5D0\uB294 \uC544\uBB34\uAC83\uB3C4 \uC5C6\uB294 \uB0A1\uACE0
+      \uB354\uB7EC\uC6B4 \uBC15\uC2A4\uC785\uB2C8\uB2E4."
+    cureFloor: ffffffff
+    appearFloor: 03000000
+  - index: 15
+    itemName: "\uAC01\uC131 \uC74C\uB8CC"
+    itemSprite: {fileID: 0}
+    itemDes: "\uD53C\uB85C\uD560 \uB54C \uB9C8\uC2DC\uAE30 \uC88B\uC740 \uC74C\uB8CC\uC785\uB2C8\uB2E4."
+    cureFloor: 02000000
+    appearFloor: 02000000
+  - index: 16
+    itemName: "\uCD08\uCF54\uBC14"
+    itemSprite: {fileID: 0}
+    itemDes: "\uB204\uAD70\uAC00 \uBA39\uB2E4 \uB0A8\uC740 \uB2EC\uCF64\uD55C \uCD08\uCF54\uBC14\uC785\uB2C8\uB2E4."
+    cureFloor: 03000000
+    appearFloor: 02000000
+  - index: 17
+    itemName: "\uBAA8\uC790"
+    itemSprite: {fileID: 0}
+    itemDes: "\uC0AC\uC6A9\uAC10\uC774 \uB290\uAEF4\uC9C0\uB294 \uB0A1\uC740 \uBAA8\uC790\uC785\uB2C8\uB2E4."
+    cureFloor: 04000000
+    appearFloor: 04000000
+  - index: 18
+    itemName: "\uB760\uBD80\uC2E4"
+    itemSprite: {fileID: 0}
+    itemDes: "2025\uB144\uB3C4 \uBE44\uBC84\uC7BC \uD55C\uC815\uD310 \uB760\uBD80\uC2E4\uC785\uB2C8\uB2E4."
+    cureFloor: ffffffff
+    appearFloor: 01000000
+  - index: 19
+    itemName: "\uB3C4\uB3C4\uC0C8 \uD53C\uADDC\uC5B4"
+    itemSprite: {fileID: 0}
+    itemDes: "\uC7A5\uC2DD\uC774\uB098 \uC218\uC9D1\uC6A9\uC73C\uB85C \uC88B\uC740
+      \uB3C4\uB3C4\uC0C8 \uD53C\uADDC\uC5B4\uC785\uB2C8\uB2E4."
+    cureFloor: ffffffff
+    appearFloor: 
+  - index: 20
+    itemName: "\uACF0\uC778\uD615"
+    itemSprite: {fileID: 0}
+    itemDes: "\uC548\uC73C\uBA74 \uB530\uB73B\uD568\uC774 \uC804\uD574\uC9C0\uB294
+      \uACF0\uC778\uD615\uC785\uB2C8\uB2E4."
+    cureFloor: 03000000
+    appearFloor: 
+  - index: 21
+    itemName: "\uAE68\uC9C4 \uD558\uD68C\uD0C8"
+    itemSprite: {fileID: 0}
+    itemDes: "\uC138\uC6D4\uC758 \uD754\uC801\uC774 \uB0A8\uC544 \uAE68\uC838\uC788\uB294
+      \uD558\uD68C\uD0C8\uC785\uB2C8\uB2E4."
+    cureFloor: ffffffff
+    appearFloor: 04000000
+  - index: 22
+    itemName: "1\uCE35 \uC880\uBE44"
+    itemSprite: {fileID: 0}
+    itemDes: "1\uCE35\uC5D0\uC11C \uBC30\uD68C\uD558\uB358 \uCE58\uB8CC \uAC00\uB2A5\uD55C
+      \uC880\uBE44\uC785\uB2C8\uB2E4."
+    cureFloor: ffffffff
+    appearFloor: 01000000
+  - index: 23
+    itemName: "2\uCE35 \uC880\uBE44"
+    itemSprite: {fileID: 0}
+    itemDes: "2\uCE35\uC5D0\uC11C \uBC30\uD68C\uD558\uB358 \uCE58\uB8CC \uAC00\uB2A5\uD55C
+      \uC880\uBE44\uC785\uB2C8\uB2E4."
+    cureFloor: ffffffff
+    appearFloor: 02000000
+  - index: 24
+    itemName: "3\uCE35 \uC880\uBE44"
+    itemSprite: {fileID: 0}
+    itemDes: "3\uCE35\uC5D0\uC11C \uBC30\uD68C\uD558\uB358 \uCE58\uB8CC \uAC00\uB2A5\uD55C
+      \uC880\uBE44\uC785\uB2C8\uB2E4."
+    cureFloor: ffffffff
+    appearFloor: 03000000
+  - index: 25
+    itemName: "4\uCE35 \uC880\uBE44"
+    itemSprite: {fileID: 0}
+    itemDes: "4\uCE35\uC5D0\uC11C \uBC30\uD68C\uD558\uB358 \uCE58\uB8CC \uAC00\uB2A5\uD55C
+      \uC880\uBE44\uC785\uB2C8\uB2E4."
+    cureFloor: ffffffff
+    appearFloor: 04000000
+  - index: 26
+    itemName: "\uC880\uBE44\uB538"
+    itemSprite: {fileID: 0}
+    itemDes: "\uC880\uBE44\uB85C \uBCC0\uD574\uBC84\uB9B0 \uB098\uC758 \uC18C\uC911\uD55C
+      \uB538\uC785\uB2C8\uB2E4."
+    cureFloor: ffffffff
+    appearFloor: 05000000
+  - index: 27
+    itemName: "\uB538 \uC0AC\uC9C4"
+    itemSprite: {fileID: 0}
+    itemDes: "\uB098\uC758 \uC18C\uC911\uD55C \uB538 \uC544\uC774\uC758 \uC0AC\uC9C4\uC785\uB2C8\uB2E4."
+    cureFloor: ffffffff
+    appearFloor: ffffffff
+--- !u!4 &92710416
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92710414}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &155950900
 GameObject:
   m_ObjectHideFlags: 0
@@ -648,7 +878,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startCount: 3
   tryCount: 0
-  playerInven: []
+  playerInven:
+  - itemIndex: 27
+    itemName: "\uB538 \uC0AC\uC9C4"
+    itemSprite: {fileID: 2425849018946063292, guid: 36998dfc064ab2041b92c333e59f81f2, type: 3}
+    itemDes: "\uB098\uC758 \uC18C\uC911\uD55C \uB538 \uC544\uC774\uC758 \uC0AC\uC9C4\uC785\uB2C8\uB2E4."
 --- !u!1 &1543723351
 GameObject:
   m_ObjectHideFlags: 0
@@ -913,3 +1147,4 @@ SceneRoots:
   - {fileID: 1070418435}
   - {fileID: 1176182256}
   - {fileID: 501653978}
+  - {fileID: 92710416}
