@@ -310,7 +310,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorImage: {fileID: 8855681858751395338}
-  doorDatas: []
+  doorDatas:
+  - doorType: 0
+    isOpenable: 0
+    hasBox: 0
+    boxData:
+      boxType: 0
+      boxItems: []
 --- !u!1 &7173851913679321394
 GameObject:
   m_ObjectHideFlags: 0

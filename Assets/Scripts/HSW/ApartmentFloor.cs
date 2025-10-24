@@ -15,15 +15,16 @@ public class ApartmentFloor : MonoBehaviour
     public void SetFloor(Sprite floorSprite)
     {
         floorImage.sprite = floorSprite;
-
-        // 문생성
-        DoorData getDoor = new DoorData();
-
-        SetBox();
     }
 
+    private void SetDoor()
+    {
+        // 문생성
+        DoorData getDoor = new DoorData();
+    }
+    
     // 박스 생성처리
-    public void SetBox()
+    private void SetBox()
     {
         
     }

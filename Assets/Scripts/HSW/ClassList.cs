@@ -37,6 +37,8 @@ public class BoxData
     public BoxType boxType;
     [LabelText("박스 아이템 리스트")]
     public List<ItemData> boxItems;
+    [LabelText("사용 여부")]
+    public bool isOpened;
 }
 
 [Serializable]
