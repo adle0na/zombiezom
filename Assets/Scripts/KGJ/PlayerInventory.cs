@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,12 +7,16 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private int maxSlots = 10; // 인벤토리 최대 슬롯 개수
 
     [Header("Current Inventory")]
-    public List<ItemData> inventory = new();
+    [SerializeField] private List<ItemData> _inventory = new(); 
 
+    public IReadOnlyList<ItemData> Inventory => _inventory;
+
+    public int ItemCount => _inventory.Count;
+    
     /// <summary>
     /// 인벤토리가 가득 찼는지 여부
     /// </summary>
-    public bool IsFull => inventory.Count >= maxSlots;
+    public bool IsFull => _inventory.Count >= maxSlots;
 
     /// <summary>
     /// 아이템 추가
@@ -28,8 +31,8 @@ public class PlayerInventory : MonoBehaviour
             return false;
         }
 
-        inventory.Add(item);
-        Debug.Log($"[Inventory] {item.itemName} (index:{item.itemIndex}) 추가됨. ({inventory.Count}/{maxSlots})");
+        _inventory.Add(item); 
+        Debug.Log($"[Inventory] {item.itemName} (index:{item.itemIndex}) 추가됨. ({_inventory.Count}/{maxSlots})");
         return true;
     }
 
@@ -38,10 +41,10 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     public bool RemoveItemByName(string itemName)
     {
-        var target = inventory.Find(i => i.itemName == itemName);
+        var target = _inventory.Find(i => i.itemName == itemName);
         if (target != null)
         {
-            inventory.Remove(target);
+            _inventory.Remove(target);
             Debug.Log($"[Inventory] {itemName} 제거됨.");
             return true;
         }
@@ -55,10 +58,10 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     public bool RemoveItemByIndex(int itemIndex)
     {
-        var target = inventory.Find(i => i.itemIndex == itemIndex);
+        var target = _inventory.Find(i => i.itemIndex == itemIndex);
         if (target != null)
         {
-            inventory.Remove(target);
+            _inventory.Remove(target);
             Debug.Log($"[Inventory] {target.itemName} (index:{itemIndex}) 제거됨.");
             return true;
         }
@@ -72,14 +75,14 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     public void PrintAllItems()
     {
-        if (inventory.Count == 0)
+        if (_inventory.Count == 0)
         {
             Debug.Log("[Inventory] 비어 있음");
             return;
         }
 
         Debug.Log("===== [Inventory 목록] =====");
-        foreach (var item in inventory)
+        foreach (var item in _inventory)
         {
             Debug.Log($"index:{item.itemIndex} | {item.itemName} - {item.itemDes}");
         }
@@ -90,7 +93,8 @@ public class PlayerInventory : MonoBehaviour
     /// </summary>
     public void ClearInventory()
     {
-        inventory.Clear();
+        // private 필드를 사용하도록 수정
+        _inventory.Clear();
         Debug.Log("[Inventory] 모든 아이템 삭제됨.");
     }
 }
