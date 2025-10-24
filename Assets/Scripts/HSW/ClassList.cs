@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -42,7 +43,7 @@ public class BoxData
 }
 
 [Serializable]
-public class ItemData
+public class ItemData : IEnumerable
 {
     [LabelText("아이템 인덱스")]
     public int itemIndex;
@@ -52,6 +53,11 @@ public class ItemData
     public Sprite itemSprite;
     [LabelText("아이템 설명")]
     public string itemDes;
+
+    public IEnumerator GetEnumerator()
+    {
+        throw new NotImplementedException();
+    }
 }
 
 [Serializable]
