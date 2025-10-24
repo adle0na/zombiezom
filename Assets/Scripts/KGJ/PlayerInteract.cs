@@ -26,7 +26,7 @@ public class PlayerInteract : MonoBehaviour
     void Awake()
     {
         _playerMovement = GetComponent<PlayerMovement>();
-        _playerInventory = GetComponent<PlayerInventory>();
+        _playerInventory = PlayerInventory.Instance;
     }
 
     void Update()

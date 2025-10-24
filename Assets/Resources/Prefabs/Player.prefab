@@ -260,7 +260,6 @@ GameObject:
   - component: {fileID: 8776970503650495772}
   - component: {fileID: 8462956625639660778}
   - component: {fileID: 6164390022786561040}
-  - component: {fileID: 8239152775516023599}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -441,20 +440,6 @@ MonoBehaviour:
   interactableLayer:
     serializedVersion: 2
     m_Bits: 64
---- !u!114 &8239152775516023599
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6373092420197233015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed931e1cb50f6ed47bd95a20eb1c16d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxSlots: 10
-  inventory: []
 --- !u!1 &9184329700644641255
 GameObject:
   m_ObjectHideFlags: 0
