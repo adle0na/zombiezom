@@ -44,8 +44,12 @@ public class BoxData
 [Serializable]
 public class ItemData
 {
+    [LabelText("아이템 인덱스")]
     public int itemIndex;
-    public Sprite itemSprite;
+    [LabelText("아이템 이름")]
     public string itemName;
+    [LabelText("아이템 이미지")]
+    public Sprite itemSprite;
+    [LabelText("아이템 설명")]
     public string itemDes;
 }

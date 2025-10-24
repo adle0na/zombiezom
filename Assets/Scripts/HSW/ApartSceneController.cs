@@ -46,6 +46,9 @@ public class ApartSceneController : MonoBehaviour
     [LabelText("상단")] [SerializeField] private Sprite topStair;
     [LabelText("하단")] [SerializeField] private Sprite bottomStair;
 
+    [LabelText("레이어 컬러")]
+    [SerializeField] private Color targetColor;
+    
     // 층 간 간격(Y축)
     private float gapY = 4f;
 
@@ -64,7 +67,6 @@ public class ApartSceneController : MonoBehaviour
             Debug.LogError("❌ floorPrefab이 설정되지 않았습니다.");
             return;
         }
-
         if (floorDatas == null || floorDatas.Count == 0)
         {
             Debug.LogWarning("⚠️ floorDatas가 비어 있습니다. CreateFloorData()를 먼저 실행하세요.");
@@ -75,33 +77,29 @@ public class ApartSceneController : MonoBehaviour
 
         foreach (var data in floorDatas)
         {
-            // 층 프리팹 생성
             GameObject floor = Instantiate(floorPrefab, transform);
             floor.name = $"Floor_{data.floorValue}_{data.floorType}";
 
-            // SpriteRenderer 크기를 이용해 높이 계산
-            SpriteRenderer sr = floor.GetComponent<SpriteRenderer>();
+            // 위치 배치
+            var sr = floor.GetComponent<SpriteRenderer>();
             float height = (sr != null) ? sr.bounds.size.y : 1f;
-
-            // 위치 설정
             floor.transform.position = new Vector3(startPos.x, currentY, 0f);
-
-            // 다음 층은 위로 쌓기 (위로 갈수록 Y 증가)
             currentY += height + gapY;
 
-            ApartmentFloor getFloor = floor.GetComponent<ApartmentFloor>();
-            
-            if (data.floorValue == 1)
+            // 타입에 따라 스프라이트 지정
+            var getFloor = floor.GetComponent<ApartmentFloor>();
+            if (getFloor != null)
             {
-                getFloor.SetFloor(bottomStair);
-            }
-            else if (data.floorValue == floorValue)
-            {
-                getFloor.SetFloor(topStair);
+                if (data.floorValue == 1)            getFloor.SetFloor(bottomStair);
+                else if (data.floorValue == floorValue) getFloor.SetFloor(topStair);
+                else                                   getFloor.SetFloor(middleStair);
+
+                // ✅ 벽 컬러 그라데이션 적용
+                getFloor.SetWallsGradient(targetColor, data.floorValue, floorValue);
             }
             else
             {
-                getFloor.SetFloor(middleStair);
+                Debug.LogWarning($"ApartmentFloor 컴포넌트가 {floor.name}에 없습니다.");
             }
         }
     }
