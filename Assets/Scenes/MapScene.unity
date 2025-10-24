@@ -390,6 +390,7 @@ MonoBehaviour:
   middleStair: {fileID: -6419410014799088282, guid: d46b89623abde6e4dafaacc10256fd52, type: 3}
   topStair: {fileID: -655207356748226354, guid: d1dd5c350463c164284c9501a465d255, type: 3}
   bottomStair: {fileID: 6930783644299746717, guid: 181a5c804daaf7d4681c497ab377517f, type: 3}
+  targetColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!4 &1451983145
 Transform:
   m_ObjectHideFlags: 0
