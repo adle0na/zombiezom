@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 5441ded4ba5d849cf91049704d54fd98
+guid: 5311aa1c0425e7d43a52703a76a0bace
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7887933763550971455
-    second: Door01_0
+      213: -7543394715592997109
+    second: "\uD070\uBC15\uC2A41_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Door01_0
+      name: "\uD070\uBC15\uC2A41_0"
       rect:
         serializedVersion: 2
-        x: 124
-        y: 0
-        width: 167
-        height: 400
+        x: 19
+        y: 9
+        width: 197
+        height: 167
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1c9fbbbb80e688290800000000000000
-      internalID: -7887933763550971455
+      spriteID: b074588097a705790800000000000000
+      internalID: -7543394715592997109
       vertices: []
       indices: 
       edges: []
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Door01_0: -7887933763550971455
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
