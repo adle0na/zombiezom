@@ -15,6 +15,7 @@ public class PlayerInteract : MonoBehaviour
     private bool _isHolding;
 
     private PlayerMovement _playerMovement;
+    private PlayerInventory _playerInventory;
 
     // 이벤트 정의
     public static event Action<Transform> OnHoldStart;
@@ -25,6 +26,7 @@ public class PlayerInteract : MonoBehaviour
     void Awake()
     {
         _playerMovement = GetComponent<PlayerMovement>();
+        _playerInventory = GetComponent<PlayerInventory>();
     }
 
     void Update()
@@ -138,6 +140,36 @@ public class PlayerInteract : MonoBehaviour
         _playerMovement.EnableMove(true); // 다시 이동 가능
     }
 
+    private void OnEnable()
+    {
+        // DropItem이 발생시키는 아이템 줍기 요청 이벤트를 구독합니다.
+        DropItem.OnItemPickupRequested += HandleItemPickup;
+    }
+
+    private void OnDisable()
+    {
+        DropItem.OnItemPickupRequested -= HandleItemPickup;
+    }
+
+    // 아이템 줍기 요청을 처리하는 함수
+    private void HandleItemPickup(ItemData item, GameObject dropItemObject)
+    {
+        if (_playerInventory == null) return;
+
+        bool success = _playerInventory.AddItem(item);
+
+        if (success)
+        {
+            // 2. 성공 시 아이템 오브젝트 파괴
+            Destroy(dropItemObject);
+            
+            UI_Popup.OnShowPopupRequested?.Invoke($"'{item.itemName}' 획득!");
+        }
+        else
+        {
+            UI_Popup.OnShowPopupRequested?.Invoke("인벤토리가 가득 찼습니다!");
+        }
+    }
 
     private void OnDrawGizmosSelected()
     {
