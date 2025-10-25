@@ -1,9 +1,17 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerInventory : GenericSingleton<PlayerInventory>
 {
-    private int maxSlots = 5; // 인벤토리 최대 슬롯 개수
+    // 1. 인벤토리 데이터 변경 시 외부 시스템(UI)에 알릴 이벤트 추가
+    // 매개변수가 없는 Action이 UI 갱신에 가장 효율적입니다.
+    public event Action OnInventoryUpdated; 
+    
+    // 2. 특정 아이템 획득 시 팝업 등 부가 효과를 위한 Action (선택 사항)
+    public event Action<ItemCsvRow> OnItemGained;
+    
+    public int MaxSlots => 5; // 인벤토리 최대 슬롯 개수
 
     // PlayerDataManager에서 데이터를 가져옵니다.
     private List<ItemCsvRow> CurrentInventory => PlayerDataManager.Instance.PlayerInventoryData;
@@ -17,7 +25,7 @@ public class PlayerInventory : GenericSingleton<PlayerInventory>
     /// <summary>
     /// 인벤토리가 가득 찼는지 여부
     /// </summary>
-    public bool IsFull => CurrentInventory.Count >= maxSlots;
+    public bool IsFull => CurrentInventory.Count >= MaxSlots;
 
     // --- 인벤토리 기능 메서드 ---
 
@@ -34,7 +42,14 @@ public class PlayerInventory : GenericSingleton<PlayerInventory>
 
         // PlayerDataManager의 데이터에 직접 추가
         CurrentInventory.Add(item); 
-        Debug.Log($"[Inventory] {item.itemName} (index:{item.index}) 추가됨. ({CurrentInventory.Count}/{maxSlots})");
+        Debug.Log($"[Inventory] {item.itemName} (index:{item.index}) 추가됨. ({CurrentInventory.Count}/{MaxSlots})");
+        
+        // 3. 데이터 변경 후 UI 갱신 이벤트 호출
+        OnInventoryUpdated?.Invoke(); 
+        
+        // 4. 아이템 획득 부가 효과 이벤트 호출
+        OnItemGained?.Invoke(item); 
+        
         return true;
     }
 
@@ -50,6 +65,10 @@ public class PlayerInventory : GenericSingleton<PlayerInventory>
             // PlayerDataManager의 데이터에서 직접 제거
             CurrentInventory.Remove(target);
             Debug.Log($"[Inventory] {target.itemName} (index:{itemIndex}) 제거됨.");
+            
+            // 3. 데이터 변경 후 UI 갱신 이벤트 호출
+            OnInventoryUpdated?.Invoke(); 
+            
             return true;
         }
 
@@ -83,5 +102,8 @@ public class PlayerInventory : GenericSingleton<PlayerInventory>
         // PlayerDataManager의 데이터를 직접 초기화
         CurrentInventory.Clear();
         Debug.Log("[Inventory] 모든 아이템 삭제됨.");
+
+        // 3. 데이터 변경 후 UI 갱신 이벤트 호출
+        OnInventoryUpdated?.Invoke(); 
     }
 }

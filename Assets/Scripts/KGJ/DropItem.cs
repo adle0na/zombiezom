@@ -10,14 +10,14 @@ public class DropItem : MonoBehaviour, IInteractable, IPointerEnterHandler, IPoi
     public void Init(ItemCsvRow item)
     {
         _item = item;
-        Debug.Log($"init!! {item.itemName}");
     }
 
     public IInteractable.InteractHoldType HoldType { get; }
     public bool IsInteractable { get; } = true;
     public void Interact()
     {
-        OnItemPickupRequested?.Invoke(_item, gameObject);
+        if (gameObject != null)
+            OnItemPickupRequested?.Invoke(_item, gameObject);
     }
 
     public string GetInteractPrompt()
