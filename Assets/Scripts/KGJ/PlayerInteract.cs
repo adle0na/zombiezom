@@ -235,6 +235,8 @@ public class PlayerInteract : MonoBehaviour
         
         _collider.enabled = false;
         StartCoroutine(Hiding());
+        
+        SoundManager.Instance.PlaySFX(0);
     }
 
     private void Show(Door door)
