@@ -23,7 +23,9 @@ public class ApartmentFloor : MonoBehaviour
 
     [LabelText("배치된 박스 리스트")]
     public List<Box> settedBox;
-    
+
+    public int floorNum;
+
     // 층 세팅 함수
     public void SetFloor(Sprite floorSprite)
     {

@@ -16,7 +16,7 @@ public class ApartSceneController : MonoBehaviour
         {
             FloorData getFloorData = new FloorData();
             getFloorData.floorValue = i;
-
+            
             if (i == 1)
                 getFloorData.floorType = FloorType.Bottom;
             else if (i == floorValue)
@@ -136,7 +136,6 @@ public class ApartSceneController : MonoBehaviour
         {
             GameObject floorGo = Instantiate(floorPrefab, transform);
             floorGo.name = $"Floor_{data.floorValue}_{data.floorType}";
-
             // 위치 배치 높이 계산은 스프라이트 기준 (자식 포함 안전)
             var sr = floorGo.GetComponent<SpriteRenderer>();
             if (sr == null) sr = floorGo.GetComponentInChildren<SpriteRenderer>(true);
@@ -174,6 +173,8 @@ public class ApartSceneController : MonoBehaviour
                 
                 // 좀비 배치
                 SpawnZombies(floor, data);
+                
+                floor.floorNum = data.floorValue;
             }
             else
             {

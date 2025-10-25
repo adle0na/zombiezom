@@ -32,5 +32,7 @@ public class FadeUI : MonoBehaviour
             yield return null;
         }
         fadeImage.color = new Color(color.r, color.g, color.b, to);
+        
+        Destroy(gameObject, 0.1f);
     }
 }
