@@ -545,6 +545,8 @@ MonoBehaviour:
   - {fileID: 29690043470092406}
   - {fileID: 2306328158986756971}
   - {fileID: 144894893325931583}
+  settedItems: []
+  settedBox: []
 --- !u!1 &4460974992068982598
 GameObject:
   m_ObjectHideFlags: 0

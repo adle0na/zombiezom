@@ -94,6 +94,10 @@ public class ApartSceneController : MonoBehaviour
     [LabelText("큰 피묻은 박스")] 
     [SerializeField] private Sprite bloodBox_L;
 
+    [LabelText("일반좀비")] [SerializeField] private GameObject normalZombie;
+    [LabelText("치료불가좀비")] [SerializeField] private GameObject discureZombie;
+    [LabelText("수아좀비")] [SerializeField] private GameObject suaZombie;
+
     [LabelText("레이어 컬러")]
     [SerializeField] private Color targetColor;
     
@@ -139,6 +143,8 @@ public class ApartSceneController : MonoBehaviour
             floorGo.transform.position = new Vector3(startPos.x, currentY, 0f);
             currentY += height + gapY;
 
+            //data.itemList = new List<int>()
+            
             var floor = floorGo.GetComponent<ApartmentFloor>();
             if (floor != null)
             {
@@ -150,14 +156,22 @@ public class ApartSceneController : MonoBehaviour
                 // 그라데이션
                 floor.SetWallsGradient(targetColor, data.floorValue, floorValue);
 
-                // // 문 타입(닫힌 1개 + 나머지 랜덤)
-                // SetDoor(floor.doorDatas);
-                //
-                // // 문 스프라이트 반영
-                // SetDoorSprite(floor.doorDatas);
+                // 문 타입(닫힌 1개 + 나머지 랜덤)
+                SetDoor(floor.doorDatas);
+                
+                // 문 스프라이트 반영
+                SetDoorSprite(floor.doorDatas);
 
+                for (int i = 0; i < data.itemList.Count; i++)
+                {
+                    floor.settedItems.Add(ItemDataManager.Instance.GetItemByIndex(data.itemList[i]));
+                }
+                
                 // ✅ 이 층의 itemList 기준으로 박스 & 아이템 배치
                 DistributeBoxesAndItems(floor, data);
+                
+                // 좀비 배치
+                SpawnZombies(floor, data);
             }
             else
             {
@@ -166,145 +180,161 @@ public class ApartSceneController : MonoBehaviour
 
             floors.Add(floor);
         }
-
-        // 랜덤 문 값 적용
-        // foreach (var floor in floors)
-        // {
-        //     SetDoor(floor.doorDatas);
-        //
-        //     SetDoorSprite(floor.doorDatas);
-        // }
         
-        // 아이템 배치
+        foreach (var floor in floors)
+        {
+            SetDoor(floor.doorDatas);
         
+            SetDoorSprite(floor.doorDatas);
+        }
+        
+        // 플레이어 배치
         playerObj = Instantiate(playerPrefab);
     }
 
     private void DistributeBoxesAndItems(ApartmentFloor floor, FloorData data)
     {
         if (floor == null || floor.doorDatas == null || floor.doorDatas.Count == 0) return;
-
-        var items = (data.itemList != null) ? new List<int>(data.itemList) : new List<int>();
-        int n = items.Count;
-
-        // 목표 박스 수
+    
+        // 1) 목표 박스 수
+        var idList = (data.itemList != null) ? new List<int>(data.itemList) : new List<int>();
+        int n = idList.Count;
         int targetBoxes = n / 2 + 1;
-
-        // 문당 1개만 둘 수 있으므로 상한 = 문 개수
-        int maxPlaceable = floor.doorDatas.Count;
-        if (targetBoxes > maxPlaceable) targetBoxes = maxPlaceable;
         if (targetBoxes <= 0) return;
 
-        // 문 목록 섞기 (박스 놓을 문 랜덤 선택)
-        var doors = new List<Door>(floor.doorDatas);
-        Shuffle(doors);
-
-        // 박스 타입 후보
+        // 문당 1개 제한
+        targetBoxes = Mathf.Min(targetBoxes, floor.doorDatas.Count);
+    
+        // 2) 박스 놓을 문 랜덤 선정
+        var candidateDoors = new List<Door>(floor.doorDatas);
+        Shuffle(candidateDoors);
+    
+        // 박스 타입 랜덤 풀
         BoxType[] boxPool =
         {
-            BoxType.NormalBox_S,
-            BoxType.NormalBox_L,
+            BoxType.NormalBox_S, BoxType.NormalBox_L,
             BoxType.DirtyBox_S,
-            BoxType.CrumpledBox_S,
-            BoxType.CrumpledBox_L,
-            BoxType.BloodBox_S,
-            BoxType.BloodBox_L
+            BoxType.CrumpledBox_S, BoxType.CrumpledBox_L,
+            BoxType.BloodBox_S,    BoxType.BloodBox_L
         };
-
-        // 생성된 박스 모음
+    
+        // 3) 박스 생성
         var createdBoxes = new List<Box>(targetBoxes);
-
-        // 1) 박스 생성: 랜덤 문에 1개씩
         int created = 0;
-        for (int i = 0; i < doors.Count && created < targetBoxes; i++)
+    
+        for (int i = 0; i < candidateDoors.Count && created < targetBoxes; i++)
         {
-            var door = doors[i];
-            if (door == null || door.doorData == null) continue;
-
-            // 이미 박스가 있다면(다른 로직에서 만들었을 수 있음) 스킵
-            if (door.boxObj != null) continue;
-
-            // 왼/오 위치 중 하나 랜덤 (없으면 문 위치 기준)
-            Transform parent = null;
-            bool isLeft = Random.value < 0.5f;
-            if (isLeft && door.doorData.leftBoxPos != null) parent = door.doorData.leftBoxPos;
-            else if (!isLeft && door.doorData.rightBoxPos != null) parent = door.doorData.rightBoxPos;
-            else parent = door.transform;
-
-            // 프리팹 생성
-            var boxGo = Instantiate(boxPrefab, parent.position, Quaternion.identity, parent);
-            var box = boxGo.GetComponent<Box>();
-            if (box == null)
+            var door = candidateDoors[i];
+            if (door == null) continue;
+    
+            // 이미 자식에 Box가 있으면 재사용
+            var existingBox = door.GetComponentInChildren<Box>(true);
+            Box box;
+            if (existingBox != null)
             {
-                Debug.LogWarning($"{boxGo.name}: Box 컴포넌트가 없습니다.");
-                continue;
+                box = existingBox;
             }
-
-            // 박스 타입 랜덤 선정 + 스프라이트 반영
-            var bt = boxPool[Random.Range(0, boxPool.Length)];
-            door.doorData.hasBox = true;
-            door.doorData.boxData.boxType = bt;
-            SetBoxSpriteByType(box, bt);
-
-            // 문이 소유한 박스 참조 연결(문당 1개 제한 구조)
-            door.boxObj = box;
-
-            createdBoxes.Add(box);
-            created++;
-        }
-
-        // 2) 아이템 무작위 배치 (박스당 0~3개)
-        if (items.Count == 0 || createdBoxes.Count == 0) return;
-
-        const int BoxCapacity = 3;
-
-        // 아이템 섞기
-        Shuffle(items);
-
-        // 각 박스의 현재 적재 수
-        var fill = new int[createdBoxes.Count];
-
-        // 라운드-로빈에 랜덤을 섞은 분배: 아이템을 차례로 박스에 시도하되, 꽉 찬 박스는 건너뜀
-        int boxIndex = Random.Range(0, createdBoxes.Count);
-        foreach (var itemId in items)
-        {
-            // 모든 박스가 꽉 찼으면 중단
-            bool allFull = true;
-            for (int k = 0; k < createdBoxes.Count; k++)
+            else
             {
-                if (fill[k] < BoxCapacity) { allFull = false; break; }
-            }
-            if (allFull) break;
-
-            // 빈 슬롯 있는 박스를 만날 때까지 순환
-            int tries = 0;
-            while (fill[boxIndex] >= BoxCapacity && tries < createdBoxes.Count)
-            {
-                boxIndex = (boxIndex + 1) % createdBoxes.Count;
-                tries++;
-            }
-            if (fill[boxIndex] >= BoxCapacity)
-                continue; // 안전
-
-            // 아이템 적재
-            var box = createdBoxes[boxIndex];
-            if (box.boxData.boxItems == null) box.boxData.boxItems = new List<ItemCsvRow>();
-
-            foreach (var getData in ItemDataManager.Instance.itemList)
-            {
-                if (getData.index == boxIndex)
+                // 문 좌/우 포인트가 있으면 그 위치, 없으면 문 위치
+                Transform parent = door.transform;
+                bool useLeft = Random.value < 0.5f;
+    
+                var leftPos  = (door.doorData != null) ? door.doorData.leftBoxPos  : null;
+                var rightPos = (door.doorData != null) ? door.doorData.rightBoxPos : null;
+                if (useLeft && leftPos != null) parent = leftPos;
+                else if (!useLeft && rightPos != null) parent = rightPos;
+    
+                var boxGo = Instantiate(boxPrefab, parent.position, Quaternion.identity, parent);
+                box = boxGo.GetComponent<Box>();
+                if (box == null)
                 {
-                    box.boxData.boxItems.Add(getData);
+                    Debug.LogWarning($"{boxGo.name}: Box 컴포넌트가 없습니다.");
+                    Destroy(boxGo);
+                    continue;
                 }
             }
+    
+            // BoxData 초기화 + 위치 플래그
+            if (box.boxData == null) box.boxData = new BoxData();
+            if (box.boxData.boxItems == null) box.boxData.boxItems = new List<ItemCsvRow>();
+            box.boxData.isOpened = false; // 새 상자이므로 닫힘
+            // 문 데이터와 동기화(선택)
+            if (door.doorData != null)
+            {
+                door.doorData.hasBox = true;
+                door.doorData.boxData = box.boxData;
+            }
+    
+            // 랜덤 박스 타입 지정 + 스프라이트 반영
+            var bt = boxPool[Random.Range(0, boxPool.Length)];
+            box.boxData.boxType = bt;
+            SetBoxSpriteByType(box, bt);
+    
+            createdBoxes.Add(box);
+            created++;
             
-            fill[boxIndex]++;
+            floor.settedBox.Add(box);
+        }
 
-            // 다음 박스로 이동 (랜덤성 조금 더)
-            boxIndex = (boxIndex + Random.Range(1, createdBoxes.Count)) % createdBoxes.Count;
+        floor.SetBox();
+    }
+    
+    private void SpawnZombies(ApartmentFloor floor, FloorData data)
+    {
+        if (data == null || data.zombieDatas == null || data.zombieDatas.Count == 0) return;
+        
+        foreach (var zombieData in data.zombieDatas)
+        {
+            if (zombieData == null) continue;
+
+            GameObject spawnTarget = normalZombie;
+
+            switch (zombieData.zombieType)
+            {
+                case ZombieType.NormalZombie:
+                    spawnTarget = normalZombie;
+                    break;
+                case ZombieType.DisCureZombie:
+                    spawnTarget = discureZombie;
+                    break;
+                case ZombieType.SuaZombie:
+                    suaZombie = suaZombie;
+                    break;
+            }
+            
+            // 스폰 방향
+            bool isLeft = zombieData.isLeftSpawn;
+
+            // X 위치 랜덤
+            float x = isLeft
+                ? Random.Range(-20f, -2f)
+                : Random.Range(  2f, 20f);
+
+            // 층 높이 기준 Y
+            float y = floor.transform.position.y - 2;
+            Vector3 pos = new Vector3(x, y, 0f);
+
+            // 프리팹 생성
+            var zombieGo = Instantiate(spawnTarget, pos, Quaternion.identity, this.transform);
+            zombieGo.name = $"Zombie_{(isLeft ? "L" : "R")}_{data.floorValue}";
+
+            // 데이터 주입
+            var zombieComp = zombieGo.GetComponent<Zombie>();
+            if (zombieComp != null)
+            {
+                // 새 인스턴스 데이터 넣기
+                zombieComp.GetType().GetField("zombieData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                    ?.SetValue(zombieComp, zombieData);
+            }
+
+            // 방향 보정 (왼쪽에서 오면 오른쪽을 향하도록)
+            var sr = zombieGo.GetComponentInChildren<SpriteRenderer>();
+            if (sr != null)
+                sr.flipX = isLeft;
         }
     }
-
+    
     private void SetBoxSpriteByType(Box box, BoxType type)
     {
         if (box == null || box.boxSprite == null) return;
@@ -331,130 +361,77 @@ public class ApartSceneController : MonoBehaviour
         }
     }
     
-    // public void SetDoor(List<Door> doors)
-    // {
-    //     if (doors == null || doors.Count == 0)
-    //     {
-    //         Debug.LogWarning($"{name}: doorDatas 비어 있음");
-    //         return;
-    //     }
-    //
-    //     // 1개를 랜덤으로 뽑아 '닫힌 판자문'으로 지정
-    //     int lockedIndex = Random.Range(0, doors.Count);
-    //
-    //     // 일반/피묻은 문 타입 후보
-    //     DoorType[] openablePool =
-    //     {
-    //         DoorType.NormalDoorA,
-    //         DoorType.NormalDoorB,
-    //         DoorType.BloodDoorA,
-    //         DoorType.BloodDoorB,
-    //         DoorType.BloodDoorC
-    //     };
-    //
-    //     for (int i = 0; i < doors.Count; i++)
-    //     {
-    //         var door = doors[i];
-    //         if (door == null) continue;
-    //         
-    //         if (i == lockedIndex)
-    //         {
-    //             // 닫힌 판자문(A/B) 50:50
-    //             bool pickA = UnityEngine.Random.value < 0.5f;
-    //             door.doorData.doorType = pickA ? DoorType.ClosedDoorA : DoorType.ClosedDoorB;
-    //             door.doorData.isOpenable = false;
-    //         }
-    //         else
-    //         {
-    //             // 나머지는 5종 중 랜덤 + 열림
-    //             var t = openablePool[UnityEngine.Random.Range(0, openablePool.Length)];
-    //             door.doorData.doorType = t;
-    //             door.doorData.isOpenable = true;
-    //         }
-    //         
-    //         // 박스 생성 확률 50%
-    //         door.doorData.hasBox = Random.value < 0.5f;
-    //
-    //         if (door.doorData.hasBox)
-    //         {
-    //             bool isLeft = Random.value < 0.5f;
-    //
-    //             door.boxObj = Instantiate(boxPrefab, isLeft ? door.doorData.leftBoxPos : door.doorData.rightBoxPos).GetComponent<Box>();
-    //         }
-    //         
-    //         // 일반/피묻은 문 타입 후보
-    //         BoxType[] boxPool =
-    //         {
-    //             BoxType.NormalBox_S,
-    //             BoxType.NormalBox_L,
-    //             BoxType.DirtyBox_S,
-    //             BoxType.CrumpledBox_S,
-    //             BoxType.CrumpledBox_L,
-    //             BoxType.BloodBox_S,
-    //             BoxType.BloodBox_L
-    //         };
-    //         
-    //         var bt = boxPool[Random.Range(0, boxPool.Length)];
-    //         door.doorData.boxData.boxType = bt;
-    //
-    //         if (door.doorData.hasBox)
-    //         {
-    //             switch (door.doorData.boxData.boxType)
-    //             {
-    //                 case BoxType.NormalBox_S:
-    //                     door.boxObj.boxSprite.sprite = normalBox_S;
-    //                     break;
-    //                 case BoxType.DirtyBox_S:
-    //                     door.boxObj.boxSprite.sprite = dirtyBox_S;
-    //                     break;
-    //                 case BoxType.BloodBox_S:
-    //                     door.boxObj.boxSprite.sprite = bloodBox_S;
-    //                     break;
-    //                 case BoxType.CrumpledBox_S:
-    //                     door.boxObj.boxSprite.sprite = crumbledBox_S;
-    //                     break;
-    //                 case BoxType.NormalBox_L:
-    //                     door.boxObj.boxSprite.sprite = normalBox_L;
-    //                     break;
-    //                 case BoxType.BloodBox_L:
-    //                     door.boxObj.boxSprite.sprite = bloodBox_L;
-    //                     break;
-    //                 case BoxType.CrumpledBox_L:
-    //                     door.boxObj.boxSprite.sprite = crumbledBox_L;
-    //                     break;
-    //             }
-    //         }
-    //     }
-    // }
-    //
-    // public void SetDoorSprite(List<Door> doors)
-    // {
-    //     foreach (var door in doors)
-    //     {
-    //         switch (door.doorData.doorType)
-    //         {
-    //             case DoorType.BloodDoorA:
-    //                 door.ApplySpriteByType(bloodDoorA);
-    //                 break;
-    //             case DoorType.BloodDoorB:
-    //                 door.ApplySpriteByType(bloodDoorB);
-    //                 break;
-    //             case DoorType.BloodDoorC:
-    //                 door.ApplySpriteByType(bloodDoorC);
-    //                 break;
-    //             case DoorType.ClosedDoorA:
-    //                 door.ApplySpriteByType(closedDoorA);
-    //                 break;
-    //             case DoorType.ClosedDoorB:
-    //                 door.ApplySpriteByType(closedDoorB);
-    //                 break;
-    //             case DoorType.NormalDoorA:
-    //                 door.ApplySpriteByType(normalDoorA);
-    //                 break;
-    //             case DoorType.NormalDoorB:
-    //                 door.ApplySpriteByType(normalDoorB);
-    //                 break;
-    //         }
-    //     }
-    // }
+    public void SetDoor(List<Door> doors)
+    {
+        if (doors == null || doors.Count == 0)
+        {
+            Debug.LogWarning($"{name}: doorDatas 비어 있음");
+            return;
+        }
+    
+        // 1개를 랜덤으로 뽑아 '닫힌 판자문'으로 지정
+        int lockedIndex = Random.Range(0, doors.Count);
+    
+        // 일반/피묻은 문 타입 후보
+        DoorType[] openablePool =
+        {
+            DoorType.NormalDoorA,
+            DoorType.NormalDoorB,
+            DoorType.BloodDoorA,
+            DoorType.BloodDoorB,
+            DoorType.BloodDoorC
+        };
+    
+        for (int i = 0; i < doors.Count; i++)
+        {
+            var door = doors[i];
+            if (door == null) continue;
+            
+            if (i == lockedIndex)
+            {
+                // 닫힌 판자문(A/B) 50:50
+                bool pickA = UnityEngine.Random.value < 0.5f;
+                door.doorData.doorType = pickA ? DoorType.ClosedDoorA : DoorType.ClosedDoorB;
+                door.doorData.isOpenable = false;
+            }
+            else
+            {
+                // 나머지는 5종 중 랜덤 + 열림
+                var t = openablePool[UnityEngine.Random.Range(0, openablePool.Length)];
+                door.doorData.doorType = t;
+                door.doorData.isOpenable = true;
+            }
+        }
+    }
+    
+    public void SetDoorSprite(List<Door> doors)
+    {
+        foreach (var door in doors)
+        {
+            switch (door.doorData.doorType)
+            {
+                case DoorType.BloodDoorA:
+                    door.ApplySpriteByType(bloodDoorA);
+                    break;
+                case DoorType.BloodDoorB:
+                    door.ApplySpriteByType(bloodDoorB);
+                    break;
+                case DoorType.BloodDoorC:
+                    door.ApplySpriteByType(bloodDoorC);
+                    break;
+                case DoorType.ClosedDoorA:
+                    door.ApplySpriteByType(closedDoorA);
+                    break;
+                case DoorType.ClosedDoorB:
+                    door.ApplySpriteByType(closedDoorB);
+                    break;
+                case DoorType.NormalDoorA:
+                    door.ApplySpriteByType(normalDoorA);
+                    break;
+                case DoorType.NormalDoorB:
+                    door.ApplySpriteByType(normalDoorB);
+                    break;
+            }
+        }
+    }
 }

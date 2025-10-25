@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = System.Random;
 
 [Serializable]
 public class ApartmentFloor : MonoBehaviour
@@ -19,6 +20,9 @@ public class ApartmentFloor : MonoBehaviour
 
     [LabelText("세팅된 아이템")]
     public List<ItemCsvRow> settedItems;
+
+    [LabelText("배치된 박스 리스트")]
+    public List<Box> settedBox;
     
     // 층 세팅 함수
     public void SetFloor(Sprite floorSprite)
@@ -70,13 +74,7 @@ public class ApartmentFloor : MonoBehaviour
             // door.ApplySpriteByType();
         }
     }
-    
-    // 박스 생성처리
-    private void SetBox()
-    {
-        
-    }
-    
+
     public void SetWallsGradient(Color targetColor, int floorIndex, int maxFloor)
     {
         if (maxFloor <= 1) maxFloor = 1;
@@ -103,4 +101,40 @@ public class ApartmentFloor : MonoBehaviour
             d.doorSprite.color = new Color(resultColor.r, resultColor.g, resultColor.b, a);
         }
     }
+    
+    // 박스 생성처리
+    public void SetBox()
+    {
+        if (settedItems == null || settedItems.Count == 0 || settedBox == null || settedBox.Count == 0)
+            return;
+
+        foreach (var item in settedItems)
+        {
+            // 랜덤한 박스 선택
+            int randIndex = UnityEngine.Random.Range(0, settedBox.Count);
+            var box = settedBox[randIndex];
+
+            if (box == null) continue;
+
+            // BoxData 및 boxItems 초기화 확인
+            if (box.boxData == null)
+                box.boxData = new BoxData();
+            if (box.boxData.boxItems == null)
+                box.boxData.boxItems = new List<ItemCsvRow>();
+
+            // 아이템 추가
+            box.boxData.boxItems.Add(item);
+            Debug.Log("아이템추가");
+        }
+    }
+
+// 간단 셔플 헬퍼
+private static void Shuffle<T>(IList<T> list)
+{
+    for (int i = list.Count - 1; i > 0; i--)
+    {
+        int j = UnityEngine.Random.Range(0, i + 1);
+        (list[i], list[j]) = (list[j], list[i]);
+    }
+}
 }
