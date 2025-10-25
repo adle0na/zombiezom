@@ -77,7 +77,7 @@ public class PlayerInteract : MonoBehaviour
         // 즉시형 상호작용은 키를 누른 순간 1회만 실행
         if (requiredHoldTime <= 0f)
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 // ★★★ 루틴 시작 시 코루틴을 실행합니다. ★★★
                 StartCoroutine(InstantInteractRoutine(_closestTarget));
@@ -85,7 +85,7 @@ public class PlayerInteract : MonoBehaviour
             return;
         }
         
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKey(KeyCode.Space))
         {
             if (!_isHolding)
             {
@@ -106,7 +106,7 @@ public class PlayerInteract : MonoBehaviour
                 EndHold();
             }
         }
-        else if (Input.GetKeyUp(KeyCode.E))
+        else if (Input.GetKeyUp(KeyCode.Space))
         {
             EndHold();
         }
