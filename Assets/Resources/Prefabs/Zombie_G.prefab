@@ -446,10 +446,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 8442964514565145630}
+  spriteRenderer: {fileID: 6893448046417144946}
+  rb: {fileID: 8776970503650495772}
   zombieData:
     isLeftSpawn: 0
     zombieType: 0
     cureItem: 
+  moveSpeed: 2
+  chaseMultiplier: 1.1
+  turnMin: 1
+  turnMax: 3
+  detectRadius: 6
+  playerTag: Player
+  walkState: Walk
+  stunTrigger: Stun
+  isWalkingParam: isWalking
 --- !u!1 &9184329700644641255
 GameObject:
   m_ObjectHideFlags: 0
