@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerInventory : GenericSingleton<PlayerInventory>
@@ -26,6 +27,8 @@ public class PlayerInventory : GenericSingleton<PlayerInventory>
     /// 인벤토리가 가득 찼는지 여부
     /// </summary>
     public bool IsFull => CurrentInventory.Count >= MaxSlots;
+
+    public bool HaveZombie => CurrentInventory.Any(item => item.index >= 22 && item.index < 27);
 
     // --- 인벤토리 기능 메서드 ---
 

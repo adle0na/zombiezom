@@ -27,6 +27,8 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
     [SerializeField] private bool isZombieInHome;
     
     public List<ItemCsvRow> PlayerInventoryData => playerInven;
+    public int PlayerFloor => playerFloor;
+    public bool IsZombieInHome => isZombieInHome;
     public event Action OnHpDecreaseEvent;
 
     void Start()
