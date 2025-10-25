@@ -50,6 +50,9 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
         if (tryCount > 1)
         {
             tryCount--;
+            
+            UIManager.Instance.OpenBiteUI();
+            
             GoBackFloor();
         }
         else
@@ -61,12 +64,14 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
         if (playerFloor > 1)
         {
             playerFloor--;
+            
+            // Y값을 +8 만큼 내리기
+            Vector3 newPos = playerObj.transform.position;
+            newPos.y -= 8f;
+            playerObj.transform.position = newPos;
         }
-
-        UIManager.Instance.OpenBiteUI();
         
-        Debug.Log("아래로 내림");
-        //캐릭터 무적, 반짝임 효과
+        UIManager.Instance.OpenFadeInUI();
     }
     
     private void GameOver()

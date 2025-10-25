@@ -34,8 +34,6 @@ public class UpStair : MonoBehaviour, IInteractable
             upArrow.SetActive(true);
         }
 
-        PlayerDataManager.Instance.playerFloor++;
-        
         return $"{owner.floorNum + 1}으로 올라가기";
     }
 
@@ -50,6 +48,8 @@ public class UpStair : MonoBehaviour, IInteractable
         UIManager.Instance.OpenFadeInUI();
 
         PlayerDataManager.Instance.playerObj.gameObject.SetActive(false);
+
+        PlayerDataManager.Instance.playerFloor++;
         
         yield return new WaitForSeconds(1f);
         

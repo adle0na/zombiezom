@@ -49,6 +49,8 @@ public class DownStair : MonoBehaviour, IInteractable
         
         PlayerDataManager.Instance.playerObj.gameObject.SetActive(false);
 
+        PlayerDataManager.Instance.playerFloor--;
+        
         yield return new WaitForSeconds(1f);
         
         // Y값을 +8 만큼 내리기
