@@ -30,6 +30,8 @@ public class UIManager : GenericSingleton<UIManager>
     
     public GameObject getHit;
     public GameObject gameOver;
+
+    public GameObject gethome;
     
     [SerializeField, LabelText("마스터 캔버스 태그(선택)")]
     private string targetCanvasTag = "MainCanvas"; 
@@ -208,6 +210,11 @@ public class UIManager : GenericSingleton<UIManager>
         GameObject getUI = Instantiate(gameOver, popupParent);
 
         PlayerDataManager.Instance.ResetData();
+    }
+
+    public void OpenHomeUI()
+    {
+        GameObject getUI = Instantiate(gethome, popupParent);
     }
     
     #endregion

@@ -43,6 +43,10 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
 
         // 시작시 1층으로 표기
         playerFloor = 1;
+        
+        playerInven.Clear();
+        
+        playerInven.Add(ItemDataManager.Instance.GetItemByIndex(27));
     }
 
     public void GetHit()
