@@ -1157,8 +1157,8 @@ MonoBehaviour:
   popupParentPrefab: {fileID: 4797562693433263269, guid: 714857310b85e7f499cc756609ef804a, type: 3}
   SettingPopupPrefab: {fileID: 0}
   fadeUI: {fileID: 5014878421191600811, guid: 261fe01e097680d4cbd757c11344fe4e, type: 3}
-  getHit: {fileID: 0}
-  gameOver: {fileID: 0}
+  getHit: {fileID: 6800074270486982016, guid: d893226662f9b7d48b7f9ba98c3e9812, type: 3}
+  gameOver: {fileID: 6800074270486982016, guid: 9351f48d7fdf5b246814ca1394f3e9ac, type: 3}
   targetCanvasTag: MainCanvas
 --- !u!4 &1535106726
 Transform:
