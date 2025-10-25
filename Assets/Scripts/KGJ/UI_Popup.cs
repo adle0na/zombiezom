@@ -25,7 +25,7 @@ public class UI_Popup : MonoBehaviour
     {
         OnShowPopupRequested -= ShowPopup;
     }
-    
+
     private void ShowPopup(string text)
     {
         _canvasGroup.DOKill(true);
