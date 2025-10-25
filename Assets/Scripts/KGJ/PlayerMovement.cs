@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private static readonly int Speed = Animator.StringToHash("Speed");
     [SerializeField] private float moveSpeed = 5f;
     private Rigidbody2D _rb;
+    private Animator _ani;
     private SpriteRenderer _sr;
     private float _hInput;
     private bool _isFacingRight = true;
@@ -12,11 +14,13 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _ani = GetComponent<Animator>();
         _sr = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
+        _ani.SetFloat(Speed, Mathf.Abs(_rb.linearVelocityX));
         if (!_canMove)
         {
             _hInput = 0f; // 이동 금지 시 입력값 초기화
