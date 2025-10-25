@@ -39,7 +39,7 @@ public class Box : MonoBehaviour, IInteractable
                 SoundManager.Instance.PlaySFX(3);
                 GameObject go = Instantiate(_catBoxPrefab, transform.position + Vector3.up * 0.3f, Quaternion.identity);
                 Destroy(go, 1f);
-                Destroy(gameObject);
+
             }
             else if (UI_Popup.OnShowPopupRequested != null)
             {
@@ -49,8 +49,8 @@ public class Box : MonoBehaviour, IInteractable
         else // 하나라도 있으면 아이템 생성해서 바닥에 뿌리기
         {
             DropItems();
-            Destroy(gameObject);
         }
+        Destroy(gameObject);
     }
 
 private void DropItems()
