@@ -870,7 +870,7 @@ MonoBehaviour:
   normalZombie: {fileID: 6373092420197233015, guid: be97c7cb97f0fed469094c549059f931, type: 3}
   discureZombie: {fileID: 6373092420197233015, guid: be97c7cb97f0fed469094c549059f931, type: 3}
   suaZombie: {fileID: 6373092420197233015, guid: be97c7cb97f0fed469094c549059f931, type: 3}
-  targetColor: {r: 0.7660377, g: 0.32231393, b: 0.32231393, a: 1}
+  targetColor: {r: 0.8301887, g: 0.7774121, b: 0.747953, a: 1}
 --- !u!4 &1451983145
 Transform:
   m_ObjectHideFlags: 0
