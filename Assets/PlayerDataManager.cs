@@ -46,6 +46,8 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
     public void GetHit()
     {
         OnHpDecreaseEvent?.Invoke();
+
+        SoundManager.Instance.PlaySFX(2);
         
         if (tryCount > 1)
         {
@@ -71,7 +73,6 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
             playerObj.transform.position = newPos;
         }
         
-        UIManager.Instance.OpenFadeInUI();
     }
     
     private void GameOver()

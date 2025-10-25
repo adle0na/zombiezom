@@ -36,6 +36,7 @@ public class Box : MonoBehaviour, IInteractable
         {
             if (boxData.boxType == BoxType.NormalBox_S)
             {
+                SoundManager.Instance.PlaySFX(4);
                 GameObject go = Instantiate(_catBoxPrefab, transform.position + Vector3.up * 0.3f, Quaternion.identity);
                 Destroy(go, 1f);
                 Destroy(gameObject);

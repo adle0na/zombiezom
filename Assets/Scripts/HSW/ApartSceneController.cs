@@ -112,6 +112,8 @@ public class ApartSceneController : MonoBehaviour
         UIManager.Instance.OpenFadeOutUI();
         
         CreateMapWithFloorData();
+        
+        SoundManager.Instance.PlayBGM(2);
     }
 
     void CreateMapWithFloorData()
@@ -304,7 +306,7 @@ public class ApartSceneController : MonoBehaviour
                     spawnTarget = discureZombie;
                     break;
                 case ZombieType.SuaZombie:
-                    suaZombie = suaZombie;
+                    spawnTarget = suaZombie;
                     break;
             }
             

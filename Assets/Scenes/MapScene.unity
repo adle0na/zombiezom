@@ -1180,8 +1180,8 @@ MonoBehaviour:
   crumbledBox_L: {fileID: 7473952320830633187, guid: f50f390ba6c5f1d40961df91fe9a0812, type: 3}
   bloodBox_L: {fileID: 4715813916067167654, guid: 0fc4fdf029636104781fbc77d95cfdf6, type: 3}
   normalZombie: {fileID: 6373092420197233015, guid: be97c7cb97f0fed469094c549059f931, type: 3}
-  discureZombie: {fileID: 6373092420197233015, guid: be97c7cb97f0fed469094c549059f931, type: 3}
-  suaZombie: {fileID: 6373092420197233015, guid: be97c7cb97f0fed469094c549059f931, type: 3}
+  discureZombie: {fileID: 6373092420197233015, guid: 0c74df65fd8c94d539fe7682258fbd03, type: 3}
+  suaZombie: {fileID: 6373092420197233015, guid: 0608a9c8493a6414aa10abca162958d5, type: 3}
   targetColor: {r: 0.8301887, g: 0.7774121, b: 0.747953, a: 1}
 --- !u!4 &1451983145
 Transform:
