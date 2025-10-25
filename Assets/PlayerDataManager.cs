@@ -17,8 +17,8 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
     [LabelText("현재 플레이어 층 위치")]
     [SerializeField] private int playerFloor;
 
-    [LabelText("플레이어 위치")] [SerializeField]
-    public Transform playerPos;
+    [LabelText("플레이어 오브젝트")] 
+    [SerializeField] public GameObject playerObj;
     
     [LabelText("사진 봤는지 여부")]
     [SerializeField] private bool isLookedPic;
