@@ -59,6 +59,8 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     private void OnDropItem()
     {
         if (_currentItem == null) return;
+
+        if ((_currentItem.index >= 22) && (_currentItem.index < 27)) return;
         
         ItemCsvRow itemToDrop = _currentItem;
         
