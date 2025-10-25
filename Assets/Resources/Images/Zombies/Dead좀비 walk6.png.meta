@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      "Dead\uC880\uBE44 walk6_0": -8703607199769096449
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
