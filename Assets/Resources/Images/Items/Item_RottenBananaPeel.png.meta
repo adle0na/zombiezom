@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Item_RottenBananaPeel_0: 5576241270778473264
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
