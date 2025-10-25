@@ -5,11 +5,18 @@ using UnityEngine.EventSystems;
 public class DropItem : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointerExitHandler
 {
     public static event Action<ItemCsvRow, GameObject> OnItemPickupRequested;
+    private SpriteRenderer _sr;
     private ItemCsvRow _item;
+
+    private void Awake()
+    {
+        _sr = GetComponent<SpriteRenderer>();
+    }
 
     public void Init(ItemCsvRow item)
     {
         _item = item;
+        _sr.sprite = item.itemSprite;
     }
 
     public IInteractable.InteractHoldType HoldType { get; }
