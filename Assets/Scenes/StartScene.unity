@@ -1159,6 +1159,7 @@ MonoBehaviour:
   fadeUI: {fileID: 5014878421191600811, guid: 261fe01e097680d4cbd757c11344fe4e, type: 3}
   getHit: {fileID: 6800074270486982016, guid: d893226662f9b7d48b7f9ba98c3e9812, type: 3}
   gameOver: {fileID: 6800074270486982016, guid: 9351f48d7fdf5b246814ca1394f3e9ac, type: 3}
+  gethome: {fileID: 3085663886918836405, guid: 3f8474d09db9ff04bb211905cc3c4cd6, type: 3}
   targetCanvasTag: MainCanvas
 --- !u!4 &1535106726
 Transform:
