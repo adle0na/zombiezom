@@ -796,22 +796,54 @@ MonoBehaviour:
     floorType: 2
     closedPer: 0.515
     itemList: 000000000500000007000000090000000c00000012000000
+    zombieDatas:
+    - isLeftSpawn: 0
+      zombieType: 0
+      cureItem: 0600000009000000
   - floorValue: 2
     floorType: 1
     closedPer: 0.491
     itemList: 01000000050000000f000000100000000d0000000900000007000000
+    zombieDatas:
+    - isLeftSpawn: 1
+      zombieType: 0
+      cureItem: 060000000f000000
   - floorValue: 3
     floorType: 1
     closedPer: 0.479
     itemList: 0200000005000000140000000a0000000b0000000e0000000f000000
+    zombieDatas:
+    - isLeftSpawn: 1
+      zombieType: 0
+      cureItem: 140000001000000006000000
+    - isLeftSpawn: 0
+      zombieType: 1
+      cureItem: 
   - floorValue: 4
     floorType: 1
     closedPer: 0.515
     itemList: 030000000500000008000000110000000d000000130000001500000002000000
+    zombieDatas:
+    - isLeftSpawn: 0
+      zombieType: 0
+      cureItem: 110000000a0000000800000006000000
+    - isLeftSpawn: 1
+      zombieType: 1
+      cureItem: 
   - floorValue: 5
     floorType: 0
     closedPer: 0.521
     itemList: 040000000500000014000000130000000a00000008000000
+    zombieDatas:
+    - isLeftSpawn: 0
+      zombieType: 1
+      cureItem: 
+    - isLeftSpawn: 0
+      zombieType: 1
+      cureItem: 
+    - isLeftSpawn: 1
+      zombieType: 2
+      cureItem: 000000000100000002000000030000000400000006000000
   floors: []
   minOpenDoor: 1
   middleStair: {fileID: -6419410014799088282, guid: d46b89623abde6e4dafaacc10256fd52, type: 3}
@@ -835,6 +867,9 @@ MonoBehaviour:
   normalBox_L: {fileID: -7543394715592997109, guid: 5311aa1c0425e7d43a52703a76a0bace, type: 3}
   crumbledBox_L: {fileID: 7473952320830633187, guid: f50f390ba6c5f1d40961df91fe9a0812, type: 3}
   bloodBox_L: {fileID: 4715813916067167654, guid: 0fc4fdf029636104781fbc77d95cfdf6, type: 3}
+  normalZombie: {fileID: 6373092420197233015, guid: be97c7cb97f0fed469094c549059f931, type: 3}
+  discureZombie: {fileID: 6373092420197233015, guid: be97c7cb97f0fed469094c549059f931, type: 3}
+  suaZombie: {fileID: 6373092420197233015, guid: be97c7cb97f0fed469094c549059f931, type: 3}
   targetColor: {r: 0.7660377, g: 0.32231393, b: 0.32231393, a: 1}
 --- !u!4 &1451983145
 Transform:

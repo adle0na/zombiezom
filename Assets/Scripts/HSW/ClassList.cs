@@ -19,6 +19,9 @@ public class FloorData
 
     [LabelText("생성 아이템 리스트")]
     public List<int> itemList;
+
+    [LabelText("좀비 리스트")]
+    public List<ZombieData> zombieDatas;
 }
 
 [Serializable]
@@ -49,6 +52,19 @@ public class BoxData
     public List<ItemCsvRow> boxItems;
     [LabelText("사용 여부")]
     public bool isOpened;
+}
+
+[Serializable]
+public class ZombieData
+{
+    [LabelText("생성 위치")]
+    public bool isLeftSpawn;
+
+    [LabelText("좀비 타입")]
+    public ZombieType zombieType;
+
+    [LabelText("치료 아이템")]
+    public List<int> cureItem;
 }
 
 [Serializable]

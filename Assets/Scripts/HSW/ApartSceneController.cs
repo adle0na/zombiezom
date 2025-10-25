@@ -94,6 +94,10 @@ public class ApartSceneController : MonoBehaviour
     [LabelText("큰 피묻은 박스")] 
     [SerializeField] private Sprite bloodBox_L;
 
+    [LabelText("일반좀비")] [SerializeField] private GameObject normalZombie;
+    [LabelText("치료불가좀비")] [SerializeField] private GameObject discureZombie;
+    [LabelText("수아좀비")] [SerializeField] private GameObject suaZombie;
+
     [LabelText("레이어 컬러")]
     [SerializeField] private Color targetColor;
     
@@ -165,6 +169,9 @@ public class ApartSceneController : MonoBehaviour
                 
                 // ✅ 이 층의 itemList 기준으로 박스 & 아이템 배치
                 DistributeBoxesAndItems(floor, data);
+                
+                // 좀비 배치
+                SpawnZombies(floor, data);
             }
             else
             {
@@ -272,8 +279,62 @@ public class ApartSceneController : MonoBehaviour
 
         floor.SetBox();
     }
+    
+    private void SpawnZombies(ApartmentFloor floor, FloorData data)
+    {
+        if (data == null || data.zombieDatas == null || data.zombieDatas.Count == 0) return;
+        
+        foreach (var zombieData in data.zombieDatas)
+        {
+            if (zombieData == null) continue;
 
+            GameObject spawnTarget = normalZombie;
 
+            switch (zombieData.zombieType)
+            {
+                case ZombieType.NormalZombie:
+                    spawnTarget = normalZombie;
+                    break;
+                case ZombieType.DisCureZombie:
+                    spawnTarget = discureZombie;
+                    break;
+                case ZombieType.SuaZombie:
+                    suaZombie = suaZombie;
+                    break;
+            }
+            
+            // 스폰 방향
+            bool isLeft = zombieData.isLeftSpawn;
+
+            // X 위치 랜덤
+            float x = isLeft
+                ? Random.Range(-20f, -2f)
+                : Random.Range(  2f, 20f);
+
+            // 층 높이 기준 Y
+            float y = floor.transform.position.y - 2;
+            Vector3 pos = new Vector3(x, y, 0f);
+
+            // 프리팹 생성
+            var zombieGo = Instantiate(spawnTarget, pos, Quaternion.identity, this.transform);
+            zombieGo.name = $"Zombie_{(isLeft ? "L" : "R")}_{data.floorValue}";
+
+            // 데이터 주입
+            var zombieComp = zombieGo.GetComponent<Zombie>();
+            if (zombieComp != null)
+            {
+                // 새 인스턴스 데이터 넣기
+                zombieComp.GetType().GetField("zombieData", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                    ?.SetValue(zombieComp, zombieData);
+            }
+
+            // 방향 보정 (왼쪽에서 오면 오른쪽을 향하도록)
+            var sr = zombieGo.GetComponentInChildren<SpriteRenderer>();
+            if (sr != null)
+                sr.flipX = isLeft;
+        }
+    }
+    
     private void SetBoxSpriteByType(Box box, BoxType type)
     {
         if (box == null || box.boxSprite == null) return;

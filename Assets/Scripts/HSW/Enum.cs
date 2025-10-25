@@ -46,3 +46,23 @@ public enum BoxType
     [InspectorName("큰 피묻은 박스")]
     BloodBox_L
 }
+
+public enum ZombieType
+{
+    [InspectorName("일반좀비")]
+    NormalZombie,
+    [InspectorName("치료불가좀비")]
+    DisCureZombie,
+    [InspectorName("수아좀비")]
+    SuaZombie
+}
+
+public enum ZombieStatus
+{
+    [InspectorName("대기")]
+    Idle,
+    [InspectorName("발견")]
+    PlayerFound,
+    [InspectorName("스턴")]
+    Stuned
+}
