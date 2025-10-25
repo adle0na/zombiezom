@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -29,6 +30,9 @@ public class UIManager : GenericSingleton<UIManager>
     
     private GameObject getHit;
     private GameObject gameOver;
+    
+    [SerializeField, LabelText("마스터 캔버스 태그(선택)")]
+    private string targetCanvasTag = "MainCanvas"; 
     
     private void Awake()
     {
@@ -80,8 +84,14 @@ public class UIManager : GenericSingleton<UIManager>
     {
         sceneController = null;
         
-        sceneController = FindObjectOfType<Canvas>();
-
+        if (!string.IsNullOrEmpty(targetCanvasTag))
+        {
+            var go = GameObject.FindGameObjectWithTag(targetCanvasTag);
+            if (go) sceneController = go.GetComponent<Canvas>();
+            if (sceneController == null && go != null)
+                Debug.LogWarning($"[{name}] 태그 '{targetCanvasTag}' 객체에 Canvas 컴포넌트가 없습니다: {go.name}");
+        }
+        
         if (sceneController != null)
         {
             GameObject popupTransformObj = Instantiate(popupParentPrefab, sceneController.transform);

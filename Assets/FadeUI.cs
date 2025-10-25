@@ -5,15 +5,10 @@ using UnityEngine.UI;
 public class FadeUI : MonoBehaviour
 {
     [SerializeField] private float fadeDuration = 1f;
-    private Image fadeImage;
+    [SerializeField] private Image fadeImage;
 
     private Coroutine fadeRoutine;
 
-    void Start()
-    {
-        fadeImage = GetComponent<Image>();
-    }
-    
     public void FadeIn(Color baseColor)
     {
         if (fadeRoutine != null) StopCoroutine(fadeRoutine);

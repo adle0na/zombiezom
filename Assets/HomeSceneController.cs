@@ -10,7 +10,7 @@ public class HomeSceneController : MonoBehaviour
         UIManager.Instance.OpenFadeInUI();
 
         // 1초 뒤 씬 이동
-        StartCoroutine(LoadSceneWithDelay(2, 1f));
+        StartCoroutine(LoadSceneWithDelay(2, 1.5f));
     }
 
     private IEnumerator LoadSceneWithDelay(int sceneIndex, float delay)
