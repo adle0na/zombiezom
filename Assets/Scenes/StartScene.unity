@@ -330,7 +330,7 @@ MonoBehaviour:
     appearFloor: 05000000
   - index: 27
     itemName: "\uB538 \uC0AC\uC9C4"
-    itemSprite: {fileID: 0}
+    itemSprite: {fileID: 2425849018946063292, guid: 36998dfc064ab2041b92c333e59f81f2, type: 3}
     itemDes: "\uB098\uC758 \uC18C\uC911\uD55C \uB538 \uC544\uC774\uC758 \uC0AC\uC9C4\uC785\uB2C8\uB2E4."
     cureFloor: ffffffff
     appearFloor: ffffffff
@@ -883,6 +883,7 @@ MonoBehaviour:
     itemName: "\uB538 \uC0AC\uC9C4"
     itemSprite: {fileID: 2425849018946063292, guid: 36998dfc064ab2041b92c333e59f81f2, type: 3}
     itemDes: "\uB098\uC758 \uC18C\uC911\uD55C \uB538 \uC544\uC774\uC758 \uC0AC\uC9C4\uC785\uB2C8\uB2E4."
+  isLookedPic: 0
 --- !u!1 &1543723351
 GameObject:
   m_ObjectHideFlags: 0

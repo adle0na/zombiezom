@@ -28,6 +28,10 @@ public class DoorData
     public bool hasBox;
     [LabelText("박스 데이터")]
     public BoxData boxData;
+    [LabelText("왼쪽 위치")]
+    public Transform leftBoxPos;
+    [LabelText("오른쪽 위치")]
+    public Transform rightBoxPos;
 }
 
 [Serializable]
@@ -35,6 +39,8 @@ public class BoxData
 {
     [LabelText("박스 타입")]
     public BoxType boxType;
+    [LabelText("박스 위치")]
+    public bool isLeft;
     [LabelText("박스 아이템 리스트")]
     public List<ItemData> boxItems;
     [LabelText("사용 여부")]

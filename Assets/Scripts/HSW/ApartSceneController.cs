@@ -52,6 +52,9 @@ public class ApartSceneController : MonoBehaviour
     [LabelText("층 프리팹")]
     [SerializeField] private GameObject floorPrefab;
 
+    [LabelText("박스 프리팹")]
+    [SerializeField] private GameObject boxPrefab;
+
     [LabelText("플레이어 프리팹")]
     [SerializeField] private GameObject playerPrefab;
 
@@ -72,7 +75,22 @@ public class ApartSceneController : MonoBehaviour
     [LabelText("피묻은문C")] 
     [SerializeField] private Sprite bloodDoorC;
     
-    
+    [LabelText("작은 일반 박스")] 
+    [SerializeField] private Sprite normalBox_S;
+    [LabelText("작은 더러운 박스")] 
+    [SerializeField] private Sprite dirtyBox_S;
+    [LabelText("작은 찌그러진 박스")] 
+    [SerializeField] private Sprite crumbledBox_S;
+    [LabelText("작은 피묻은 박스")] 
+    [SerializeField] private Sprite bloodBox_S;
+
+    [LabelText("큰 일반 박스")] 
+    [SerializeField] private Sprite normalBox_L;
+    [LabelText("큰 찌그러진 박스")] 
+    [SerializeField] private Sprite crumbledBox_L;
+    [LabelText("큰 피묻은 박스")] 
+    [SerializeField] private Sprite bloodBox_L;
+
     [LabelText("레이어 컬러")]
     [SerializeField] private Color targetColor;
     
@@ -140,6 +158,8 @@ public class ApartSceneController : MonoBehaviour
             SetDoorSprite(floor.doorDatas);
         }
         
+        
+        
         //Instantiate(playerPrefab)
     }
 
@@ -152,7 +172,7 @@ public class ApartSceneController : MonoBehaviour
         }
 
         // 1개를 랜덤으로 뽑아 '닫힌 판자문'으로 지정
-        int lockedIndex = UnityEngine.Random.Range(0, doors.Count);
+        int lockedIndex = Random.Range(0, doors.Count);
 
         // 일반/피묻은 문 타입 후보
         DoorType[] openablePool =
@@ -182,6 +202,59 @@ public class ApartSceneController : MonoBehaviour
                 var t = openablePool[UnityEngine.Random.Range(0, openablePool.Length)];
                 door.doorData.doorType = t;
                 door.doorData.isOpenable = true;
+            }
+            
+            // 박스 생성 확률 50%
+            door.doorData.hasBox = Random.value < 0.5f;
+
+            if (door.doorData.hasBox)
+            {
+                bool isLeft = Random.value < 0.5f;
+
+                door.boxObj = Instantiate(boxPrefab, isLeft ? door.doorData.leftBoxPos : door.doorData.rightBoxPos).GetComponent<Box>();
+            }
+            
+            // 일반/피묻은 문 타입 후보
+            BoxType[] boxPool =
+            {
+                BoxType.NormalBox_S,
+                BoxType.NormalBox_L,
+                BoxType.DirtyBox_S,
+                BoxType.CrumpledBox_S,
+                BoxType.CrumpledBox_L,
+                BoxType.BloodBox_S,
+                BoxType.BloodBox_L
+            };
+            
+            var bt = boxPool[Random.Range(0, boxPool.Length)];
+            door.doorData.boxData.boxType = bt;
+
+            if (door.doorData.hasBox)
+            {
+                switch (door.doorData.boxData.boxType)
+                {
+                    case BoxType.NormalBox_S:
+                        door.boxObj.boxSprite.sprite = normalBox_S;
+                        break;
+                    case BoxType.DirtyBox_S:
+                        door.boxObj.boxSprite.sprite = dirtyBox_S;
+                        break;
+                    case BoxType.BloodBox_S:
+                        door.boxObj.boxSprite.sprite = bloodBox_S;
+                        break;
+                    case BoxType.CrumpledBox_S:
+                        door.boxObj.boxSprite.sprite = crumbledBox_S;
+                        break;
+                    case BoxType.NormalBox_L:
+                        door.boxObj.boxSprite.sprite = normalBox_L;
+                        break;
+                    case BoxType.BloodBox_L:
+                        door.boxObj.boxSprite.sprite = bloodBox_L;
+                        break;
+                    case BoxType.CrumpledBox_L:
+                        door.boxObj.boxSprite.sprite = crumbledBox_L;
+                        break;
+                }
             }
         }
     }
