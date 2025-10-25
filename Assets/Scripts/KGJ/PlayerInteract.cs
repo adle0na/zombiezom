@@ -17,6 +17,11 @@ public class PlayerInteract : MonoBehaviour
 
     private PlayerMovement _playerMovement;
     private PlayerInventory _playerInventory;
+    private SpriteRenderer _sr;
+
+    public bool IsHiding => _hidingDoor != null;
+    private Door _hidingDoor;
+    private BoxCollider2D _collider;
 
     // 이벤트 정의
     public static event Action<Transform> OnHoldStart;
@@ -27,7 +32,8 @@ public class PlayerInteract : MonoBehaviour
     void Awake()
     {
         _playerMovement = GetComponent<PlayerMovement>();
-        // PlayerInventory 싱글톤이 Ready 상태인지 확인하거나, Null 체크를 위해 Start에서 Instance에 접근하는 것이 더 안전합니다.
+        _collider = GetComponent<BoxCollider2D>();
+        _sr = GetComponent<SpriteRenderer>();
         _playerInventory = PlayerInventory.Instance; 
     }
 
@@ -35,8 +41,15 @@ public class PlayerInteract : MonoBehaviour
     {
         // ★★★ 1. 상호작용 루틴이 실행 중이면 Update 로직을 잠급니다. ★★★
         if (_isInteracting) return; 
-
-        _closestTarget = GetClosestInteractable();
+        
+        if (_hidingDoor != null)
+        {
+            _closestTarget = _hidingDoor;
+        }
+        else
+        {
+            _closestTarget = GetClosestInteractable();
+        }
 
         // 가까운 대상이 바뀌었을 때만 이벤트 발행
         if (_closestTarget != _previousTarget)
@@ -101,11 +114,10 @@ public class PlayerInteract : MonoBehaviour
 
     private void EndHold()
     {
-        //if (!_isHolding) return;
-
         _isHolding = false;
         _holdTimer = 0f;
-        _playerMovement.EnableMove(true);
+        if (!IsHiding)
+            _playerMovement.EnableMove(true);
 
         OnHoldEnd?.Invoke();
     }
@@ -158,7 +170,8 @@ public class PlayerInteract : MonoBehaviour
             // Interact 호출 (이후 DropItem이 파괴될 수 있음)
             target.Interact(); 
             
-            _playerMovement.EnableMove(true);
+            if (!IsHiding)
+                _playerMovement.EnableMove(true);
         }
         else
         {
@@ -201,6 +214,87 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
+    public void InteractDoor(Door door)
+    {
+        if (_hidingDoor == null)
+        {
+            _playerMovement.EnableMove(false);
+            HideDoor(door);
+        }
+        else
+        {
+            Show(door);
+        }
+    }
+    private void HideDoor(Door door)
+    {
+        _hidingDoor = door;
+        _isInteracting = true;
+        
+        _collider.enabled = false;
+        StartCoroutine(Hiding());
+    }
+
+    private void Show(Door door)
+    {
+        _isInteracting = true;
+        StartCoroutine(Showing());
+    }
+
+    private IEnumerator Hiding()
+    {
+        // 0.5초 간 서서히 _hidingDoor의 중심으로 이동하며 투명해짐
+        float duration = 0.5f;
+    
+        // ⬇️ 페이드 아웃 (Alpha를 0.0f로)
+        yield return StartCoroutine(FadeRoutine(0.0f, duration)); 
+    
+        // 플레이어의 실제 위치 변경 (선택적: 문 안으로 이동)
+        //transform.position = _hidingDoor.transform.position;
+    
+        _isInteracting = false; 
+        
+        OnTargetChanged?.Invoke(_closestTarget);
+    
+        // **참고:** 페이드 아웃 후 Door 객체에 플레이어 비활성화 요청이 이미 되어 있어야 합니다.
+        // (HideDoor 메서드에서 door.Hide(this.gameObject) 호출)
+    }
+
+    private IEnumerator Showing()
+    {
+        // 0.5초 간 서서히 플레이어의 투명도가 낮아짐.
+        float duration = 0.5f;
+    
+        // 🚨 플레이어 객체는 Door.ExitHide()에서 이미 활성화(SetActive(true)) 되었다고 가정합니다.
+    
+        // ⬇️ 페이드 인 (Alpha를 1.0f로)
+        yield return StartCoroutine(FadeRoutine(1.0f, duration)); 
+    
+        // 나가기 완료 후, 모든 상태를 해제합니다.
+        _hidingDoor = null;
+        _collider.enabled = true;
+        _isInteracting = false; // 입력 잠금 해제
+        _playerMovement.EnableMove(true); // 이동 잠금 해제
+    }
+    
+    private IEnumerator FadeRoutine(float targetAlpha, float duration)
+    {
+        if (_sr == null) yield break;
+
+        Color startColor = _sr.color;
+        Color targetColor = new Color(startColor.r, startColor.g, startColor.b, targetAlpha);
+        float startTime = Time.time;
+
+        while (Time.time < startTime + duration)
+        {
+            float t = (Time.time - startTime) / duration;
+            _sr.color = Color.Lerp(startColor, targetColor, t);
+            yield return null;
+        }
+
+        _sr.color = targetColor;
+    }
+    
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
