@@ -13,9 +13,12 @@ public class FloorData
     [LabelText("층 타입"), ReadOnly]
     public FloorType floorType;
 
-    [LabelText("닫힌문 생성 배수 (0~1)")]
+    [LabelText("닫힌문 생성 배수")]
     [Range(0f, 1f)]
     public float closedPer;
+
+    [LabelText("생성 아이템 리스트")]
+    public List<int> itemList;
 }
 
 [Serializable]

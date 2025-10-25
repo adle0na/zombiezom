@@ -158,7 +158,7 @@ public class ApartSceneController : MonoBehaviour
             SetDoorSprite(floor.doorDatas);
         }
         
-        
+        // 아이템 배치
         
         //Instantiate(playerPrefab)
     }
