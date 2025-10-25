@@ -374,18 +374,23 @@ MonoBehaviour:
   - floorValue: 1
     floorType: 2
     closedPer: 0.515
+    itemList: 000000000500000007000000090000000c00000012000000
   - floorValue: 2
     floorType: 1
     closedPer: 0.491
+    itemList: 01000000050000000f000000100000000d0000000900000007000000
   - floorValue: 3
     floorType: 1
     closedPer: 0.479
+    itemList: 0200000005000000140000000a0000000b0000000e0000000f000000
   - floorValue: 4
     floorType: 1
     closedPer: 0.515
+    itemList: 030000000500000008000000110000000d000000130000001500000002000000
   - floorValue: 5
     floorType: 0
     closedPer: 0.521
+    itemList: 040000000500000014000000130000000a00000008000000
   floors: []
   minOpenDoor: 1
   middleStair: {fileID: -6419410014799088282, guid: d46b89623abde6e4dafaacc10256fd52, type: 3}

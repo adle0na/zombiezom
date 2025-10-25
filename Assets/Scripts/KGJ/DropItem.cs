@@ -4,20 +4,20 @@ using UnityEngine.EventSystems;
 
 public class DropItem : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointerExitHandler
 {
-    public static event Action<ItemData, GameObject> OnItemPickupRequested;
-    private ItemData _item;
+    public static event Action<ItemCsvRow, GameObject> OnItemPickupRequested;
+    private ItemCsvRow _item;
 
-    public void Init(ItemData item)
+    public void Init(ItemCsvRow item)
     {
         _item = item;
     }
 
     private void Start()
     {
-        ItemData testSword = new ItemData
+        ItemCsvRow testSword = new ItemCsvRow
         {
             // 2. 필드에 테스트 값을 할당합니다.
-            itemIndex = 101,
+            index = 101,
             itemName = "낡은 검",
             itemSprite = null, // 요청하신 대로 null로 설정
             itemDes = "오래되어 녹슨 검입니다. 사용하기 까다롭습니다."

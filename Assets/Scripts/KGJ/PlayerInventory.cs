@@ -7,9 +7,9 @@ public class PlayerInventory : GenericSingleton<PlayerInventory>
     [SerializeField] private int maxSlots = 10; // 인벤토리 최대 슬롯 개수
 
     [Header("Current Inventory")]
-    [SerializeField] private List<ItemData> _inventory = new List<ItemData>(); 
+    [SerializeField] private List<ItemCsvRow> _inventory = new List<ItemCsvRow>(); 
     
-    public IReadOnlyList<ItemData> Inventory => _inventory; 
+    public IReadOnlyList<ItemCsvRow> Inventory => _inventory; 
 
     public int ItemCount => _inventory.Count;
     
@@ -23,7 +23,7 @@ public class PlayerInventory : GenericSingleton<PlayerInventory>
     /// <summary>
     /// 아이템 추가
     /// </summary>
-    public bool AddItem(ItemData item) 
+    public bool AddItem(ItemCsvRow item) 
     {
         if (IsFull)
         {
@@ -32,7 +32,7 @@ public class PlayerInventory : GenericSingleton<PlayerInventory>
         }
 
         _inventory.Add(item); 
-        Debug.Log($"[Inventory] {item.itemName} (index:{item.itemIndex}) 추가됨. ({_inventory.Count}/{maxSlots})");
+        Debug.Log($"[Inventory] {item.itemName} (index:{item.index}) 추가됨. ({_inventory.Count}/{maxSlots})");
         return true;
     }
 
@@ -42,7 +42,7 @@ public class PlayerInventory : GenericSingleton<PlayerInventory>
     public bool RemoveItemByIndex(int itemIndex)
     {
         // ItemData의 itemIndex 필드가 일치하는 첫 번째 아이템을 찾습니다.
-        var target = _inventory.Find(i => i.itemIndex == itemIndex);
+        var target = _inventory.Find(i => i.index == itemIndex);
         if (target != null)
         {
             _inventory.Remove(target);
@@ -68,7 +68,7 @@ public class PlayerInventory : GenericSingleton<PlayerInventory>
         Debug.Log("===== [Inventory 목록] =====");
         foreach (var item in _inventory)
         {
-            Debug.Log($"index:{item.itemIndex} | {item.itemName} - {item.itemDes}");
+            Debug.Log($"index:{item.index} | {item.itemName} - {item.itemDes}");
         }
     }
 

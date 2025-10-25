@@ -12,7 +12,7 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
     [SerializeField] private int tryCount;
     
     [LabelText("플레이어 인벤토리 데이터")]
-    [SerializeField] private List<ItemData> playerInven;
+    [SerializeField] private List<ItemCsvRow> playerInven;
 
     [LabelText("사진 봤는지 여부")]
     [SerializeField] private bool isLookedPic;

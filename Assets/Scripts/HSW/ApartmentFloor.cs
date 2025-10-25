@@ -16,6 +16,9 @@ public class ApartmentFloor : MonoBehaviour
     
     [LabelText("문 정보")]
     public List<Door> doorDatas;
+
+    [LabelText("세팅된 아이템")]
+    public List<ItemCsvRow> settedItems;
     
     // 층 세팅 함수
     public void SetFloor(Sprite floorSprite)

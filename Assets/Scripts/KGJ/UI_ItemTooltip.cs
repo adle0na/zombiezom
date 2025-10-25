@@ -10,7 +10,7 @@ public class UI_ItemTooltip : MonoBehaviour
     [SerializeField] private Vector3 offset;
     private CanvasGroup _canvasGroup;
 
-    public static Action<ItemData, GameObject> OnShowTooltipRequested;
+    public static Action<ItemCsvRow, GameObject> OnShowTooltipRequested;
     public static Action OnHideTooltipRequested;
 
     private const float FadeDuration = 0.2f;
@@ -33,7 +33,7 @@ public class UI_ItemTooltip : MonoBehaviour
         OnHideTooltipRequested -= HideTooltip;
     }
 
-    private void ShowTooltip(ItemData itemData, GameObject go)
+    private void ShowTooltip(ItemCsvRow itemData, GameObject go)
     {
         transform.position = go.transform.position + offset;
         _title.text = itemData.itemName;

@@ -46,27 +46,9 @@ public class BoxData
     [LabelText("박스 위치")]
     public bool isLeft;
     [LabelText("박스 아이템 리스트")]
-    public List<ItemData> boxItems;
+    public List<ItemCsvRow> boxItems;
     [LabelText("사용 여부")]
     public bool isOpened;
-}
-
-[Serializable]
-public class ItemData : IEnumerable
-{
-    [LabelText("아이템 인덱스")]
-    public int itemIndex;
-    [LabelText("아이템 이름")]
-    public string itemName;
-    [LabelText("아이템 이미지")]
-    public Sprite itemSprite;
-    [LabelText("아이템 설명")]
-    public string itemDes;
-
-    public IEnumerator GetEnumerator()
-    {
-        throw new NotImplementedException();
-    }
 }
 
 [Serializable]
