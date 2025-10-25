@@ -12,6 +12,8 @@ public class ApartmentFloor : MonoBehaviour
     [SerializeField]
     private SpriteRenderer floorImage;
 
+    [LabelText("1층화살표")] private GameObject leftArrow;
+    
     [LabelText("칸 이미지 값")]
     [SerializeField] private List<SpriteRenderer> walls;
     
@@ -26,6 +28,8 @@ public class ApartmentFloor : MonoBehaviour
 
     public int floorNum;
 
+    public SpriteRenderer arrow;
+    
     // 층 세팅 함수
     public void SetFloor(Sprite floorSprite)
     {
@@ -148,6 +152,11 @@ public class ApartmentFloor : MonoBehaviour
             {
                 Debug.LogWarning("⚠️ 3개 미만인 박스를 찾지 못했습니다. 아이템을 추가하지 못했습니다.");
             }
+        }
+
+        if (floorNum == 1)
+        {
+            arrow.gameObject.SetActive(true);
         }
     }
 

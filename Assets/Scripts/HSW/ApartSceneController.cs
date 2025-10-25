@@ -155,7 +155,8 @@ public class ApartSceneController : MonoBehaviour
                 if (data.floorValue == 1)                 floor.SetFloor(bottomStair);
                 else if (data.floorValue == floorValue)   floor.SetFloor(topStair);
                 else                                      floor.SetFloor(middleStair);
-
+                
+                
                 // 그라데이션
                 floor.SetWallsGradient(targetColor, data.floorValue, floorValue);
 
