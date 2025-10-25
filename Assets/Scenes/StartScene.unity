@@ -885,6 +885,7 @@ MonoBehaviour:
     itemDes: "\uB098\uC758 \uC18C\uC911\uD55C \uB538 \uC544\uC774\uC758 \uC0AC\uC9C4\uC785\uB2C8\uB2E4."
     cureFloor: 
     appearFloor: 
+  playerFloor: 0
   isLookedPic: 0
   isZombieInHome: 0
 --- !u!1 &1543723351
