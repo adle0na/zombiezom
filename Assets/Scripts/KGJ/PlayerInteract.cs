@@ -187,13 +187,13 @@ public class PlayerInteract : MonoBehaviour
     {
         // DropItem이 발생시키는 아이템 줍기 요청 이벤트를 구독합니다.
         DropItem.OnItemPickupRequested += HandleItemPickup;
-        Zombie.OnItemPickupRequested += HandleItemPickup;
+        StunCollider.OnItemPickupRequested += HandleItemPickup;
     }
 
     private void OnDisable()
     {
         DropItem.OnItemPickupRequested -= HandleItemPickup;
-        Zombie.OnItemPickupRequested -= HandleItemPickup;
+        StunCollider.OnItemPickupRequested -= HandleItemPickup;
     }
 
     // 아이템 줍기 요청을 처리하는 함수

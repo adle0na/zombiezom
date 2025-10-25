@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public enum ZombieState { Walk, Chase, Stunned }
 
+// ⬇️ IInteractable 인터페이스를 구현합니다.
 public class Zombie : MonoBehaviour, IInteractable
 {
     [Title("Refs")]
@@ -48,13 +49,31 @@ public class Zombie : MonoBehaviour, IInteractable
     private int dir = 1;                       // +1 오른쪽, -1 왼쪽
     private Coroutine turnRoutine;
     private Coroutine stunRoutine;
+    public ZombieData ZombieData => zombieData;
+    private Collider2D _stunCollider; // 좀비가 주울 수 있는 상태가 되었을 때 활성화될 콜라이더
     
-    public static event Action<ItemCsvRow, GameObject> OnItemPickupRequested;
+    // ⬇️ 아이템 줍기 요청 이벤트
+    public static event Action<ItemCsvRow, GameObject> OnItemPickupRequested; 
     
     void Awake()
     {
         if (!rb) rb = GetComponent<Rigidbody2D>();
         if (!spriteRenderer) spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+    }
+
+    private void Start()
+    {
+        StunCollider stunComponent = GetComponentInChildren<StunCollider>();
+        
+        if (stunComponent != null)
+        {
+            _stunCollider = stunComponent.gameObject.GetComponent<Collider2D>();
+            
+            if (_stunCollider != null)
+            {
+                _stunCollider.enabled = false;
+            }
+        }
     }
 
     void OnEnable()
@@ -106,8 +125,8 @@ public class Zombie : MonoBehaviour, IInteractable
     {
         if (state == ZombieState.Stunned) return;
         
-        rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);  // ✅
-        if (spriteRenderer) spriteRenderer.flipX = (direction > 0);   // 왼쪽이면 flipX=true
+        rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);
+        if (spriteRenderer) spriteRenderer.flipX = (direction > 0);
         UpdateSensorsPosition();
     }
 
@@ -155,6 +174,12 @@ public class Zombie : MonoBehaviour, IInteractable
         if (!string.IsNullOrEmpty(isWalkingParam))
             animator.SetBool(isWalkingParam, false);
         animator.ResetTrigger(stunTrigger);
+        
+        // ⬇️ 센서 및 스턴 콜라이더 활성화/비활성화 통합 처리
+        bool sensorActive = (next != ZombieState.Stunned);
+        if (frontSense) frontSense.gameObject.SetActive(sensorActive);
+        if (backSense) backSense.gameObject.SetActive(sensorActive);
+        if (_stunCollider) _stunCollider.enabled = !sensorActive; // Stunned 상태일 때만 true
 
         switch (state)
         {
@@ -166,7 +191,6 @@ public class Zombie : MonoBehaviour, IInteractable
                 break;
 
             case ZombieState.Chase:
-                // 애니메이션은 Walk 유지, 재생 속도만 가속
                 if (!string.IsNullOrEmpty(isWalkingParam))
                     animator.SetBool(isWalkingParam, true);
                 animator.CrossFade(walkState, 0.1f, 0);
@@ -183,30 +207,32 @@ public class Zombie : MonoBehaviour, IInteractable
     // ---------- 외부에서 스턴 호출 ----------
     public void Stun()
     {
+        if (state == ZombieState.Stunned) return; // 이미 기절 상태면 무시
+        if (animator == null) return; // 애니메이터 없으면 로직 진행 불가
+        
         if (rb) rb.linearVelocity = Vector2.zero;
 
-        state = ZombieState.Stunned;
-        animator.SetTrigger("Stun");
+        // ⬇️ SetState를 사용하여 모든 상태 로직 통합
+        SetState(ZombieState.Stunned); 
+        
         if (stunRoutine != null)
         {
             StopCoroutine(stunRoutine);
         }
-        StartCoroutine(StunCor());
+        stunRoutine = StartCoroutine(StunCor());
     }
 
     IEnumerator StunCor()
     {
-        frontSense.gameObject.SetActive(false);
-        backSense.gameObject.SetActive(false);
         yield return new WaitForSeconds(4);
-        state = ZombieState.Walk;
-        frontSense.gameObject.SetActive(true);
-        backSense.gameObject.SetActive(true);
+        
+        // ⬇️ 상태를 복구할 때는 SetState를 사용합니다.
+        SetState(ZombieState.Walk); 
+        stunRoutine = null;
     }
     
     private void UpdateSensorsPosition()
     {
-        // 바라보는 앞 방향: flipX=false → +1(오른쪽), flipX=true → -1(왼쪽)
         float facing = (spriteRenderer != null && spriteRenderer.flipX) ? 1f : -1f;
 
         // 🔹 앞 센서
@@ -237,25 +263,45 @@ public class Zombie : MonoBehaviour, IInteractable
         Gizmos.DrawWireSphere(transform.position, detectRadius);
     }
 
-    public IInteractable.InteractHoldType HoldType => IInteractable.InteractHoldType.Instant;
-    public bool IsInteractable => (state == ZombieState.Stunned) && (zombieData.zombieType != ZombieType.DisCureZombie);
+    // ===================================
+    // 💀 IInteractable 구현
+    // ===================================
+
+    public IInteractable.InteractHoldType HoldType => IInteractable.InteractHoldType.Short; 
+    
+    // 🚨 상호작용 가능 조건: 기절 상태이면서 특정 타입이 아닐 때
+    public bool IsInteractable => (state == ZombieState.Stunned) && (zombieData?.zombieType != ZombieType.DisCureZombie);
+
     public void Interact()
     {
-        int index = 21;
-        if (zombieData.zombieType == ZombieType.SuaZombie)
-        {
-            index += 5;
-        }
-        else
-        {
-            int floor = PlayerDataManager.Instance.PlayerFloor;
-            index += floor;
-        }
+        if (!IsInteractable) return;
 
+        // 기절 루틴이 진행 중이었다면 중단
+        if (stunRoutine != null)
+        {
+            StopCoroutine(stunRoutine);
+            stunRoutine = null;
+        }
+        
+        int index = 21;
+        // ⬇️ 좀비 데이터가 null일 경우 대비
+        if (zombieData != null)
+        {
+            if (zombieData.zombieType == ZombieType.SuaZombie)
+            {
+                index += 5;
+            }
+            else
+            {
+                int floor = PlayerDataManager.Instance.PlayerFloor;
+                index += floor;
+            }
+        }
+        
         ItemCsvRow zombieItem = ItemDataManager.Instance.GetItemByIndex(index);
-        if (gameObject != null)
-            OnItemPickupRequested?.Invoke(zombieItem, gameObject);
-        Destroy(gameObject);
+        
+        // PlayerInteract의 HandleItemPickup에서 Destroy를 담당하도록 이벤트를 발행
+        OnItemPickupRequested?.Invoke(zombieItem, gameObject); 
     }
 
     public string GetInteractPrompt()
