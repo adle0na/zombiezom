@@ -21,26 +21,8 @@ public class Box : MonoBehaviour, IInteractable
 
     private void Awake()
     {
-        ItemCsvRow testSword = new ItemCsvRow
-        {
-            // 2. 필드에 테스트 값을 할당합니다.
-            index = 101,
-            itemName = "낡은 검",
-            itemSprite = null, // 요청하신 대로 null로 설정
-            itemDes = "오래되어 녹슨 검입니다. 사용하기 까다롭습니다."
-        };
-        
         _dropItemPrefab = Resources.Load<GameObject>("Prefabs/DropItem");
         boxSprite = GetComponent<SpriteRenderer>();
-        boxData = new()
-        {
-            boxItems = new List<ItemCsvRow>()
-            {
-                testSword,testSword,testSword,testSword,
-            },
-            boxType = BoxType.BloodBox_L,
-            isOpened = false,
-        };
     }
     
     public void Interact()
@@ -55,9 +37,12 @@ public class Box : MonoBehaviour, IInteractable
                 UI_Popup.OnShowPopupRequested.Invoke("텅 비어있다..."); 
             }
         }
+        else // 하나라도 있으면 아이템 생성해서 바닥에 뿌리기
+        {
+            DropItems();
+        }
 
-        // 하나라도 있으면 아이템 생성해서 바닥에 뿌리기
-        DropItems();
+
         // 열린 박스 스프라이트로 교체
     }
 
