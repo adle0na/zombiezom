@@ -13,6 +13,7 @@ public class PlayerInteract : MonoBehaviour
     private IInteractable _previousTarget;
     private float _holdTimer;
     private bool _isHolding;
+    private bool _isInteracting = false; // ★★★ 상호작용 잠금 플래그 추가 ★★★
 
     private PlayerMovement _playerMovement;
     private PlayerInventory _playerInventory;
@@ -26,11 +27,15 @@ public class PlayerInteract : MonoBehaviour
     void Awake()
     {
         _playerMovement = GetComponent<PlayerMovement>();
-        _playerInventory = PlayerInventory.Instance;
+        // PlayerInventory 싱글톤이 Ready 상태인지 확인하거나, Null 체크를 위해 Start에서 Instance에 접근하는 것이 더 안전합니다.
+        _playerInventory = PlayerInventory.Instance; 
     }
 
     void Update()
     {
+        // ★★★ 1. 상호작용 루틴이 실행 중이면 Update 로직을 잠급니다. ★★★
+        if (_isInteracting) return; 
+
         _closestTarget = GetClosestInteractable();
 
         // 가까운 대상이 바뀌었을 때만 이벤트 발행
@@ -47,6 +52,13 @@ public class PlayerInteract : MonoBehaviour
             return;
         }
         
+        // 홀드형 상호작용
+        if (Input.GetMouseButtonDown(1) || Input.GetMouseButtonUp(1))
+        {
+            EndHold();
+            return;
+        }
+        
         float requiredHoldTime = GetHoldDuration(_closestTarget.HoldType);
 
         // 즉시형 상호작용은 키를 누른 순간 1회만 실행
@@ -54,12 +66,12 @@ public class PlayerInteract : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
+                // ★★★ 루틴 시작 시 코루틴을 실행합니다. ★★★
                 StartCoroutine(InstantInteractRoutine(_closestTarget));
             }
             return;
         }
-
-        // 홀드형 상호작용
+        
         if (Input.GetKey(KeyCode.E))
         {
             if (!_isHolding)
@@ -89,7 +101,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void EndHold()
     {
-        if (!_isHolding) return;
+        //if (!_isHolding) return;
 
         _isHolding = false;
         _holdTimer = 0f;
@@ -134,10 +146,28 @@ public class PlayerInteract : MonoBehaviour
     
     private IEnumerator InstantInteractRoutine(IInteractable target)
     {
-        _playerMovement.EnableMove(false); // 잠깐 멈추고
-        yield return new WaitForSeconds(0.1f); // 한 프레임~0.1초 정도만 대기
-        target.Interact(); // 즉시 실행
-        _playerMovement.EnableMove(true); // 다시 이동 가능
+        // ★★★ 2. 루틴 시작 시 잠금 설정 ★★★
+        _isInteracting = true; 
+
+        // 대상이 유효한지 최종적으로 검사
+        if (target is MonoBehaviour mono && mono.gameObject.activeInHierarchy)
+        {
+            _playerMovement.EnableMove(false); 
+            yield return new WaitForSeconds(0.1f); 
+            
+            // Interact 호출 (이후 DropItem이 파괴될 수 있음)
+            target.Interact(); 
+            
+            _playerMovement.EnableMove(true);
+        }
+        else
+        {
+             // 대상이 파괴되었거나 유효하지 않으면 조용히 종료
+             Debug.LogWarning("Target object was destroyed before interaction start.");
+        }
+
+        // ★★★ 3. 루틴 종료 시 잠금 해제 ★★★
+        _isInteracting = false; 
     }
 
     private void OnEnable()
