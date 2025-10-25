@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 public enum ZombieState { Walk, Chase, Stunned }
 
-public class Zombie : MonoBehaviour
+public class Zombie : MonoBehaviour, IInteractable
 {
     [Title("Refs")]
     [SerializeField, LabelText("애니메이터")] private Animator animator;
@@ -48,6 +48,8 @@ public class Zombie : MonoBehaviour
     private int dir = 1;                       // +1 오른쪽, -1 왼쪽
     private Coroutine turnRoutine;
     private Coroutine stunRoutine;
+    
+    public static event Action<ItemCsvRow, GameObject> OnItemPickupRequested;
     
     void Awake()
     {
@@ -233,5 +235,31 @@ public class Zombie : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectRadius);
+    }
+
+    public IInteractable.InteractHoldType HoldType => IInteractable.InteractHoldType.Instant;
+    public bool IsInteractable => (state == ZombieState.Stunned) && (zombieData.zombieType != ZombieType.DisCureZombie);
+    public void Interact()
+    {
+        int index = 21;
+        if (zombieData.zombieType == ZombieType.SuaZombie)
+        {
+            index += 5;
+        }
+        else
+        {
+            int floor = PlayerDataManager.Instance.PlayerFloor;
+            index += floor;
+        }
+
+        ItemCsvRow zombieItem = ItemDataManager.Instance.GetItemByIndex(index);
+        if (gameObject != null)
+            OnItemPickupRequested?.Invoke(zombieItem, gameObject);
+        Destroy(gameObject);
+    }
+
+    public string GetInteractPrompt()
+    {
+        return "납치하기";
     }
 }
