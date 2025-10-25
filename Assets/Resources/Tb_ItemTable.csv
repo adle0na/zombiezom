@@ -26,4 +26,4 @@ index,itemName,itemSprite,itemDes,cureFloor,appearFloor
 24,3층 좀비,Item_Zombie03,납치한 좀비는 집에서 치료가 가능합니다.,-1,3
 25,4층 좀비,Item_Zombie04,납치한 좀비는 집에서 치료가 가능합니다.,-1,4
 26,좀비딸,Item_Zombie05,좀비로 변해버린 나의 소중한 딸입니다. 집에서 치료가 가능합니다.,-1,5
-27,딸 사진,Item_Picture01,나의 소중한 딸 아이의 사진입니다.,-1,-1
+27,딸 사진,Item_Picture01,소중한 딸아이의 사진입니다. 이제는 좀비로 변해 5층에 있습니다.,-1,-1
