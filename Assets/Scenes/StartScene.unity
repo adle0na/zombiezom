@@ -941,13 +941,14 @@ MonoBehaviour:
   startCount: 3
   tryCount: 0
   playerInven:
-  - index: 0
+  - index: 27
     itemName: "\uB538 \uC0AC\uC9C4"
-    itemSprite: {fileID: 2425849018946063292, guid: 36998dfc064ab2041b92c333e59f81f2, type: 3}
+    itemSprite: {fileID: 21300000, guid: 36998dfc064ab2041b92c333e59f81f2, type: 3}
     itemDes: "\uB098\uC758 \uC18C\uC911\uD55C \uB538 \uC544\uC774\uC758 \uC0AC\uC9C4\uC785\uB2C8\uB2E4."
     cureFloor: 
     appearFloor: 
   playerFloor: 0
+  playerPos: {fileID: 0}
   isLookedPic: 0
   isZombieInHome: 0
 --- !u!1 &1535106724
@@ -986,6 +987,8 @@ MonoBehaviour:
   popupParentPrefab: {fileID: 4797562693433263269, guid: 714857310b85e7f499cc756609ef804a, type: 3}
   SettingPopupPrefab: {fileID: 0}
   fadeUI: {fileID: 5014878421191600811, guid: 261fe01e097680d4cbd757c11344fe4e, type: 3}
+  getHit: {fileID: 0}
+  gameOver: {fileID: 0}
   targetCanvasTag: MainCanvas
 --- !u!4 &1535106726
 Transform:

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -6,6 +7,8 @@ using System.Linq;
 
 public class UI_Inventory : MonoBehaviour
 {
+    public event Action<bool> OnEnableInventory;
+    
     [Header("UI References")]
     [SerializeField] private GameObject inventoryPanel;
     [SerializeField] private Button closeButton;
@@ -153,6 +156,7 @@ public class UI_Inventory : MonoBehaviour
         if (PlayerInventory.Instance == null) return;
         
         _isOpened = !_isOpened;
+        OnEnableInventory?.Invoke(_isOpened);
         inventoryPanel.SetActive(_isOpened);
 
         if (_isOpened)

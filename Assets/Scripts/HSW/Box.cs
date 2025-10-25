@@ -13,6 +13,7 @@ public class Box : MonoBehaviour, IInteractable
     public InteractHoldType HoldType { get; } = InteractHoldType.Long;
     public bool IsInteractable => !boxData.isOpened;
     private GameObject _dropItemPrefab;
+    private GameObject _catBoxPrefab;
     
     // 아이템 드롭 시 필요한 설정 값
     private float dropForce = 2f; // 초기 밀어내는 힘
@@ -22,6 +23,7 @@ public class Box : MonoBehaviour, IInteractable
     private void Awake()
     {
         _dropItemPrefab = Resources.Load<GameObject>("Prefabs/DropItem");
+        _catBoxPrefab = Resources.Load<GameObject>("Prefabs/CatBox");
         boxSprite = GetComponent<SpriteRenderer>();
     }
     
@@ -32,7 +34,13 @@ public class Box : MonoBehaviour, IInteractable
         // 암것도 없으면 플레이어 머리위에 팝업 띄우기
         if (boxData.boxItems.Count == 0)
         {
-            if (UI_Popup.OnShowPopupRequested != null)
+            if (boxData.boxType == BoxType.NormalBox_S)
+            {
+                GameObject go = Instantiate(_catBoxPrefab, transform.position + Vector3.up * 0.3f, Quaternion.identity);
+                Destroy(go, 1f);
+                Destroy(gameObject);
+            }
+            else if (UI_Popup.OnShowPopupRequested != null)
             {
                 UI_Popup.OnShowPopupRequested.Invoke("텅 비어있다..."); 
             }
@@ -40,10 +48,8 @@ public class Box : MonoBehaviour, IInteractable
         else // 하나라도 있으면 아이템 생성해서 바닥에 뿌리기
         {
             DropItems();
+            Destroy(gameObject);
         }
-
-
-        // 열린 박스 스프라이트로 교체
     }
 
 private void DropItems()
