@@ -1,6 +1,10 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public enum ZombieState { Walk, Chase, Stunned }
 
@@ -29,12 +33,23 @@ public class Zombie : MonoBehaviour
     [SerializeField, LabelText("Stun 트리거명")] private string stunTrigger = "Stun";
     [SerializeField, LabelText("isWalking(bool) - 옵션")] private string isWalkingParam = "isWalking";
 
+    [Title("앞 센서 설정")]
+    [SerializeField, LabelText("앞 센서")] private ZombieHitArea frontSense;   // 자식에 붙인 스크립트
+    [SerializeField, LabelText("앞 센서 기본 거리")] private float frontSensorDistance = 0.8f;
+    [SerializeField, LabelText("앞 센서 Y오프셋")] private float frontSensorYOffset = 0f;
+    
+    [SerializeField, LabelText("뒤 감지 센서")] private BackSenseArea backSense; // 자식에 붙인 스크립트
+    [SerializeField, LabelText("뒤 센서 기본 거리")] private float backSensorDistance = 0.8f;
+    [SerializeField, LabelText("뒤 센서 Y오프셋")] private float backSensorYOffset = 0f;
+    
+    private Transform sensedPlayer; // 감지된 플레이어(옵션)
+    
     private Transform player;
-    private ZombieState state = ZombieState.Walk;
+    public ZombieState state = ZombieState.Walk;
     private int dir = 1;                       // +1 오른쪽, -1 왼쪽
     private Coroutine turnRoutine;
-    private float stunEndTime = -1f;
-
+    private Coroutine stunRoutine;
+    
     void Awake()
     {
         if (!rb) rb = GetComponent<Rigidbody2D>();
@@ -43,8 +58,13 @@ public class Zombie : MonoBehaviour
 
     void OnEnable()
     {
-        // 스폰 방향 기준 초깃값
         dir = (zombieData != null && zombieData.isLeftSpawn) ? 1 : -1;
+
+        UpdateSensorsPosition();
+        
+        // 🔹 뒤 감지 센서 초기화(자식 트리거에 붙은 BackSenseArea)
+        if (backSense != null)
+            backSense.Init(this, playerTag);
 
         SetState(ZombieState.Walk);
 
@@ -83,10 +103,11 @@ public class Zombie : MonoBehaviour
     // ---------- 이동/방향 ----------
     private void Move(int direction, float speed)
     {
-        rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);
-
-        // 시선(보통 왼쪽=flipX true, 오른쪽=false)
-        if (spriteRenderer) spriteRenderer.flipX = (direction > 0);
+        if (state == ZombieState.Stunned) return;
+        
+        rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);  // ✅
+        if (spriteRenderer) spriteRenderer.flipX = (direction > 0);   // 왼쪽이면 flipX=true
+        UpdateSensorsPosition();
     }
 
     private int GetChaseDirection()
@@ -96,14 +117,6 @@ public class Zombie : MonoBehaviour
 
         float dx = player.position.x - transform.position.x;
         return (dx >= 0f) ? +1 : -1;
-    }
-
-    private bool IsPlayerInRange()
-    {
-        if (player == null) player = FindPlayer();
-        if (!player) return false;
-
-        return Vector2.Distance(player.position, transform.position) <= detectRadius;
     }
 
     private Transform FindPlayer()
@@ -166,22 +179,56 @@ public class Zombie : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    // ---------- 외부에서 스턴 호출 ----------
+    public void Stun()
     {
-        if (!other.gameObject.layer.Equals(LayerMask.NameToLayer("Player")))
+        if (rb) rb.linearVelocity = Vector2.zero;
+
+        state = ZombieState.Stunned;
+        animator.SetTrigger("Stun");
+        if (stunRoutine != null)
         {
-            PlayerDataManager.Instance.GetHit();
+            StopCoroutine(stunRoutine);
+        }
+        StartCoroutine(StunCor());
+    }
+
+    IEnumerator StunCor()
+    {
+        frontSense.gameObject.SetActive(false);
+        backSense.gameObject.SetActive(false);
+        yield return new WaitForSeconds(4);
+        state = ZombieState.Walk;
+        frontSense.gameObject.SetActive(true);
+        backSense.gameObject.SetActive(true);
+    }
+    
+    private void UpdateSensorsPosition()
+    {
+        // 바라보는 앞 방향: flipX=false → +1(오른쪽), flipX=true → -1(왼쪽)
+        float facing = (spriteRenderer != null && spriteRenderer.flipX) ? 1f : -1f;
+
+        // 🔹 앞 센서
+        if (frontSense != null)
+        {
+            var tf = frontSense.transform;
+            Vector3 local = tf.localPosition;
+            local.x = facing * Mathf.Abs(frontSensorDistance);
+            local.y = frontSensorYOffset;
+            tf.localPosition = local;
+        }
+
+        // 🔹 뒤 센서
+        if (backSense != null)
+        {
+            var tb = backSense.transform;
+            Vector3 local = tb.localPosition;
+            local.x = -facing * Mathf.Abs(backSensorDistance);
+            local.y = backSensorYOffset;
+            tb.localPosition = local;
         }
     }
     
-    // ---------- 외부에서 스턴 호출 ----------
-    public void Stun(float duration = 1.5f)
-    {
-        stunEndTime = Time.time + duration;
-        if (rb) rb.linearVelocity = Vector2.zero;
-        SetState(ZombieState.Stunned);
-    }
-
     // ---------- 디버그 ----------
     void OnDrawGizmosSelected()
     {

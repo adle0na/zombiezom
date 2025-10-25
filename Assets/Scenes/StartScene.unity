@@ -782,10 +782,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dad4f4830a2a94b42b611e1490c2bd3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bgmMixer: {fileID: 0}
-  sfxMixer: {fileID: 0}
-  bgmList: []
-  sfxList: []
+  bgmMixer: {fileID: 24300002, guid: 1729db03136c1f848bce5961a5dd1b9c, type: 2}
+  sfxMixer: {fileID: 24300002, guid: ac5b4e9399032984ab1ddf6f9863bd44, type: 2}
+  bgmList:
+  - {fileID: 8300000, guid: f7fac6fd7788a4084aeae91970bda625, type: 3}
+  - {fileID: 8300000, guid: 0e986df7547704c86ae1abf18fa802fe, type: 3}
+  - {fileID: 8300000, guid: e38a68612badd4098be8f7578f9ea066, type: 3}
+  sfxList:
+  - {fileID: 8300000, guid: 9a0fd89d39b9048de9ebee0373c475bd, type: 3}
+  - {fileID: 8300000, guid: 9ea3d2bfd7e7e492b8287c2f4ad8c05c, type: 3}
+  - {fileID: 8300000, guid: 0d19d1b1315634d3f8c8f4d09d279f0e, type: 3}
+  - {fileID: 8300000, guid: 500199ae8a7fb445a9914466aaff2a46, type: 3}
+  - {fileID: 8300000, guid: bb7241650255e4b899412af11fbf19f0, type: 3}
+  - {fileID: 8300000, guid: 1d5124047ecba4d84a59729793fe325f, type: 3}
+  - {fileID: 8300000, guid: 754e7c6edda0843c1bd85c80588bb6e4, type: 3}
+  - {fileID: 8300000, guid: 8b0ca55efa0504659b9115f46d3d4b80, type: 3}
+  - {fileID: 8300000, guid: be27e2a228df04fe7b8ad881b5c496f0, type: 3}
+  - {fileID: 8300000, guid: 6aaeec3466c22468a9341cadd6ec2fb4, type: 3}
+  - {fileID: 8300000, guid: 837bdd22649724ce4a5e3a88855de13f, type: 3}
 --- !u!4 &854663501
 Transform:
   m_ObjectHideFlags: 0

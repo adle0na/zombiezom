@@ -28,8 +28,8 @@ public class UIManager : GenericSingleton<UIManager>
 
     public GameObject fadeUI;
     
-    private GameObject getHit;
-    private GameObject gameOver;
+    public GameObject getHit;
+    public GameObject gameOver;
     
     [SerializeField, LabelText("마스터 캔버스 태그(선택)")]
     private string targetCanvasTag = "MainCanvas"; 
@@ -198,5 +198,17 @@ public class UIManager : GenericSingleton<UIManager>
         getUI.GetComponent<FadeUI>().FadeOut(Color.black);
     }
 
+    public void OpenBiteUI()
+    {
+        GameObject getUI = Instantiate(getHit, popupParent);
+    }
+
+    public void OpenDeadUI()
+    {
+        GameObject getUI = Instantiate(gameOver, popupParent);
+
+        PlayerDataManager.Instance.ResetData();
+    }
+    
     #endregion
 }

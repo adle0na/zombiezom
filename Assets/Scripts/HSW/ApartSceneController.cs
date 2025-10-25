@@ -192,6 +192,8 @@ public class ApartSceneController : MonoBehaviour
         
         // 플레이어 배치
         playerObj = Instantiate(playerPrefab);
+
+        PlayerDataManager.Instance.playerPos = playerObj.transform;
     }
 
     private void DistributeBoxesAndItems(ApartmentFloor floor, FloorData data)
