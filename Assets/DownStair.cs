@@ -9,6 +9,8 @@ public class DownStair : MonoBehaviour, IInteractable
     public bool IsInteractable { get; } = true;
     
     private Coroutine moveCor;
+    
+    public bool isGoing;
     public void Interact()
     {
         if (moveCor != null)
@@ -16,7 +18,8 @@ public class DownStair : MonoBehaviour, IInteractable
             StopCoroutine(moveCor);
         }
 
-        StartCoroutine(DownMoveCor());
+        if(!isGoing)
+            StartCoroutine(DownMoveCor());
     }
 
     public string GetInteractPrompt()
@@ -36,13 +39,15 @@ public class DownStair : MonoBehaviour, IInteractable
     
     IEnumerator DownMoveCor()
     {
-        Transform playerTransform = PlayerDataManager.Instance.playerObj.transform;
+        isGoing = true;
         
-        PlayerDataManager.Instance.playerObj.gameObject.SetActive(false);
+        Transform playerTransform = PlayerDataManager.Instance.playerObj.transform;
         
         SoundManager.Instance.PlaySFX(4);
         
         UIManager.Instance.OpenFadeInUI();
+        
+        PlayerDataManager.Instance.playerObj.gameObject.SetActive(false);
 
         yield return new WaitForSeconds(1f);
         
@@ -54,5 +59,7 @@ public class DownStair : MonoBehaviour, IInteractable
         downArrow.SetActive(false);
         
         PlayerDataManager.Instance.playerObj.gameObject.SetActive(true);
+
+        isGoing = false;
     }
 }

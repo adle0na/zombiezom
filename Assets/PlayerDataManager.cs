@@ -15,7 +15,7 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
     [SerializeField] private List<ItemCsvRow> playerInven;
 
     [LabelText("현재 플레이어 층 위치")]
-    [SerializeField] private int playerFloor;
+    public int playerFloor;
 
     [LabelText("플레이어 오브젝트")] 
     [SerializeField] public GameObject playerObj;

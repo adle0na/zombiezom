@@ -9,6 +9,8 @@ public class UpStair : MonoBehaviour, IInteractable
     private Coroutine moveCor;
     public IInteractable.InteractHoldType HoldType { get; } = IInteractable.InteractHoldType.Instant;
     public bool IsInteractable { get; } = true;
+
+    public bool isGoing;
     public void Interact()
     {
         if (moveCor != null)
@@ -16,7 +18,8 @@ public class UpStair : MonoBehaviour, IInteractable
             StopCoroutine(moveCor);
         }
 
-        StartCoroutine(UpMoveCor());
+        if(!isGoing)
+            StartCoroutine(UpMoveCor());
     }
 
     public string GetInteractPrompt()
@@ -31,19 +34,23 @@ public class UpStair : MonoBehaviour, IInteractable
             upArrow.SetActive(true);
         }
 
+        PlayerDataManager.Instance.playerFloor++;
+        
         return $"{owner.floorNum + 1}으로 올라가기";
     }
 
     IEnumerator UpMoveCor()
     {
-        Transform playerTransform = PlayerDataManager.Instance.playerObj.transform;
+        isGoing = true;
         
-        PlayerDataManager.Instance.playerObj.gameObject.SetActive(false);
+        Transform playerTransform = PlayerDataManager.Instance.playerObj.transform;
         
         SoundManager.Instance.PlaySFX(4);
         
         UIManager.Instance.OpenFadeInUI();
 
+        PlayerDataManager.Instance.playerObj.gameObject.SetActive(false);
+        
         yield return new WaitForSeconds(1f);
         
         // Y값을 +8 만큼 올리기
@@ -54,5 +61,7 @@ public class UpStair : MonoBehaviour, IInteractable
         upArrow.SetActive(false);
         
         PlayerDataManager.Instance.playerObj.gameObject.SetActive(true);
+            
+        isGoing = false;
     }
 }
