@@ -16,6 +16,9 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
 
     [LabelText("현재 플레이어 층 위치")]
     [SerializeField] private int playerFloor;
+
+    [LabelText("플레이어 위치")] [SerializeField]
+    public Transform playerPos;
     
     [LabelText("사진 봤는지 여부")]
     [SerializeField] private bool isLookedPic;
@@ -25,8 +28,13 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
     
     public List<ItemCsvRow> PlayerInventoryData => playerInven;
     public event Action OnHpDecreaseEvent;
+
+    void Start()
+    {
+        ResetData();
+    }
     
-    private void Start()
+    public void ResetData()
     {
         // 시작시 목숨 값 지정으로 초기화
         tryCount = startCount;
@@ -54,12 +62,16 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
         {
             playerFloor--;
         }
+
+        UIManager.Instance.OpenBiteUI();
         
+        Debug.Log("아래로 내림");
         //캐릭터 무적, 반짝임 효과
     }
     
     private void GameOver()
     {
+        UIManager.Instance.OpenDeadUI();
         Debug.Log("게임 오버 처리");
     }
 }
