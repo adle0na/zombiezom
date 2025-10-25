@@ -215,6 +215,8 @@ public class UIManager : GenericSingleton<UIManager>
     public void OpenHomeUI()
     {
         GameObject getUI = Instantiate(gethome, popupParent);
+
+        getUI.GetComponent<HomeUIScript>().InitHomeUI();
     }
     
     #endregion
