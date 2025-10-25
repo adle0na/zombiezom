@@ -16,6 +16,8 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
 
     [LabelText("사진 봤는지 여부")]
     [SerializeField] private bool isLookedPic;
+    
+    public List<ItemCsvRow> PlayerInventoryData => playerInven;
 
     private void Start()
     {
