@@ -58,6 +58,9 @@ public class ApartSceneController : MonoBehaviour
     [LabelText("플레이어 프리팹")]
     [SerializeField] private GameObject playerPrefab;
 
+    [LabelText("생성된 플레이어")]
+    [SerializeField] private GameObject playerObj;
+
     [LabelText("판자문A")] 
     [SerializeField] private Sprite closedDoorA;
     [LabelText("판자문B")] 
@@ -174,8 +177,7 @@ public class ApartSceneController : MonoBehaviour
         
         // 아이템 배치
         
-        
-        //Instantiate(playerPrefab)
+        playerObj = Instantiate(playerPrefab);
     }
 
     private void DistributeBoxesAndItems(ApartmentFloor floor, FloorData data)
