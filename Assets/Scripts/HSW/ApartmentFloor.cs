@@ -16,6 +16,9 @@ public class ApartmentFloor : MonoBehaviour
     
     [LabelText("문 정보")]
     public List<Door> doorDatas;
+
+    [LabelText("세팅된 아이템")]
+    public List<ItemCsvRow> settedItems;
     
     // 층 세팅 함수
     public void SetFloor(Sprite floorSprite)
@@ -91,6 +94,13 @@ public class ApartmentFloor : MonoBehaviour
             if (!w) continue;
             float a = w.color.a;
             w.color = new Color(resultColor.r, resultColor.g, resultColor.b, a);
+        }
+        
+        foreach (var d in doorDatas)
+        {
+            if (!d.doorSprite) continue;
+            float a = d.doorSprite.color.a;
+            d.doorSprite.color = new Color(resultColor.r, resultColor.g, resultColor.b, a);
         }
     }
 }

@@ -21,10 +21,10 @@ public class Box : MonoBehaviour, IInteractable
 
     private void Awake()
     {
-        ItemData testSword = new ItemData
+        ItemCsvRow testSword = new ItemCsvRow
         {
             // 2. 필드에 테스트 값을 할당합니다.
-            itemIndex = 101,
+            index = 101,
             itemName = "낡은 검",
             itemSprite = null, // 요청하신 대로 null로 설정
             itemDes = "오래되어 녹슨 검입니다. 사용하기 까다롭습니다."
@@ -34,7 +34,7 @@ public class Box : MonoBehaviour, IInteractable
         boxSprite = GetComponent<SpriteRenderer>();
         boxData = new()
         {
-            boxItems = new List<ItemData>()
+            boxItems = new List<ItemCsvRow>()
             {
                 testSword,testSword,testSword,testSword,
             },

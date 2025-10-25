@@ -152,7 +152,7 @@ public class PlayerInteract : MonoBehaviour
     }
 
     // 아이템 줍기 요청을 처리하는 함수
-    private void HandleItemPickup(ItemData item, GameObject dropItemObject)
+    private void HandleItemPickup(ItemCsvRow item, GameObject dropItemObject)
     {
         if (_playerInventory == null) return;
 

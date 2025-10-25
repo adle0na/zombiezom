@@ -534,15 +534,10 @@ MonoBehaviour:
   - {fileID: 6574663850856784498}
   - {fileID: 8830212031813663169}
   - {fileID: 7702209035130317069}
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 2645884234072472242}
   - {fileID: 7216041113703547248}
   - {fileID: 2273964468796668513}
   - {fileID: 2989433987868131481}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   doorDatas:
   - {fileID: 4343815736627628567}
   - {fileID: 833868934263075231}
@@ -1496,6 +1491,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 332387770575183013}
     m_Modifications:
+    - target: {fileID: 2418777686160150598, guid: 7661c56af61a18f48b19af7c5b167194, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2
+      objectReference: {fileID: 0}
     - target: {fileID: 3722142723455810826, guid: 7661c56af61a18f48b19af7c5b167194, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.32

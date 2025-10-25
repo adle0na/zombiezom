@@ -13,9 +13,12 @@ public class FloorData
     [LabelText("층 타입"), ReadOnly]
     public FloorType floorType;
 
-    [LabelText("닫힌문 생성 배수 (0~1)")]
+    [LabelText("닫힌문 생성 배수")]
     [Range(0f, 1f)]
     public float closedPer;
+
+    [LabelText("생성 아이템 리스트")]
+    public List<int> itemList;
 }
 
 [Serializable]
@@ -29,6 +32,10 @@ public class DoorData
     public bool hasBox;
     [LabelText("박스 데이터")]
     public BoxData boxData;
+    [LabelText("왼쪽 위치")]
+    public Transform leftBoxPos;
+    [LabelText("오른쪽 위치")]
+    public Transform rightBoxPos;
 }
 
 [Serializable]
@@ -36,37 +43,21 @@ public class BoxData
 {
     [LabelText("박스 타입")]
     public BoxType boxType;
+    [LabelText("박스 위치")]
+    public bool isLeft;
     [LabelText("박스 아이템 리스트")]
-    public List<ItemData> boxItems;
+    public List<ItemCsvRow> boxItems;
     [LabelText("사용 여부")]
     public bool isOpened;
 }
 
 [Serializable]
-public class ItemData : IEnumerable
+public class ItemCsvRow
 {
-    [LabelText("아이템 인덱스")]
-    public int itemIndex;
-    [LabelText("아이템 이름")]
+    public int index;
     public string itemName;
-    [LabelText("아이템 이미지")]
-    public Sprite itemSprite;
-    [LabelText("아이템 설명")]
+    public Sprite itemSprite; // CSV의 ItemSprite 문자열을 Resources 경로로 사용
     public string itemDes;
-
-    public IEnumerator GetEnumerator()
-    {
-        throw new NotImplementedException();
-    }
-}
-
-[Serializable]
-public class ItemTableData
-{
-    private int index;
-    private int itemName;
-    private int itemSprite;
-    private int itemDes;
-    private int cureFloor;
-    private int appearFloor;
+    public int[] cureFloor;
+    public int[] appearFloor;
 }

@@ -4,10 +4,13 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     [LabelText("문 이미지")]
-    [SerializeField] private SpriteRenderer doorSprite;
+    public SpriteRenderer doorSprite;
 
     [LabelText("문 데이터")]
     public DoorData doorData;
+
+    [LabelText("생성된 박스 프리팹")]
+    public Box boxObj;
 
     public void ApplySpriteByType(Sprite setSprite)
     {

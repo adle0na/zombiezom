@@ -374,24 +374,31 @@ MonoBehaviour:
   - floorValue: 1
     floorType: 2
     closedPer: 0.515
+    itemList: 000000000500000007000000090000000c00000012000000
   - floorValue: 2
     floorType: 1
     closedPer: 0.491
+    itemList: 01000000050000000f000000100000000d0000000900000007000000
   - floorValue: 3
     floorType: 1
     closedPer: 0.479
+    itemList: 0200000005000000140000000a0000000b0000000e0000000f000000
   - floorValue: 4
     floorType: 1
     closedPer: 0.515
+    itemList: 030000000500000008000000110000000d000000130000001500000002000000
   - floorValue: 5
     floorType: 0
     closedPer: 0.521
+    itemList: 040000000500000014000000130000000a00000008000000
   floors: []
   minOpenDoor: 1
   middleStair: {fileID: -6419410014799088282, guid: d46b89623abde6e4dafaacc10256fd52, type: 3}
   topStair: {fileID: -655207356748226354, guid: d1dd5c350463c164284c9501a465d255, type: 3}
   bottomStair: {fileID: 6930783644299746717, guid: 181a5c804daaf7d4681c497ab377517f, type: 3}
   floorPrefab: {fileID: 4295419014676142677, guid: 757e705c2533c044987be46e6826489f, type: 3}
+  boxPrefab: {fileID: 3296584250855390579, guid: 30bfe4a05146e26419056f0c520a1909, type: 3}
+  playerPrefab: {fileID: 0}
   closedDoorA: {fileID: -1411880728482514386, guid: 8a4d20c28122bb44583db6e7e629475c, type: 3}
   closedDoorB: {fileID: -4219625217964295894, guid: 45785d72673f8474ab937d21091a4515, type: 3}
   normalDoorA: {fileID: 3195735199344593841, guid: ad3fa2f5ae0691c4a856dddc0bcac2c0, type: 3}
@@ -399,6 +406,13 @@ MonoBehaviour:
   bloodDoorA: {fileID: 7444190043464088409, guid: f0f6b2fa64ef3fc4a874234bfed85733, type: 3}
   bloodDoorB: {fileID: 3232109300651254407, guid: b1b33bb1c93ae9e40958b7f6298c36ed, type: 3}
   bloodDoorC: {fileID: 6123870016285473440, guid: 4e51926ac33f41047bd0d5ae0cd159ee, type: 3}
+  normalBox_S: {fileID: 16157716453535134, guid: 2a0a8d7298d1ba74ab74094f1df3dc0f, type: 3}
+  dirtyBox_S: {fileID: 5714878482692298418, guid: 6349c5d6e5a5a6c4da70c72154162649, type: 3}
+  crumbledBox_S: {fileID: 4475962292181699199, guid: 8bab5ca104effe748b49dc3e8d629375, type: 3}
+  bloodBox_S: {fileID: -5863739897788447028, guid: ed06763a8a32d4943a2388b8a8289c92, type: 3}
+  normalBox_L: {fileID: -7543394715592997109, guid: 5311aa1c0425e7d43a52703a76a0bace, type: 3}
+  crumbledBox_L: {fileID: 7473952320830633187, guid: f50f390ba6c5f1d40961df91fe9a0812, type: 3}
+  bloodBox_L: {fileID: 4715813916067167654, guid: 0fc4fdf029636104781fbc77d95cfdf6, type: 3}
   targetColor: {r: 0.7660377, g: 0.32231393, b: 0.32231393, a: 1}
 --- !u!4 &1451983145
 Transform:
