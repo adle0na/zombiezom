@@ -59,6 +59,12 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     private void OnDropItem()
     {
         if (_currentItem == null) return;
+
+        if ((_currentItem.index >= 22) && (_currentItem.index < 27))
+        {
+            UI_Popup.OnShowPopupRequested?.Invoke("그럴 수 없어...");
+            return;
+        }
         
         ItemCsvRow itemToDrop = _currentItem;
         
