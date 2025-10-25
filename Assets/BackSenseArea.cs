@@ -18,7 +18,8 @@ public class BackSenseArea : MonoBehaviour, IInteractable
     public bool IsInteractable { get; } = true;
     public void Interact()
     {
-        Debug.Log("Interact");
+        SoundManager.Instance.PlaySFX(8);
+        PlayerDataManager.Instance.playerObj.GetComponent<PlayerMovement>().GetPlayerAnimator().SetTrigger("Dangsu");
         owner.Stun();
     }
 

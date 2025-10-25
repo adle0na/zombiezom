@@ -35,6 +35,11 @@ public class PlayerMovement : MonoBehaviour
             _isFacingRight = false;
     }
 
+    public Animator GetPlayerAnimator()
+    {
+        return _ani;
+    }
+    
     void FixedUpdate()
     {
         // 이동 처리
