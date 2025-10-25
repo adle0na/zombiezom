@@ -24,7 +24,8 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
     [SerializeField] private bool isZombieInHome;
     
     public List<ItemCsvRow> PlayerInventoryData => playerInven;
-
+    public event Action OnHpDecreaseEvent;
+    
     private void Start()
     {
         // 시작시 목숨 값 지정으로 초기화
@@ -36,6 +37,8 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
 
     public void GetHit()
     {
+        OnHpDecreaseEvent?.Invoke();
+        
         if (tryCount > 1)
         {
             tryCount--;
