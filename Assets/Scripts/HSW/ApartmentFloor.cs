@@ -110,21 +110,42 @@ public class ApartmentFloor : MonoBehaviour
 
         foreach (var item in settedItems)
         {
-            // 랜덤한 박스 선택
-            int randIndex = UnityEngine.Random.Range(0, settedBox.Count);
-            var box = settedBox[randIndex];
+            Box targetBox = null;
+            int safety = 0; // 무한루프 방지
 
-            if (box == null) continue;
+            // 3개 미만인 박스를 찾을 때까지 반복
+            while (safety < 10)
+            {
+                int randIndex = UnityEngine.Random.Range(0, settedBox.Count);
+                var box = settedBox[randIndex];
+                safety++;
 
-            // BoxData 및 boxItems 초기화 확인
-            if (box.boxData == null)
-                box.boxData = new BoxData();
-            if (box.boxData.boxItems == null)
-                box.boxData.boxItems = new List<ItemCsvRow>();
+                if (box == null) continue;
 
-            // 아이템 추가
-            box.boxData.boxItems.Add(item);
-            Debug.Log("아이템추가");
+                // BoxData 초기화
+                if (box.boxData == null)
+                    box.boxData = new BoxData();
+                if (box.boxData.boxItems == null)
+                    box.boxData.boxItems = new List<ItemCsvRow>();
+
+                // 3개 미만이면 사용 가능
+                if (box.boxData.boxItems.Count < 3)
+                {
+                    targetBox = box;
+                    break;
+                }
+            }
+
+            // 조건을 만족한 박스가 있으면 아이템 추가
+            if (targetBox != null)
+            {
+                targetBox.boxData.boxItems.Add(item);
+                Debug.Log($"아이템 [{item.itemName}]이 {targetBox.name}에 추가됨 (현재 {targetBox.boxData.boxItems.Count}개)");
+            }
+            else
+            {
+                Debug.LogWarning("⚠️ 3개 미만인 박스를 찾지 못했습니다. 아이템을 추가하지 못했습니다.");
+            }
         }
     }
 

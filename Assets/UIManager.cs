@@ -19,23 +19,16 @@ public class UIManager : GenericSingleton<UIManager>
 
     // 가장 최근에 생성된 팝업
     public GameObject CurrentPopup;
-
-    // ABB 액션
-    private Action ABBAction;
-
+    
     [Header("PopupPrefabs")]
     public GameObject popupParentPrefab;
     
-    public GameObject RecyclePopup_1ButtonPrefab;
-    public GameObject RecyclePopup_2ButtonPrefab;
     public GameObject SettingPopupPrefab;
-    public GameObject MatchSelectPopupPrefab;
 
-    public GameObject LoadingIndicatorPrefab;
-    public GameObject InGameReadyPrefab;
-
-    private GameObject indicator;
-    private GameObject inGamePopup;
+    public GameObject fadeUI;
+    
+    private GameObject getHit;
+    private GameObject gameOver;
     
     private void Awake()
     {
@@ -118,8 +111,6 @@ public class UIManager : GenericSingleton<UIManager>
         
         CurrentPopup = gameObject;
 
-        ABBAction = action;
-        
         DarkBGCheck();
     }
     
@@ -185,26 +176,16 @@ public class UIManager : GenericSingleton<UIManager>
         PopupListAddABB(Popup, null);
     }
     
-    public void OpenIndicator()
+    public void OpenFadeInUI()
     {
-        indicator = Instantiate(LoadingIndicatorPrefab, sceneController.transform);
+        GameObject getUI = Instantiate(fadeUI, popupParent);
+        getUI.GetComponent<FadeUI>().FadeIn(Color.black);
     }
 
-    public void CloseIndicator()
+    public void OpenFadeOutUI()
     {
-        Destroy(indicator);
-    }
-
-    public void OpenReadyMSG()
-    {
-        inGamePopup = Instantiate(InGameReadyPrefab, sceneController.transform);
-    }
-    
-    IEnumerator CloseGameStartMSG()
-    {
-        yield return new WaitForSeconds(1);
-
-        Destroy(inGamePopup);
+        GameObject getUI = Instantiate(fadeUI, popupParent);
+        getUI.GetComponent<FadeUI>().FadeOut(Color.black);
     }
 
     #endregion

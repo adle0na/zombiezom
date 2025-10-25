@@ -109,6 +109,8 @@ public class ApartSceneController : MonoBehaviour
 
     void Start()
     {
+        UIManager.Instance.OpenFadeInUI();
+        
         CreateMapWithFloorData();
     }
 
