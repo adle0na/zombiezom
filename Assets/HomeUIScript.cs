@@ -58,7 +58,7 @@ public class HomeUIScript : MonoBehaviour
                                     
                             }
                         }
-                        else if (invenData.index == 27)
+                        else if (invenData.index == 26)
                         {
                             sua.SetActive(true);
                             
@@ -68,6 +68,7 @@ public class HomeUIScript : MonoBehaviour
                             }
                         }
                     }
+                    PlayerDataManager.Instance.IsZombieInHome = remainCure.Count > 0;
     }
 
     public void QuitHome()

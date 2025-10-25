@@ -24,13 +24,12 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
     [SerializeField] private bool isLookedPic;
 
     [LabelText("집에 좀비가 있는지 여부")]
-    [SerializeField] private bool isZombieInHome;
+    public bool IsZombieInHome;
 
     public List<int> remainCure;
     
     public List<ItemCsvRow> PlayerInventoryData => playerInven;
     public int PlayerFloor => playerFloor;
-    public bool IsZombieInHome => isZombieInHome;
     public event Action OnHpDecreaseEvent;
 
     void Start()
