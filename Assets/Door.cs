@@ -1,7 +1,8 @@
+using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class Door : MonoBehaviour
+public class Door : MonoBehaviour, IInteractable
 {
     [LabelText("문 이미지")]
     public SpriteRenderer doorSprite;
@@ -11,6 +12,8 @@ public class Door : MonoBehaviour
 
     [LabelText("생성된 박스 프리팹")]
     public Box boxObj;
+    
+    PlayerInteract interact;
 
     public void ApplySpriteByType(Sprite setSprite)
     {
@@ -26,5 +29,22 @@ public class Door : MonoBehaviour
         }
 
         doorSprite.sprite = setSprite;
+    }
+
+    private void Start()
+    {
+        interact = FindAnyObjectByType<PlayerInteract>();
+    }
+
+    public IInteractable.InteractHoldType HoldType => interact.IsHiding ? IInteractable.InteractHoldType.Instant : IInteractable.InteractHoldType.Short;
+    public bool IsInteractable => doorData.isOpenable; 
+    public void Interact()
+    {
+        interact.InteractDoor(this);
+    }
+
+    public string GetInteractPrompt()
+    {
+        return interact.IsHiding ? "나가기" : "숨기";
     }
 }
