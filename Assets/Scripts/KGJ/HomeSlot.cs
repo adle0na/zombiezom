@@ -14,6 +14,13 @@ public class HomeSlot : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     private ItemCsvRow _currentItem;
     private int _slotIndex = -1;
     
+    private HomeUIScript _homeUI;
+        
+    private void Start()
+    {
+        _homeUI = GetComponentInParent<HomeUIScript>();
+    }
+    
     public void Init(int index)
     {
         _slotIndex = index;
@@ -52,6 +59,9 @@ public class HomeSlot : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     private void OnDropItem()
     {
         if (_currentItem == null) return;
+
+        if (_homeUI.remainCure.Count <= 0) return;
+        if (_homeUI.remainCure[0] != _currentItem.index) return;
         
         ItemCsvRow itemToDrop = _currentItem;
         
@@ -64,6 +74,8 @@ public class HomeSlot : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
             
             // 3. 정보 패널 초기화 요청 및 배경을 '아무것도 선택되지 않은' 상태로 변경 요청
             OnSlotClicked?.Invoke(-1, null); 
+            
+            _homeUI.RemoveFirst();
         }
     }
 

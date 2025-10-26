@@ -1,5 +1,4 @@
 using System;
-using System.Collections; // 코루틴 사용을 위해 추가
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -8,23 +7,17 @@ using UnityEngine.UI;
 
 public class UI_HomeInventory : MonoBehaviour
 {
-    // ⬇️ 수정: slotParent가 곧 제출 애니메이션이 진행될 부모가 됩니다.
-    [SerializeField] private Transform slotParent; 
+    [SerializeField] private Transform slotParent;
     [SerializeField] private GameObject slotPrefab;
 
-    // ⬇️ 제출 애니메이션의 최종 도착 지점 (화면 중앙)
-    [SerializeField] private RectTransform submissionTarget;
-    
     [SerializeField] private Image panelImageComponent;
-    
     [SerializeField] private TMP_Text _title;
     [SerializeField] private TMP_Text _description;
-    
     [SerializeField] private List<Sprite> panelImages = new List<Sprite>();
     
     private List<HomeSlot> _slots = new List<HomeSlot>();
 
-    private ItemCsvRow _selectedItem; 
+    private ItemCsvRow _selectedItem;
     private int _selectedSlotIndex = -1;
     private int _previousItemCount = 0;
 
@@ -35,30 +28,21 @@ public class UI_HomeInventory : MonoBehaviour
         if (PlayerInventory.Instance != null)
         {
             PlayerInventory.Instance.OnInventoryUpdated += OnInventoryChanged;
-            _previousItemCount = PlayerInventory.Instance.ItemCount; 
+            _previousItemCount = PlayerInventory.Instance.ItemCount;
         }
     }
 
     private void Start()
     {
+        // 배경 이미지를 '아무것도 선택되지 않은' 초기 상태로 설정
         if (panelImageComponent != null && panelImages.Count > 0)
         {
             panelImageComponent.sprite = panelImages[0];
         }
-        
-        // ⬇️ submissionTarget이 할당되지 않았다면 화면 중앙을 기본값으로 설정
-        if (submissionTarget == null)
-        {
-            GameObject centerGO = new GameObject("SubmissionTarget");
-            centerGO.transform.SetParent(transform.root); // 최상위 캔버스 아래에 둠
-            submissionTarget = centerGO.AddComponent<RectTransform>();
-            submissionTarget.anchorMin = submissionTarget.anchorMax = new Vector2(0.5f, 0.5f);
-            submissionTarget.pivot = new Vector2(0.5f, 0.5f);
-            submissionTarget.sizeDelta = Vector2.zero;
-        }
 
         InitializeSlots();
-        OnInventoryChanged(); 
+        // Start에서 OnInventoryChanged를 호출하여 초기 상태를 반영
+        OnInventoryChanged();
     }
     
     private void OnEnable()
@@ -91,12 +75,13 @@ public class UI_HomeInventory : MonoBehaviour
         {
             GameObject slotGO = Instantiate(slotPrefab, slotParent);
             
+            // ⬇️ 수정: HomeSlot 컴포넌트를 가져옵니다.
             HomeSlot slot = slotGO.GetComponent<HomeSlot>();
             
             if (slot != null)
             {
-                slot.Init(i); 
-                _slots.Add(slot);
+                slot.Init(i);
+                _slots.Add(slot); // List<HomeSlot>에 추가
             }
             else
             {
@@ -111,27 +96,32 @@ public class UI_HomeInventory : MonoBehaviour
         
         IReadOnlyList<ItemCsvRow> currentItems = PlayerInventory.Instance.Inventory;
         int maxSlots = PlayerInventory.Instance.MaxSlots;
-        int currentItemCount = PlayerInventory.Instance.ItemCount; 
+        int currentItemCount = PlayerInventory.Instance.ItemCount;
 
+        // 1. UI 슬롯 업데이트
         for (int i = 0; i < maxSlots; i++)
         {
+            // _slots가 List<HomeSlot>이지만, UpdateSlot 메서드는 동일하게 사용 가능
             ItemCsvRow item = (i < currentItems.Count) ? currentItems[i] : null;
             
+            // 🚨 안전을 위해 _slots[i]가 존재하는지 확인
             if (i < _slots.Count)
             {
                 _slots[i].UpdateSlot(item);
             }
         }
 
-        // ... (자동 선택 로직은 동일) ...
-        if (currentItemCount > _previousItemCount) 
+        // 2. ★★★ 자동 선택 로직 추가 (인덱스 전달하도록 수정) ★★★
+        if (currentItemCount > _previousItemCount)
         {
-            ItemCsvRow newItem = currentItems[currentItems.Count - 1]; 
+            ItemCsvRow newItem = currentItems[currentItems.Count - 1];
             int newSlotIndex = currentItems.Count - 1;
-            OnSlotClicked(newSlotIndex, newItem); 
+            // ⬇️ 인덱스와 아이템을 함께 호출하여 자동 선택 및 배경 갱신
+            OnSlotClicked(newSlotIndex, newItem);
         }
         else if (currentItemCount < _previousItemCount)
         {
+            // 제거된 아이템이 현재 선택된 아이템인 경우, 선택을 갱신합니다.
             if (_selectedItem != null && !currentItems.Contains(_selectedItem))
             {
                 if (currentItemCount > 0)
@@ -140,26 +130,39 @@ public class UI_HomeInventory : MonoBehaviour
                 }
                 else
                 {
+                    // 인벤토리가 비면 선택 초기화
                     OnSlotClicked(-1, null);
                 }
             }
         }
 
-        _previousItemCount = currentItemCount; 
+        // 3. 현재 아이템 개수를 저장
+        _previousItemCount = currentItemCount;
+        
+        // 4. 정보 패널 업데이트 (선택된 아이템 정보 유지)
         SetInfoPanel(_selectedItem);
     }
     
+    // HomeSlot.OnSlotClicked 이벤트 핸들러 (호버 시작/종료 또는 자동 선택 시 호출)
     private void OnSlotClicked(int slotIndex, ItemCsvRow item)
     {
+        // 호버 종료 (-1, null) 요청이 아닐 때만 _selectedItem을 업데이트합니다.
+        // 마우스를 떼도 제출 시 선택한 아이템 정보는 유지되도록 하기 위함입니다.
         if (item != null)
         {
             _selectedItem = item;
-        } 
+        }
         
+        // 호버 종료 시에도 _selectedItem은 유지되지만, 정보 패널은 item(null)로 초기화됩니다.
+        // 1. 슬롯 인덱스 저장 (호버 상태 추적)
         _selectedSlotIndex = slotIndex;
+        
+        // 2. 정보 패널 업데이트 (호버 시 item 정보 표시, 호버 종료 시 null로 초기화)
         SetInfoPanel(item);
         
-        int imageIndex = (item != null) ? _selectedSlotIndex + 1 : 0; 
+        // 3. 배경 이미지 변경 (선택 또는 호버 상태 시각화)
+        // item이 null이면 index는 0, 아니면 1부터 시작
+        int imageIndex = (item != null) ? _selectedSlotIndex + 1 : 0;
         
         if (panelImageComponent != null && panelImages.Count > imageIndex)
         {
@@ -170,72 +173,18 @@ public class UI_HomeInventory : MonoBehaviour
     // HomeSlot.OnDropItemRequested 이벤트 핸들러 (아이템 제출 로직)
     private void OnDropItemRequested(ItemCsvRow item)
     {
-        // 1. 제출 애니메이션 시작 (애니메이션 완료 후 파괴 로직 포함)
-        HomeSlot sourceSlot = _slots.FirstOrDefault(s => s.GetItem() == item);
-        if (sourceSlot != null)
-        {
-            StartCoroutine(StartSubmissionAnimation(item, sourceSlot.transform as RectTransform));
-        }
+        // TODO : 여기에서 item을 좀비에게 제출 (추가 로직 필요)
+        Debug.Log($"[Home Inventory] {item.itemName}을 좀비에게 제출");
         
-        // 2. 제출 후, _selectedItem 초기화 (제출된 아이템은 이제 인벤토리에 없음)
+        // 제출 후, _selectedItem을 제거된 아이템으로 초기화
         _selectedItem = null;
-        SetInfoPanel(null); // 정보 패널 초기화
+        
+        // OnInventoryChanged가 호출되어 UI가 갱신되지만,
+        // 제출 후 정보 패널을 바로 초기화할 필요가 있다면 SetInfoPanel(null)을 호출할 수 있습니다.
+        SetInfoPanel(null);
     }
     
-    // ⬇️ 아이템 제출 애니메이션 코루틴
-    private IEnumerator StartSubmissionAnimation(ItemCsvRow item, RectTransform startTransform)
-    {
-        if (item.itemSprite == null)
-        {
-            Debug.LogError("제출 아이템에 스프라이트가 없습니다!");
-            yield break;
-        }
-        
-        // 1. 애니메이션용 임시 UI 오브젝트 생성 (슬롯 프리팹 재사용)
-        GameObject tempGO = Instantiate(slotPrefab, transform.root); // 캔버스 최상위 부모 아래에 생성
-        RectTransform tempRect = tempGO.GetComponent<RectTransform>();
-        Image tempImage = tempGO.GetComponentInChildren<Image>(); // 아이콘 이미지 컴포넌트
-
-        // HomeSlot 스크립트가 있다면 제거 (애니메이션 중 상호작용 방지)
-        HomeSlot tempHomeSlot = tempGO.GetComponent<HomeSlot>();
-        if (tempHomeSlot != null) Destroy(tempHomeSlot);
-        
-        // 2. 초기 설정: 위치 설정 및 아이콘 업데이트
-        tempRect.position = startTransform.position; // 시작 위치는 클릭된 슬롯의 위치
-        tempImage.sprite = item.itemSprite; 
-        tempImage.enabled = true;
-        
-        // 애니메이션 설정
-        float duration = 2f; // 애니메이션 지속 시간
-        float startTime = Time.time;
-        Vector3 startPosition = tempRect.position;
-        Vector3 targetPosition = submissionTarget.position; // 화면 중앙
-
-        // 3. 애니메이션 실행
-        while (Time.time < startTime + duration)
-        {
-            float t = (Time.time - startTime) / duration;
-            
-            // 부드러운 시작/종료를 위해 Ease-in-out 사용
-            t = t * t * (3f - 2f * t); 
-            
-            tempRect.position = Vector3.Lerp(startPosition, targetPosition, t);
-            
-            // 크기/투명도 변화도 추가 가능 (선택 사항)
-            // tempRect.localScale = Vector3.Lerp(Vector3.one, Vector3.one * 1.2f, t);
-            
-            yield return null;
-        }
-
-        // 4. 최종 위치 설정 및 파괴
-        tempRect.position = targetPosition;
-        
-        // TODO: 여기에서 게임 로직에 제출 완료 신호를 보냅니다.
-        Debug.Log($"[Submit] {item.itemName} 제출 애니메이션 완료. 파괴됨.");
-        
-        Destroy(tempGO);
-    }
-    
+    // 정보 패널 업데이트 메서드
     private void SetInfoPanel(ItemCsvRow item)
     {
         if (item != null)

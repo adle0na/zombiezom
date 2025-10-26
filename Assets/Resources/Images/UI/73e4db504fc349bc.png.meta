@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: 61fc985b9462ad544a81c170c152b5ae
+guid: ab97f69a205b0884293d88cf398a4bc2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1130658716924182764
-    second: 38f267c5d80c4cfc_0
+      213: 899365609699807852
+    second: 73e4db504fc349bc_0
+  - first:
+      213: -6847280889920560611
+    second: 73e4db504fc349bc_1
+  - first:
+      213: 3136549166131406163
+    second: 73e4db504fc349bc_2
+  - first:
+      213: 4377766130791898524
+    second: 73e4db504fc349bc_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,7 +55,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -75,7 +84,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -100,13 +109,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 38f267c5d80c4cfc_0
+      name: 73e4db504fc349bc_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1000
-        height: 400
+        x: 84
+        y: 169
+        width: 237
+        height: 157
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +124,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ce00770dc18e0bf00800000000000000
-      internalID: 1130658716924182764
+      spriteID: c621c59c1403b7c00800000000000000
+      internalID: 899365609699807852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 73e4db504fc349bc_1
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 134
+        width: 32
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d12e6fe1f4299f0a0800000000000000
+      internalID: -6847280889920560611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 73e4db504fc349bc_2
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 104
+        width: 22
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3556fc339d2478b20800000000000000
+      internalID: 3136549166131406163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 73e4db504fc349bc_3
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 79
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9d569ff913f0cc30800000000000000
+      internalID: 4377766130791898524
       vertices: []
       indices: 
       edges: []
@@ -125,7 +200,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +210,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      38f267c5d80c4cfc_0: 1130658716924182764
+      73e4db504fc349bc_0: 899365609699807852
+      73e4db504fc349bc_1: -6847280889920560611
+      73e4db504fc349bc_2: 3136549166131406163
+      73e4db504fc349bc_3: 4377766130791898524
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
