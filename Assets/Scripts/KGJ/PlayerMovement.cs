@@ -20,6 +20,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        }
+        
         _ani.SetFloat(Speed, Mathf.Abs(_rb.linearVelocityX));
         if (!_canMove)
         {
