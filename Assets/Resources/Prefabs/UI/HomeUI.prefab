@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 398490746794114191}
   - component: {fileID: 5394706840812403509}
   - component: {fileID: 2992648835912045304}
+  - component: {fileID: 4306192858080909758}
   m_Layer: 5
   m_Name: Normal
   m_TagString: Untagged
@@ -173,6 +174,28 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &4306192858080909758
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 790946380299451175}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a6c15419d3a803344a5c6f9bd4bb8002, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1234161475238815773
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,6 +343,7 @@ MonoBehaviour:
   sua: {fileID: 4101137891454047631}
   chair: {fileID: 6306168879066233144}
   remainCure: 
+  caringNum: 0
 --- !u!1 &4101137891454047631
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,6 +355,7 @@ GameObject:
   - component: {fileID: 8514814856223555674}
   - component: {fileID: 8698273879756957622}
   - component: {fileID: 4208072053732747898}
+  - component: {fileID: 7067656844603998959}
   m_Layer: 5
   m_Name: Sua
   m_TagString: Untagged
@@ -395,6 +420,28 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &7067656844603998959
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4101137891454047631}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 758f60561d86f2747a1bc11c6aaa324e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5125531979905857835
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,8 +453,9 @@ GameObject:
   - component: {fileID: 3630181941018421985}
   - component: {fileID: 2592757434690539091}
   - component: {fileID: 7950835858429432799}
+  - component: {fileID: 8993298273294809722}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -470,6 +518,28 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &8993298273294809722
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5125531979905857835}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4eba99da8efffd04499303a1f7567f1a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6306168879066233144
 GameObject:
   m_ObjectHideFlags: 0
@@ -481,6 +551,7 @@ GameObject:
   - component: {fileID: 5222800425871814635}
   - component: {fileID: 2536603168126544387}
   - component: {fileID: 4922764541918111058}
+  - component: {fileID: 559623790266243336}
   m_Layer: 5
   m_Name: Chair
   m_TagString: Untagged
@@ -545,6 +616,28 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &559623790266243336
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6306168879066233144}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6774771884088211776
 GameObject:
   m_ObjectHideFlags: 0
@@ -558,7 +651,7 @@ GameObject:
   - component: {fileID: 2581485641197095170}
   - component: {fileID: 8169300137519329798}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -665,13 +758,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3085663886918836405}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 2269408771180193789}
+        m_TargetAssemblyTypeName: HomeUIScript, Assembly-CSharp
+        m_MethodName: QuitHome
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

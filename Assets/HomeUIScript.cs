@@ -69,11 +69,22 @@ public class HomeUIScript : MonoBehaviour
                         }
                     }
                     PlayerDataManager.Instance.IsZombieInHome = remainCure.Count > 0;
+        
     }
 
     public void QuitHome()
     {
-        PlayerDataManager.Instance.remainCure = remainCure;
-        //PlayerDataManager.Instance.caringZombieIndex = caringNum;
+        if (remainCure.Count > 0)
+        {
+            PlayerDataManager.Instance.IsZombieInHome = true;
+            PlayerDataManager.Instance.homeUIPrefab = gameObject;
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            Destroy(this);   
+        }
+        
+        PlayerDataManager.Instance.playerObj.SetActive(true);
     }
 }
