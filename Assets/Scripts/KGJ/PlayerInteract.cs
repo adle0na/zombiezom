@@ -252,10 +252,10 @@ public class PlayerInteract : MonoBehaviour
     
         // ⬇️ 페이드 아웃 (Alpha를 0.0f로)
         yield return StartCoroutine(FadeRoutine(0.0f, duration)); 
-    
+        
         // 플레이어의 실제 위치 변경 (선택적: 문 안으로 이동)
-        //transform.position = _hidingDoor.transform.position;
-    
+        transform.position = _hidingDoor.transform.position + Vector3.down * 2f;
+            
         _isInteracting = false; 
         
         OnTargetChanged?.Invoke(_closestTarget);
