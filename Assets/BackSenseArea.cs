@@ -13,7 +13,7 @@ public class BackSenseArea : MonoBehaviour, IInteractable
         var col = GetComponent<CircleCollider2D>();
         col.isTrigger = true; // 트리거 필수
     }
-
+    
     public IInteractable.InteractHoldType HoldType => IInteractable.InteractHoldType.Instant;
     public bool IsInteractable { get; } = true;
     public void Interact()
