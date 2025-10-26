@@ -30,6 +30,10 @@ public class Box : MonoBehaviour, IInteractable
     public void Interact()
     {
         boxData.isOpened = true;
+
+        PlayerDataManager.Instance.playerObj.GetComponent<Animator>().SetTrigger("GET");
+        
+        SoundManager.Instance.PlaySFX(6);
         
         // 암것도 없으면 플레이어 머리위에 팝업 띄우기
         if (boxData.boxItems.Count == 0)
