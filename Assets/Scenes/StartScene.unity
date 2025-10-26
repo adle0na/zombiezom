@@ -1120,7 +1120,8 @@ MonoBehaviour:
   playerFloor: 0
   playerObj: {fileID: 0}
   isLookedPic: 0
-  isZombieInHome: 0
+  IsZombieInHome: 0
+  homeUIPrefab: {fileID: 0}
 --- !u!1 &1535106724
 GameObject:
   m_ObjectHideFlags: 0
