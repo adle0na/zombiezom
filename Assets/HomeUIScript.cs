@@ -24,60 +24,68 @@ public class HomeUIScript : MonoBehaviour
 
     public Image item;
     
-    public void InitHomeUI()
+public void InitHomeUI()
+{
+    // 1. 인벤토리 데이터를 리스트 변수에 저장합니다.
+    var playerInventory = PlayerDataManager.Instance.PlayerInventoryData;
+    
+    // 2. 리스트를 끝에서부터 (역순으로) 순회합니다. (요소 제거 시 인덱스 오류 방지)
+    for (int i = playerInventory.Count - 1; i >= 0; i--)
     {
-        foreach (var invenData in PlayerDataManager.Instance.PlayerInventoryData)
-        {
-            if (invenData.index > 21 && invenData.index < 26)
-            {
-                normalZombie.SetActive(true);
+        var invenData = playerInventory[i]; // 현재 인벤토리 데이터
 
-                caringNum = invenData.index;
-                PlayerInventory.Instance.RemoveItemByIndex(invenData.index);
-                switch (invenData.index)
-                {
-                    case 22 :
-                        foreach (var cure in firstFloor)
-                        {
-                            remainCure.Add(cure);
-                        }
-                        break;
-                    case 23 :
-                        foreach (var cure in secondFloor)
-                        {
-                            remainCure.Add(cure);
-                        }
-                        break;
-                    case 24 :
-                        foreach (var cure in thirdFloor)
-                        {
-                            remainCure.Add(cure);
-                        }
-                        break;
-                    case 25 :
-                        foreach (var cure in fourthFloor)
-                        {
-                            remainCure.Add(cure);
-                        }
-                        break;
-                        
-                }
-            }
-            else if (invenData.index == 26)
+        if (invenData.index > 21 && invenData.index < 26)
+        {
+            normalZombie.SetActive(true);
+
+            caringNum = invenData.index;
+            
+            PlayerInventory.Instance.RemoveItemByIndex(invenData.index);
+            
+            switch (invenData.index)
             {
-                PlayerInventory.Instance.RemoveItemByIndex(invenData.index);
-                sua.SetActive(true);
-                
-                foreach (var cure in fivethFloor)
-                {
-                    remainCure.Add(cure);
-                }
+                case 22 :
+                    foreach (var cure in firstFloor)
+                    {
+                        remainCure.Add(cure);
+                    }
+                    break;
+                case 23 :
+                    foreach (var cure in secondFloor)
+                    {
+                        remainCure.Add(cure);
+                    }
+                    break;
+                case 24 :
+                    foreach (var cure in thirdFloor)
+                    {
+                        remainCure.Add(cure);
+                    }
+                    break;
+                case 25 :
+                    foreach (var cure in fourthFloor)
+                    {
+                        remainCure.Add(cure);
+                    }
+                    break;
             }
         }
-        PlayerDataManager.Instance.IsZombieInHome = remainCure.Count > 0;
-        UpdateQuiz();
+        else if (invenData.index == 26)
+        {
+            PlayerInventory.Instance.RemoveItemByIndex(invenData.index);
+            sua.SetActive(true);
+            
+            foreach (var cure in fivethFloor)
+            {
+                remainCure.Add(cure);
+            }
+        }
     }
-
+    
+    PlayerDataManager.Instance.IsZombieInHome = remainCure.Count > 0;
+    UpdateQuiz();
+}
+    
     public void RemoveFirst()
     {
         remainCure.RemoveAt(0);
@@ -91,6 +99,7 @@ public class HomeUIScript : MonoBehaviour
 
     private void UpdateQuiz()
     {
+        Debug.Log("UpdateQuiz");
         if (remainCure.Count > 0)
         {
             quiz.SetActive(true);
@@ -105,7 +114,7 @@ public class HomeUIScript : MonoBehaviour
 
     public void QuitHome()
     {
-        PlayerDataManager.Instance.remainCure = remainCure;
+        //PlayerDataManager.Instance.remainCure = remainCure;
         //PlayerDataManager.Instance.caringZombieIndex = caringNum;
     }
 }

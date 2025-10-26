@@ -47,6 +47,7 @@ public class UI_HomeInventory : MonoBehaviour
     
     private void OnEnable()
     {
+        OnInventoryChanged();
         HomeSlot.OnSlotClicked += OnSlotClicked;
         HomeSlot.OnDropItemRequested += OnDropItemRequested;
     }
@@ -173,8 +174,6 @@ public class UI_HomeInventory : MonoBehaviour
     // HomeSlot.OnDropItemRequested 이벤트 핸들러 (아이템 제출 로직)
     private void OnDropItemRequested(ItemCsvRow item)
     {
-        // TODO : 여기에서 item을 좀비에게 제출 (추가 로직 필요)
-        Debug.Log($"[Home Inventory] {item.itemName}을 좀비에게 제출");
         
         // 제출 후, _selectedItem을 제거된 아이템으로 초기화
         _selectedItem = null;
