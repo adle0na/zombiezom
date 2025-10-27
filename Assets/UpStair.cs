@@ -13,6 +13,9 @@ public class UpStair : MonoBehaviour, IInteractable
     public bool isGoing;
     public void Interact()
     {
+        // 최대층 5층 설정
+        if (PlayerDataManager.Instance.playerFloor >= 5) return;
+        
         if (moveCor != null)
         {
             StopCoroutine(moveCor);
@@ -34,7 +37,7 @@ public class UpStair : MonoBehaviour, IInteractable
             upArrow.SetActive(true);
         }
 
-        return $"{owner.floorNum + 1}으로 올라가기";
+        return $"{owner.floorNum + 1}층 올라가기";
     }
 
     IEnumerator UpMoveCor()

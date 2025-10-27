@@ -24,67 +24,69 @@ public class HomeUIScript : MonoBehaviour
 
     public Image item;
     
-public void InitHomeUI()
-{
-    // 1. 인벤토리 데이터를 리스트 변수에 저장합니다.
-    var playerInventory = PlayerDataManager.Instance.PlayerInventoryData;
-    
-    // 2. 리스트를 끝에서부터 (역순으로) 순회합니다. (요소 제거 시 인덱스 오류 방지)
-    for (int i = playerInventory.Count - 1; i >= 0; i--)
+    // 좀비를 처음 데려온 경우 문제 초기화
+    public void InitHomeUI()
     {
-        var invenData = playerInventory[i]; // 현재 인벤토리 데이터
-
-        if (invenData.index > 21 && invenData.index < 26)
+        // 치료할게 남아있다면 초기화 하지 않음
+        if (remainCure.Count <= 0) return;
+        
+        // 1. 인벤토리 데이터를 리스트 변수에 저장합니다.
+        var playerInventory = PlayerDataManager.Instance.PlayerInventoryData;
+        
+        // 2. 리스트를 끝에서부터 (역순으로) 순회합니다. (요소 제거 시 인덱스 오류 방지)
+        for (int i = playerInventory.Count - 1; i >= 0; i--)
         {
-            normalZombie.SetActive(true);
-
-            caringNum = invenData.index;
-            
-            PlayerInventory.Instance.RemoveItemByIndex(invenData.index);
-            
-            switch (invenData.index)
+            var invenData = playerInventory[i]; // 현재 인벤토리 데이터
+        
+            if (invenData.index > 21 && invenData.index < 26)
             {
-                case 22 :
-                    foreach (var cure in firstFloor)
-                    {
-                        remainCure.Add(cure);
-                    }
-                    break;
-                case 23 :
-                    foreach (var cure in secondFloor)
-                    {
-                        remainCure.Add(cure);
-                    }
-                    break;
-                case 24 :
-                    foreach (var cure in thirdFloor)
-                    {
-                        remainCure.Add(cure);
-                    }
-                    break;
-                case 25 :
-                    foreach (var cure in fourthFloor)
-                    {
-                        remainCure.Add(cure);
-                    }
-                    break;
+                normalZombie.SetActive(true);
+        
+                caringNum = invenData.index;
+                
+                PlayerInventory.Instance.RemoveItemByIndex(invenData.index);
+                
+                switch (invenData.index)
+                {
+                    case 22 :
+                        foreach (var cure in firstFloor)
+                        {
+                            remainCure.Add(cure);
+                        }
+                        break;
+                    case 23 :
+                        foreach (var cure in secondFloor)
+                        {
+                            remainCure.Add(cure);
+                        }
+                        break;
+                    case 24 :
+                        foreach (var cure in thirdFloor)
+                        {
+                            remainCure.Add(cure);
+                        }
+                        break;
+                    case 25 :
+                        foreach (var cure in fourthFloor)
+                        {
+                            remainCure.Add(cure);
+                        }
+                        break;
+                }
+            }
+            else if (invenData.index == 26)
+            {
+                PlayerInventory.Instance.RemoveItemByIndex(invenData.index);
+                sua.SetActive(true);
+                
+                foreach (var cure in fivethFloor)
+                {
+                    remainCure.Add(cure);
+                }
             }
         }
-        else if (invenData.index == 26)
-        {
-            PlayerInventory.Instance.RemoveItemByIndex(invenData.index);
-            sua.SetActive(true);
-            
-            foreach (var cure in fivethFloor)
-            {
-                remainCure.Add(cure);
-            }
-        }
+        UpdateQuiz();
     }
-    
-    PlayerDataManager.Instance.IsZombieInHome = remainCure.Count > 0;
-    UpdateQuiz();
-}
     
     public void RemoveFirst()
     {
@@ -110,11 +112,5 @@ public void InitHomeUI()
         {
             quiz.SetActive(false);
         }
-    }
-
-    public void QuitHome()
-    {
-        //PlayerDataManager.Instance.remainCure = remainCure;
-        //PlayerDataManager.Instance.caringZombieIndex = caringNum;
     }
 }

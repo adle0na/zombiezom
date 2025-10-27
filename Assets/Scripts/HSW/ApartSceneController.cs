@@ -98,6 +98,8 @@ public class ApartSceneController : MonoBehaviour
     [LabelText("치료불가좀비")] [SerializeField] private GameObject discureZombie;
     [LabelText("수아좀비")] [SerializeField] private GameObject suaZombie;
 
+    [LabelText("홈 UI")] [SerializeField] private GameObject homeUI;
+
     [LabelText("레이어 컬러")]
     [SerializeField] private Color targetColor;
     
@@ -155,7 +157,9 @@ public class ApartSceneController : MonoBehaviour
                 if (data.floorValue == 1)                 floor.SetFloor(bottomStair);
                 else if (data.floorValue == floorValue)   floor.SetFloor(topStair);
                 else                                      floor.SetFloor(middleStair);
-                
+             
+                // 1층만 집 표기
+                floor.SetHome(data.floorValue == 1);
                 
                 // 그라데이션
                 floor.SetWallsGradient(targetColor, data.floorValue, floorValue);
@@ -441,5 +445,23 @@ public class ApartSceneController : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public void IntoHome()
+    {
+        PlayerDataManager.Instance.playerObj.SetActive(false);
+        
+        homeUI.SetActive(true);
+        
+        homeUI.GetComponent<HomeUIScript>().InitHomeUI();
+    }
+    
+    public void QuitHome()
+    {
+        homeUI.SetActive(false);
+        
+        UIManager.Instance.OpenFadeOutUI();
+        
+        PlayerDataManager.Instance.playerObj.SetActive(true);
     }
 }

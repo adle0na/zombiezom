@@ -9,10 +9,10 @@ using Random = System.Random;
 public class ApartmentFloor : MonoBehaviour
 {
     [LabelText("계단")]
-    [SerializeField]
-    private SpriteRenderer floorImage;
+    [SerializeField] private SpriteRenderer floorImage;
 
-    [LabelText("1층화살표")] private GameObject leftArrow;
+    [LabelText("1층 집으로 그래피티")]
+    [SerializeField] private GameObject homeImage;
     
     [LabelText("칸 이미지 값")]
     [SerializeField] private List<SpriteRenderer> walls;
@@ -28,12 +28,15 @@ public class ApartmentFloor : MonoBehaviour
 
     public int floorNum;
 
-    public SpriteRenderer arrow;
-    
     // 층 세팅 함수
     public void SetFloor(Sprite floorSprite)
     {
         floorImage.sprite = floorSprite;
+    }
+
+    public void SetHome(bool hasHome)
+    {
+        homeImage.gameObject.SetActive(hasHome);
     }
 
     public void SetDoor(int minDoor /* 사용 계획 있으면 활용 */)
@@ -153,20 +156,15 @@ public class ApartmentFloor : MonoBehaviour
                 Debug.LogWarning("⚠️ 3개 미만인 박스를 찾지 못했습니다. 아이템을 추가하지 못했습니다.");
             }
         }
+    }
 
-        if (floorNum == 1)
+    // 간단 셔플 헬퍼
+    private static void Shuffle<T>(IList<T> list)
+    {
+        for (int i = list.Count - 1; i > 0; i--)
         {
-            arrow.gameObject.SetActive(true);
+            int j = UnityEngine.Random.Range(0, i + 1);
+            (list[i], list[j]) = (list[j], list[i]);
         }
     }
-
-// 간단 셔플 헬퍼
-private static void Shuffle<T>(IList<T> list)
-{
-    for (int i = list.Count - 1; i > 0; i--)
-    {
-        int j = UnityEngine.Random.Range(0, i + 1);
-        (list[i], list[j]) = (list[j], list[i]);
-    }
-}
 }

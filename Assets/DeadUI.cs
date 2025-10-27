@@ -5,7 +5,7 @@ public class DeadUI : MonoBehaviour
 {
     private void Start()
     {
-        Invoke("BackToMain", 0.7f);
+        Invoke("BackToMain", 3f);
     }
 
     private void BackToMain()

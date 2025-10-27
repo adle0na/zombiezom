@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -26,12 +27,15 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
     [LabelText("집에 좀비가 있는지 여부")]
     public bool IsZombieInHome;
 
-    public GameObject homeUIPrefab;
+    [LabelText("피격 여부")]
+    public bool canHit;
     
     public List<ItemCsvRow> PlayerInventoryData => playerInven;
     public int PlayerFloor => playerFloor;
     public event Action OnHpDecreaseEvent;
 
+    private Coroutine blinkCor;
+    
     void Start()
     {
         ResetData();
@@ -48,10 +52,14 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
         playerInven.Clear();
         
         playerInven.Add(ItemDataManager.Instance.GetItemByIndex(27));
+
+        canHit = true;
     }
 
     public void GetHit()
     {
+        if (!canHit) return;
+        
         OnHpDecreaseEvent?.Invoke();
 
         SoundManager.Instance.PlaySFX(2);
@@ -61,31 +69,52 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
             tryCount--;
             
             UIManager.Instance.OpenBiteUI();
-            
-            GoBackFloor();
+
+            if (blinkCor != null)
+            {
+                StopCoroutine(blinkCor);
+            }
+
+            blinkCor = StartCoroutine(BlinkCor());
         }
         else
             GameOver();
     }
 
-    private void GoBackFloor()
-    {
-        if (playerFloor > 1)
-        {
-            playerFloor--;
-            
-            // Y값을 +8 만큼 내리기
-            Vector3 newPos = playerObj.transform.position;
-            newPos.y -= 8f;
-            playerObj.transform.position = newPos;
-        }
-        
-    }
-    
     private void GameOver()
     {
         UIManager.Instance.OpenDeadUI();
         Debug.Log("게임 오버 처리");
+    }
+
+    IEnumerator BlinkCor()
+    {
+        SpriteRenderer playerSprite = playerObj.GetComponent<SpriteRenderer>();
+        
+        canHit = false;
+        
+        float duration = 2f;      // 깜빡임 총 시간 (1초)
+        float blinkSpeed = 10f;   // 깜빡이는 속도(값이 높을수록 빠름)
+        float time = 0f;
+
+        Color color = playerSprite.color;
+
+        while (time < duration)
+        {
+            // 0~1~0 식으로 반복되는 값 생성 (PingPong)
+            float alpha = Mathf.PingPong(Time.time * blinkSpeed, 1f);
+            color.a = alpha;
+            playerSprite.color = color;
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        // 마지막엔 알파값 복원
+        color.a = 1f;
+        playerSprite.color = color;
+        
+        canHit = true;
     }
 }
 

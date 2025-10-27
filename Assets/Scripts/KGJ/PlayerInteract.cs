@@ -79,6 +79,7 @@ public class PlayerInteract : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                if (!PlayerDataManager.Instance.canHit) return;
                 // ★★★ 루틴 시작 시 코루틴을 실행합니다. ★★★
                 StartCoroutine(InstantInteractRoutine(_closestTarget));
             }

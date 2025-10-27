@@ -13,6 +13,9 @@ public class DownStair : MonoBehaviour, IInteractable
     public bool isGoing;
     public void Interact()
     {
+        // 1층에서 하강 불가능
+        if (PlayerDataManager.Instance.playerFloor <= 1) return;
+        
         if (moveCor != null)
         {
             StopCoroutine(moveCor);
@@ -34,7 +37,7 @@ public class DownStair : MonoBehaviour, IInteractable
             downArrow.SetActive(true);
         }
 
-        return $"{owner.floorNum - 1}으로 내려가기";
+        return $"{owner.floorNum - 1}층 내려가기";
     }
     
     IEnumerator DownMoveCor()
