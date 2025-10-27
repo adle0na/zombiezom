@@ -207,12 +207,11 @@ public class Zombie : MonoBehaviour, IInteractable
     // ---------- 외부에서 스턴 호출 ----------
     public void Stun()
     {
-        if (state == ZombieState.Stunned) return; // 이미 기절 상태면 무시
-        if (animator == null) return; // 애니메이터 없으면 로직 진행 불가
+        if (state == ZombieState.Stunned) return; 
+        if (animator == null) return; 
         
         if (rb) rb.linearVelocity = Vector2.zero;
-
-        // ⬇️ SetState를 사용하여 모든 상태 로직 통합
+        
         SetState(ZombieState.Stunned); 
         
         if (stunRoutine != null)
@@ -226,7 +225,6 @@ public class Zombie : MonoBehaviour, IInteractable
     {
         yield return new WaitForSeconds(4);
         
-        // ⬇️ 상태를 복구할 때는 SetState를 사용합니다.
         SetState(ZombieState.Walk); 
         stunRoutine = null;
     }
