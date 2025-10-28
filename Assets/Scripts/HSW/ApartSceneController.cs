@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ApartSceneController : MonoBehaviour
 {
@@ -454,6 +455,8 @@ public class ApartSceneController : MonoBehaviour
         homeUI.SetActive(true);
         
         homeUI.GetComponent<HomeUIScript>().InitHomeUI();
+
+        PlayerDataManager.Instance.PlayerInHome();
     }
     
     public void QuitHome()
@@ -463,5 +466,10 @@ public class ApartSceneController : MonoBehaviour
         UIManager.Instance.OpenFadeOutUI();
         
         PlayerDataManager.Instance.playerObj.SetActive(true);
+    }
+
+    public void BackToMain()
+    {
+        SceneManager.LoadScene(0);
     }
 }

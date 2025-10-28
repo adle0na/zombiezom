@@ -10,6 +10,8 @@ public class UI_Hp : MonoBehaviour
     private void Start()
     {
         PlayerDataManager.Instance.OnHpDecreaseEvent += DecreaseHp;
+
+        PlayerDataManager.Instance.OnGetFullHpEvent += FullHp;
     }
 
     private void OnDestroy()
@@ -25,5 +27,13 @@ public class UI_Hp : MonoBehaviour
         if (--index < 0) 
             return;
         hearts[index].Play("Heartbreak");
+    }
+
+    private void FullHp()
+    {
+        foreach (var heart in hearts)
+        {
+            heart.Play("GetHeart");
+        }
     }
 }

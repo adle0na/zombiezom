@@ -29,10 +29,15 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
 
     [LabelText("피격 여부")]
     public bool canHit;
+
+    [LabelText("애용이 찾았는지 여부")]
+    public bool isFindCat;
     
     public List<ItemCsvRow> PlayerInventoryData => playerInven;
     public int PlayerFloor => playerFloor;
     public event Action OnHpDecreaseEvent;
+
+    public event Action OnGetFullHpEvent;
 
     private Coroutine blinkCor;
     
@@ -56,6 +61,14 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
         canHit = true;
     }
 
+    public void PlayerInHome()
+    {
+        OnGetFullHpEvent?.Invoke();
+        
+        // 체력 전부 회복
+        tryCount = startCount;
+    }
+    
     public void GetHit()
     {
         if (!canHit) return;
