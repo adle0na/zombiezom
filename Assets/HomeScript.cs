@@ -3,12 +3,10 @@ using UnityEngine;
 public class HomeScript : MonoBehaviour, IInteractable
 {
     public IInteractable.InteractHoldType HoldType { get; } = IInteractable.InteractHoldType.Instant;
-    public bool IsInteractable { get; } = PlayerDataManager.Instance.playerFloor == 1;
+    public bool IsInteractable { get; } = true;
     public void Interact()
     {
-        UIManager.Instance.OpenHomeUI();
-        
-        PlayerDataManager.Instance.playerObj.SetActive(false);
+        UIManager.Instance.sceneController.GetComponent<ApartSceneController>().IntoHome();
     }
 
     public string GetInteractPrompt()

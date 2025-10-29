@@ -223,7 +223,7 @@ public class Zombie : MonoBehaviour, IInteractable
 
     IEnumerator StunCor()
     {
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(2.67f);
         
         SetState(ZombieState.Walk); 
         stunRoutine = null;

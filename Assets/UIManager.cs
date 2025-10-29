@@ -24,15 +24,11 @@ public class UIManager : GenericSingleton<UIManager>
     [Header("PopupPrefabs")]
     public GameObject popupParentPrefab;
     
-    public GameObject SettingPopupPrefab;
-
     public GameObject fadeUI;
     
     public GameObject getHit;
     public GameObject gameOver;
 
-    public GameObject gethome;
-    
     [SerializeField, LabelText("마스터 캔버스 태그(선택)")]
     private string targetCanvasTag = "MainCanvas"; 
     
@@ -62,25 +58,6 @@ public class UIManager : GenericSingleton<UIManager>
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    // private void Update()
-    // {
-    //     if (Input.GetKeyDown(KeyCode.Escape))
-    //     {
-    //         if (CurrentUIStatus == CurrentUIStatus.ABBPopup)
-    //         {
-    //             if (ABBAction == null)
-    //             {
-    //                 PopupListPop();
-    //             }
-    //             else
-    //             {
-    //                 ABBAction();
-    //             }
-    //         }
-    //             
-    //     }
-    // }
-    
     // 씬 이동시 마다 컨트롤러 세팅
     public void FindCanvasAndUIController()
     {
@@ -106,36 +83,6 @@ public class UIManager : GenericSingleton<UIManager>
         {
             Debug.LogError("UI 컨트롤러 탐색 실패");
         }
-    }
-
-    #region UIFunctions
-
-    #endregion
-    
-    #region PopupFunctions
-
-    // ABB 입력 액션을 가진 팝업 생성
-    public void PopupListAddABB(GameObject gameObject, Action action)
-    {
-        PopupList.Add(gameObject);
-
-        gameObject.SetActive(true);
-        
-        CurrentPopup = gameObject;
-
-        DarkBGCheck();
-    }
-    
-    // ABB 입력 액션이 없는 팝업 생성
-    public void PopupListAddNoneABB(GameObject gameObject)
-    {
-        PopupList.Add(gameObject);
-
-        gameObject.SetActive(true);
-        
-        CurrentPopup = gameObject;
-
-        DarkBGCheck();
     }
     
     // 맨위의 팝업 종료
@@ -181,13 +128,6 @@ public class UIManager : GenericSingleton<UIManager>
         popupParent.gameObject.SetActive(PopupList.Count > 0);
     }
 
-    public void OpenPopup(GameObject popupObj)
-    {
-        GameObject Popup = Instantiate(popupObj, popupParent);
-        
-        PopupListAddABB(Popup, null);
-    }
-    
     public void OpenFadeInUI()
     {
         GameObject getUI = Instantiate(fadeUI, popupParent);
@@ -211,13 +151,4 @@ public class UIManager : GenericSingleton<UIManager>
 
         PlayerDataManager.Instance.ResetData();
     }
-
-    public void OpenHomeUI()
-    {
-        GameObject getUI = Instantiate(gethome, popupParent);
-
-        getUI.GetComponent<HomeUIScript>().InitHomeUI();
-    }
-    
-    #endregion
 }
