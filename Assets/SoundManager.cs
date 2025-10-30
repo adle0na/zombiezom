@@ -33,9 +33,14 @@ public class SoundManager : GenericSingleton<SoundManager>
     private int sfxPoolSize = 10;
     
     // 설정 초기화 (로컬 값 기준으로 수정해야함)
-    void Awake()
+    protected override void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        base.Awake();
+
+        if (Instance != this)
+        {
+            return;
+        }
         
         bgmSource = gameObject.AddComponent<AudioSource>();
         bgmSource.outputAudioMixerGroup = bgmMixer;

@@ -10,7 +10,6 @@ public class UI_Hp : MonoBehaviour
     private void Start()
     {
         PlayerDataManager.Instance.OnHpDecreaseEvent += DecreaseHp;
-
         PlayerDataManager.Instance.OnGetFullHpEvent += FullHp;
     }
 
@@ -20,6 +19,7 @@ public class UI_Hp : MonoBehaviour
             return;
         
         PlayerDataManager.Instance.OnHpDecreaseEvent -= DecreaseHp;
+        PlayerDataManager.Instance.OnGetFullHpEvent -= FullHp;
     }
 
     private void DecreaseHp()

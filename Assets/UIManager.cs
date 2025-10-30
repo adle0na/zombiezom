@@ -32,15 +32,9 @@ public class UIManager : GenericSingleton<UIManager>
     [SerializeField, LabelText("마스터 캔버스 태그(선택)")]
     private string targetCanvasTag = "MainCanvas"; 
     
-    private void Awake()
+    protected void Awake()
     {
-        if (instance != null)
-        {
-            Destroy(gameObject);
-        }
-        instance = this;
-        // 모든 씬에서 유지
-        DontDestroyOnLoad(gameObject);
+        base.Awake();
     }
     
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
