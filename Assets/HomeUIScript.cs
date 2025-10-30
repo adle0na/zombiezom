@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,12 +25,17 @@ public class HomeUIScript : MonoBehaviour
     public int caringNum;
 
     public Image item;
+    public CureEffectController cureEffect;
+    private Tweener _fadeTween;
     
     // 좀비를 처음 데려온 경우 문제 초기화
     public void InitHomeUI()
     {
+        DOTween.Kill(normalZombie);
+        normalZombie.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+        
         // 치료할게 남아있다면 초기화 하지 않음
-        if (remainCure.Count <= 0) return;
+        if (remainCure.Count > 0) return;
         
         // 1. 인벤토리 데이터를 리스트 변수에 저장합니다.
         var playerInventory = PlayerDataManager.Instance.PlayerInventoryData;
@@ -77,8 +84,10 @@ public class HomeUIScript : MonoBehaviour
             else if (invenData.index == 26)
             {
                 PlayerInventory.Instance.RemoveItemByIndex(invenData.index);
+                caringNum = invenData.index;
                 sua.SetActive(true);
-                
+                chair.SetActive(false);
+
                 foreach (var cure in fivethFloor)
                 {
                     remainCure.Add(cure);
@@ -90,27 +99,80 @@ public class HomeUIScript : MonoBehaviour
     
     public void RemoveFirst()
     {
+        if (remainCure.Count <= 0) return;
+
         remainCure.RemoveAt(0);
         UpdateQuiz();
+        cureEffect.PlayEffects();
+
         if (remainCure.Count <= 0)
         {
-            // TODO : 인간되는 애니메이션 재생, 딸이라면 엔딩
-            Debug.Log("인간되는 애니메이션 재생");
+            SoundManager.Instance.PlaySFX(12);
+            ClearCaredZombie();
+        }
+        else
+        {
+            SoundManager.Instance.PlaySFX(11);
         }
     }
 
     private void UpdateQuiz()
     {
-        Debug.Log("UpdateQuiz");
         if (remainCure.Count > 0)
         {
             quiz.SetActive(true);
             item.sprite = ItemDataManager.Instance.GetItemByIndex(remainCure[0]).itemSprite;
-            Debug.Log($"{ItemDataManager.Instance.GetItemByIndex(remainCure[0]).itemSprite}");
         }
         else
         {
             quiz.SetActive(false);
         }
+    }
+
+    private void ClearCaredZombie()
+    {
+        remainCure.Clear();
+        caringNum = 0;
+        target = null;
+
+        if (normalZombie != null && normalZombie.activeSelf)
+        {
+            normalZombie.GetComponent<Animator>().Play("Normal1");
+            FadeOutAndDisableImage(normalZombie, 1f, 1f);
+        }
+
+        if (sua != null && sua.activeSelf)
+        {
+            sua.GetComponent<Animator>().Play("Sua2");
+            StartCoroutine(WaitAndOpenEnding(2f));
+        }
+    }
+    
+    private void FadeOutAndDisableImage(GameObject targetObject, float delay, float duration)
+    {
+        Image targetImage = targetObject.GetComponent<Image>();
+
+        targetImage.color = Color.white;
+
+        _fadeTween = targetImage.DOFade(0f, duration)
+            .SetDelay(delay)
+            .SetAutoKill(false)
+            .OnComplete(() =>
+            {
+                targetObject.SetActive(false);
+            });
+    }
+    
+    private IEnumerator WaitAndOpenEnding(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        GetComponentInParent<ApartSceneController>().OpenEnding();
+    }
+
+    private void OnDisable()
+    {
+        _fadeTween?.Kill();
+        if (remainCure.Count <= 0)
+            normalZombie.SetActive(false);
     }
 }

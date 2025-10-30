@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -100,6 +101,7 @@ public class ApartSceneController : MonoBehaviour
     [LabelText("수아좀비")] [SerializeField] private GameObject suaZombie;
 
     [LabelText("홈 UI")] [SerializeField] private GameObject homeUI;
+    [LabelText("엔딩 UI")] [SerializeField] private GameObject endingUI;
 
     [LabelText("레이어 컬러")]
     [SerializeField] private Color targetColor;
@@ -457,6 +459,13 @@ public class ApartSceneController : MonoBehaviour
         homeUI.GetComponent<HomeUIScript>().InitHomeUI();
 
         PlayerDataManager.Instance.PlayerInHome();
+    }
+    
+    public void OpenEnding()
+    {
+        UIManager.Instance.OpenFadeOutUI();
+        SoundManager.Instance.PlayBGM(3);
+        endingUI.SetActive(true);
     }
     
     public void QuitHome()

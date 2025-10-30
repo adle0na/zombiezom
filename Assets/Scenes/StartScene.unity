@@ -958,6 +958,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f7fac6fd7788a4084aeae91970bda625, type: 3}
   - {fileID: 8300000, guid: 0e986df7547704c86ae1abf18fa802fe, type: 3}
   - {fileID: 8300000, guid: e38a68612badd4098be8f7578f9ea066, type: 3}
+  - {fileID: 8300000, guid: c4cace84aca4041a998e93e3dfb3aae1, type: 3}
   sfxList:
   - {fileID: 8300000, guid: 9a0fd89d39b9048de9ebee0373c475bd, type: 3}
   - {fileID: 8300000, guid: 9ea3d2bfd7e7e492b8287c2f4ad8c05c, type: 3}
@@ -970,6 +971,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: be27e2a228df04fe7b8ad881b5c496f0, type: 3}
   - {fileID: 8300000, guid: 6aaeec3466c22468a9341cadd6ec2fb4, type: 3}
   - {fileID: 8300000, guid: 837bdd22649724ce4a5e3a88855de13f, type: 3}
+  - {fileID: 8300000, guid: db04b338ce08c54449d4e62e69872e80, type: 3}
+  - {fileID: 8300000, guid: 0b0a1bcc054a1fc439b4917bfc443500, type: 3}
 --- !u!4 &854663501
 Transform:
   m_ObjectHideFlags: 0
@@ -1121,7 +1124,8 @@ MonoBehaviour:
   playerObj: {fileID: 0}
   isLookedPic: 0
   IsZombieInHome: 0
-  homeUIPrefab: {fileID: 0}
+  canHit: 0
+  isFindCat: 0
 --- !u!1 &1535106724
 GameObject:
   m_ObjectHideFlags: 0
@@ -1156,11 +1160,9 @@ MonoBehaviour:
   PopupList: []
   CurrentPopup: {fileID: 0}
   popupParentPrefab: {fileID: 4797562693433263269, guid: 714857310b85e7f499cc756609ef804a, type: 3}
-  SettingPopupPrefab: {fileID: 0}
   fadeUI: {fileID: 5014878421191600811, guid: 261fe01e097680d4cbd757c11344fe4e, type: 3}
   getHit: {fileID: 6800074270486982016, guid: d893226662f9b7d48b7f9ba98c3e9812, type: 3}
   gameOver: {fileID: 6800074270486982016, guid: 9351f48d7fdf5b246814ca1394f3e9ac, type: 3}
-  gethome: {fileID: 3085663886918836405, guid: 3f8474d09db9ff04bb211905cc3c4cd6, type: 3}
   targetCanvasTag: MainCanvas
 --- !u!4 &1535106726
 Transform:

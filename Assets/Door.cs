@@ -36,7 +36,7 @@ public class Door : MonoBehaviour, IInteractable
         interact = FindAnyObjectByType<PlayerInteract>();
     }
 
-    public IInteractable.InteractHoldType HoldType => interact.IsHiding ? IInteractable.InteractHoldType.Instant : IInteractable.InteractHoldType.Short;
+    public IInteractable.InteractHoldType HoldType => interact.IsHiding ? IInteractable.InteractHoldType.Instant : IInteractable.InteractHoldType.Cabinet;
     public bool IsInteractable => doorData.isOpenable; 
     public void Interact()
     {

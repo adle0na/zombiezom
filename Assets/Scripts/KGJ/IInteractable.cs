@@ -16,6 +16,7 @@ public interface IInteractable
     public enum InteractHoldType
     {
         Instant,   // 즉시 실행
+        Cabinet,   // 0.5초
         Short,     // 1초
         Long       // 2초
     }

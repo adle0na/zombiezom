@@ -33,7 +33,7 @@ public class UI_Hp : MonoBehaviour
     {
         foreach (var heart in hearts)
         {
-            heart.Play("GetHeart");
+            heart.Play("HeartRed");
         }
     }
 }

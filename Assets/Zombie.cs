@@ -180,7 +180,7 @@ public class Zombie : MonoBehaviour, IInteractable
         if (frontSense) frontSense.gameObject.SetActive(sensorActive);
         if (backSense) backSense.gameObject.SetActive(sensorActive);
         if (_stunCollider) _stunCollider.enabled = !sensorActive; // Stunned 상태일 때만 true
-
+        
         switch (state)
         {
             case ZombieState.Walk:
@@ -274,6 +274,11 @@ public class Zombie : MonoBehaviour, IInteractable
     {
         if (!IsInteractable) return;
 
+        if (PlayerDataManager.Instance.IsZombieInHome || PlayerInventory.Instance.HaveZombie)
+        {
+            return;
+        }
+
         // 기절 루틴이 진행 중이었다면 중단
         if (stunRoutine != null)
         {
@@ -304,6 +309,10 @@ public class Zombie : MonoBehaviour, IInteractable
 
     public string GetInteractPrompt()
     {
+        if (PlayerDataManager.Instance.IsZombieInHome || PlayerInventory.Instance.HaveZombie)
+        {
+            return "이미 좀비가 있어..";
+        }
         return "납치하기";
     }
 }

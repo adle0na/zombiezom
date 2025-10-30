@@ -39,6 +39,31 @@ public class PlayerInteract : MonoBehaviour
 
     void Update()
     {
+        // TODO : 지우기
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            _playerInventory.AddItem(ItemDataManager.Instance.GetItemByIndex(5));
+            _playerInventory.AddItem(ItemDataManager.Instance.GetItemByIndex(9));
+            _playerInventory.AddItem(ItemDataManager.Instance.GetItemByIndex(22));
+        }
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            _playerInventory.AddItem(ItemDataManager.Instance.GetItemByIndex(26));
+            _playerInventory.AddItem(ItemDataManager.Instance.GetItemByIndex(0));
+            _playerInventory.AddItem(ItemDataManager.Instance.GetItemByIndex(1));
+        }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            _playerInventory.AddItem(ItemDataManager.Instance.GetItemByIndex(2));
+            _playerInventory.AddItem(ItemDataManager.Instance.GetItemByIndex(3));
+            _playerInventory.AddItem(ItemDataManager.Instance.GetItemByIndex(4));
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            _playerInventory.AddItem(ItemDataManager.Instance.GetItemByIndex(5));
+        }
+        
         // ★★★ 1. 상호작용 루틴이 실행 중이면 Update 로직을 잠급니다. ★★★
         if (_isInteracting) return; 
         
@@ -151,6 +176,7 @@ public class PlayerInteract : MonoBehaviour
         switch (type)
         {
             case InteractHoldType.Instant: return 0f;
+            case InteractHoldType.Cabinet: return 0.5f;
             case InteractHoldType.Short: return 1f;
             case InteractHoldType.Long: return 2f;
             default: return 1f;
