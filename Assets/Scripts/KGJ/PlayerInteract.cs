@@ -14,6 +14,7 @@ public class PlayerInteract : MonoBehaviour
     private float _holdTimer;
     private bool _isHolding;
     private bool _isInteracting = false; // ★★★ 상호작용 잠금 플래그 추가 ★★★
+    private bool _wasHoldingCompleted = false;
 
     private PlayerMovement _playerMovement;
     private PlayerInventory _playerInventory;
@@ -37,34 +38,9 @@ public class PlayerInteract : MonoBehaviour
         _playerInventory = PlayerInventory.Instance; 
     }
 
-    void Update()
+void Update()
     {
-        // TODO : 지우기
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            _playerInventory.AddItem(ItemDataManager.Instance.GetItemByIndex(5));
-            _playerInventory.AddItem(ItemDataManager.Instance.GetItemByIndex(9));
-            _playerInventory.AddItem(ItemDataManager.Instance.GetItemByIndex(22));
-        }
-
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            _playerInventory.AddItem(ItemDataManager.Instance.GetItemByIndex(26));
-            _playerInventory.AddItem(ItemDataManager.Instance.GetItemByIndex(0));
-            _playerInventory.AddItem(ItemDataManager.Instance.GetItemByIndex(1));
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            _playerInventory.AddItem(ItemDataManager.Instance.GetItemByIndex(2));
-            _playerInventory.AddItem(ItemDataManager.Instance.GetItemByIndex(3));
-            _playerInventory.AddItem(ItemDataManager.Instance.GetItemByIndex(4));
-        }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            _playerInventory.AddItem(ItemDataManager.Instance.GetItemByIndex(5));
-        }
-        
-        // ★★★ 1. 상호작용 루틴이 실행 중이면 Update 로직을 잠급니다. ★★★
+        // 1. 상호작용 루틴이 실행 중이면 Update 로직을 잠급니다.
         if (_isInteracting) return; 
         
         if (_hidingDoor != null)
@@ -87,30 +63,60 @@ public class PlayerInteract : MonoBehaviour
         {
             if (_isHolding)
                 EndHold();
+            
+            // 키를 놓았는지 확인 후 상태 초기화
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                _wasHoldingCompleted = false; 
+            }
             return;
         }
         
-        // 홀드형 상호작용
+        // 홀드형 상호작용 (마우스)
         if (Input.GetMouseButtonDown(1) || Input.GetMouseButtonUp(1))
         {
             EndHold();
+            _wasHoldingCompleted = false;
             return;
         }
         
         float requiredHoldTime = GetHoldDuration(_closestTarget.HoldType);
 
-        // 즉시형 상호작용은 키를 누른 순간 1회만 실행
+        // 즉시형 상호작용 (requiredHoldTime <= 0f)
         if (requiredHoldTime <= 0f)
         {
+            // ★★★ 수정: 즉시 상호작용이 가능한 상태에서도 완료 플래그 초기화 로직을 유지 ★★★
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                _wasHoldingCompleted = false;
+            }
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (!PlayerDataManager.Instance.canHit) return;
-                // ★★★ 루틴 시작 시 코루틴을 실행합니다. ★★★
+                
+                // 루틴 시작 시 코루틴을 실행합니다.
                 StartCoroutine(InstantInteractRoutine(_closestTarget));
+                
+                // ★★★ 추가: 키를 누르는 순간, 바로 _wasHoldingCompleted를 설정하여 
+                // 다음 프레임에서 홀드 상호작용이 시작되지 않도록 합니다. 
+                // 키를 놓을 때까지 이 상태를 유지합니다. ★★★
+                _wasHoldingCompleted = true; 
             }
             return;
         }
         
+        // ★★★ 수정: 상호작용 완료 후 키를 놓기 전에는 새로운 홀드가 시작되지 않도록 잠금 ★★★
+        if (_wasHoldingCompleted)
+        {
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                _wasHoldingCompleted = false; // 키를 놓았으므로 잠금 해제
+            }
+            return; // 홀드 또는 즉시 상호작용 완료 후 키를 놓지 않으면 여기서 리턴
+        }
+
+        // Space 키를 누르는 중 (홀드형 상호작용)
         if (Input.GetKey(KeyCode.Space))
         {
             if (!_isHolding)
@@ -129,13 +135,22 @@ public class PlayerInteract : MonoBehaviour
             if (_holdTimer >= requiredHoldTime)
             {
                 _closestTarget.Interact();
-                EndHold();
+                CompleteHold(); 
             }
         }
+        // Space 키를 놓는 순간
         else if (Input.GetKeyUp(KeyCode.Space))
         {
+            // 키를 놓았으므로 홀드 중단 및 완료 플래그 초기화
             EndHold();
+            _wasHoldingCompleted = false; 
         }
+    }
+
+    private void CompleteHold()
+    {
+        EndHold();
+        _wasHoldingCompleted = true; // 다음 상호작용 방지
     }
 
     private void EndHold()
