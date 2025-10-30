@@ -59,6 +59,9 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
         playerInven.Add(ItemDataManager.Instance.GetItemByIndex(27));
 
         canHit = true;
+
+        IsZombieInHome = false;
+        isFindCat = false;
     }
 
     public void PlayerInHome()
@@ -96,6 +99,7 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
 
     private void GameOver()
     {
+        playerObj.SetActive(false);
         UIManager.Instance.OpenDeadUI();
         Debug.Log("게임 오버 처리");
     }

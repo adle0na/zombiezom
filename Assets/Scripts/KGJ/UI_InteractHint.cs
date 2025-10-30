@@ -5,15 +5,20 @@ using System.Collections;
 public class UI_InteractHint : MonoBehaviour
 {
     [SerializeField] private TMP_Text hintText;
-    [SerializeField] private Vector3 worldOffset = new Vector3(0, 1.5f, 0);
     [SerializeField] private float fadeSpeed = 8f;
 
     private CanvasGroup _canvasGroup;
+    private IInteractable _currentTarget;
+    private Transform _currentTargetTransform;
+    private Transform _currentAnchorTransform;
+    private bool _isHolding;
+    private bool _isVisible;
 
     private void Awake()
     {
         _canvasGroup = GetComponent<CanvasGroup>();
         _canvasGroup.alpha = 0f;
+        _isVisible = false;
     }
 
     private void OnEnable()
@@ -30,27 +35,93 @@ public class UI_InteractHint : MonoBehaviour
         PlayerInteract.OnHoldEnd -= HandleHoldEnd;
     }
 
-    private void HandleTargetChanged(IInteractable newTarget)
+    private void Update()
     {
-        if (newTarget == null)
+        if (_currentTarget == null)
+            return;
+
+        if (_currentTargetTransform == null || !_currentTargetTransform.gameObject.activeInHierarchy)
         {
-            FadeTo(0f);
+            ClearTarget();
             return;
         }
 
-        transform.position = (newTarget as MonoBehaviour).transform.position + worldOffset;
+        if (_currentAnchorTransform == null || !_currentAnchorTransform.gameObject.activeInHierarchy)
+        {
+            ClearTarget();
+            return;
+        }
+
+        UpdateHintPosition();
+
+        bool shouldBeVisible = !_isHolding && _currentTarget.IsInteractable;
+        SetVisibility(shouldBeVisible);
+    }
+
+    private void HandleTargetChanged(IInteractable newTarget)
+    {
+        _currentTarget = newTarget;
+        _currentTargetTransform = (newTarget as MonoBehaviour)?.transform;
+        _currentAnchorTransform = newTarget?.HintAnchorTransform ?? _currentTargetTransform;
+
+        if (_currentTarget == null || _currentTargetTransform == null || _currentAnchorTransform == null)
+        {
+            ClearTarget();
+            return;
+        }
+
         hintText.text = newTarget.GetInteractPrompt();
-        FadeTo(1f);
+        UpdateHintPosition();
+
+        bool shouldBeVisible = !_isHolding && newTarget.IsInteractable;
+        SetVisibility(shouldBeVisible);
     }
 
     private void HandleHoldStart(Transform _)
     {
-        FadeTo(0f);
+        _isHolding = true;
+        SetVisibility(false);
     }
 
     private void HandleHoldEnd()
     {
-        FadeTo(1f);
+        _isHolding = false;
+        bool shouldBeVisible = _currentTarget != null && _currentTarget.IsInteractable;
+        SetVisibility(shouldBeVisible);
+    }
+
+    private void ClearTarget()
+    {
+        _currentTarget = null;
+        _currentTargetTransform = null;
+        _currentAnchorTransform = null;
+        _isHolding = false;
+        hintText.text = string.Empty;
+        SetVisibility(false);
+    }
+
+    private void UpdateHintPosition()
+    {
+        if (_currentTarget == null)
+            return;
+
+        Transform anchor = _currentTarget.HintAnchorTransform ?? _currentTargetTransform;
+
+        if (anchor == null)
+            return;
+
+        _currentAnchorTransform = anchor;
+
+        transform.position = anchor.position + _currentTarget.HintWorldOffset;
+    }
+
+    private void SetVisibility(bool shouldBeVisible)
+    {
+        if (_isVisible == shouldBeVisible)
+            return;
+
+        _isVisible = shouldBeVisible;
+        FadeTo(shouldBeVisible ? 1f : 0f);
     }
 
     private void FadeTo(float alpha)

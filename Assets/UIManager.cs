@@ -32,11 +32,6 @@ public class UIManager : GenericSingleton<UIManager>
     [SerializeField, LabelText("마스터 캔버스 태그(선택)")]
     private string targetCanvasTag = "MainCanvas"; 
     
-    protected void Awake()
-    {
-        base.Awake();
-    }
-    
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         FindCanvasAndUIController();

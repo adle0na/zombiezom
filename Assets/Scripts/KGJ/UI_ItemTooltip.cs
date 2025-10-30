@@ -39,18 +39,18 @@ public class UI_ItemTooltip : MonoBehaviour
         _title.text = itemData.itemName;
         _description.text = itemData.itemDes;
         
-        _canvasGroup.DOKill(true);
-        _canvasGroup.DOFade(1f, FadeDuration);
+        _canvasGroup?.DOKill(true);
+        _canvasGroup?.DOFade(1f, FadeDuration);
     }
 
     private void HideTooltip()
     {
-        _canvasGroup.DOKill(true);
-        _canvasGroup.DOFade(0f, FadeDuration);
+        _canvasGroup?.DOKill(true);
+        _canvasGroup?.DOFade(0f, FadeDuration);
     }
 
     private void OnDestroy()
     {
-        _canvasGroup.DOKill(true);
+        _canvasGroup?.DOKill(true);
     }
 }

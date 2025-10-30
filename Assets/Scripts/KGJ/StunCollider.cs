@@ -7,7 +7,11 @@ public class StunCollider : MonoBehaviour, IInteractable
         
     private Zombie _zombie;
     public IInteractable.InteractHoldType HoldType => IInteractable.InteractHoldType.Instant;
-    public bool IsInteractable => (!PlayerDataManager.Instance.IsZombieInHome) && (!PlayerInventory.Instance.HaveZombie) && (_zombie.state == ZombieState.Stunned) && (_zombie.ZombieData.zombieType != ZombieType.DisCureZombie);
+    public bool IsInteractable => (_zombie.state == ZombieState.Stunned) && (_zombie.ZombieData.zombieType != ZombieType.DisCureZombie);
+
+    public Transform HintAnchorTransform => transform.parent;
+    public Vector3 HintWorldOffset => _hintOffset;
+    [SerializeField] private Vector3 _hintOffset = new Vector3(0, 2.5f, 0);
 
     private void Start()
     {
@@ -16,6 +20,12 @@ public class StunCollider : MonoBehaviour, IInteractable
     
     public void Interact()
     {
+        if (PlayerDataManager.Instance.IsZombieInHome || PlayerInventory.Instance.HaveZombie)
+        {
+            UI_Popup.OnShowPopupRequested?.Invoke("더 데려올 수 없어..");
+            return;
+        }
+        
         int index = 21;
         if (_zombie.ZombieData.zombieType == ZombieType.SuaZombie)
         {
@@ -35,6 +45,10 @@ public class StunCollider : MonoBehaviour, IInteractable
 
     public string GetInteractPrompt()
     {
+        if (PlayerDataManager.Instance.IsZombieInHome || PlayerInventory.Instance.HaveZombie)
+        {
+            return "";
+        }
         return "납치하기";
     }
 

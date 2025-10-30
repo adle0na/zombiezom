@@ -6,6 +6,10 @@ public class BackSenseArea : MonoBehaviour, IInteractable
     private Zombie owner;
     private string playerTag;
 
+    public Transform HintAnchorTransform => transform.parent;
+    [SerializeField] private Vector3 hintOffset = new Vector3(0, 3f, 0);
+    public Vector3 HintWorldOffset => hintOffset;
+
     public void Init(Zombie zombie, string tagToDetect)
     {
         owner = zombie;

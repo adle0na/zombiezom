@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 public enum ZombieState { Walk, Chase, Stunned }
 
 // ⬇️ IInteractable 인터페이스를 구현합니다.
-public class Zombie : MonoBehaviour, IInteractable
+public class Zombie : MonoBehaviour
 {
     [Title("Refs")]
     [SerializeField, LabelText("애니메이터")] private Animator animator;
@@ -51,7 +51,7 @@ public class Zombie : MonoBehaviour, IInteractable
     private Coroutine stunRoutine;
     public ZombieData ZombieData => zombieData;
     private Collider2D _stunCollider; // 좀비가 주울 수 있는 상태가 되었을 때 활성화될 콜라이더
-    
+        
     // ⬇️ 아이템 줍기 요청 이벤트
     public static event Action<ItemCsvRow, GameObject> OnItemPickupRequested; 
     
@@ -259,60 +259,5 @@ public class Zombie : MonoBehaviour, IInteractable
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectRadius);
-    }
-
-    // ===================================
-    // 💀 IInteractable 구현
-    // ===================================
-
-    public IInteractable.InteractHoldType HoldType => IInteractable.InteractHoldType.Short; 
-    
-    // 🚨 상호작용 가능 조건: 기절 상태이면서 특정 타입이 아닐 때
-    public bool IsInteractable => (state == ZombieState.Stunned) && (zombieData?.zombieType != ZombieType.DisCureZombie);
-
-    public void Interact()
-    {
-        if (!IsInteractable) return;
-
-        if (PlayerDataManager.Instance.IsZombieInHome || PlayerInventory.Instance.HaveZombie)
-        {
-            return;
-        }
-
-        // 기절 루틴이 진행 중이었다면 중단
-        if (stunRoutine != null)
-        {
-            StopCoroutine(stunRoutine);
-            stunRoutine = null;
-        }
-        
-        int index = 21;
-        // ⬇️ 좀비 데이터가 null일 경우 대비
-        if (zombieData != null)
-        {
-            if (zombieData.zombieType == ZombieType.SuaZombie)
-            {
-                index += 5;
-            }
-            else
-            {
-                int floor = PlayerDataManager.Instance.PlayerFloor;
-                index += floor;
-            }
-        }
-        
-        ItemCsvRow zombieItem = ItemDataManager.Instance.GetItemByIndex(index);
-        
-        // PlayerInteract의 HandleItemPickup에서 Destroy를 담당하도록 이벤트를 발행
-        OnItemPickupRequested?.Invoke(zombieItem, gameObject); 
-    }
-
-    public string GetInteractPrompt()
-    {
-        if (PlayerDataManager.Instance.IsZombieInHome || PlayerInventory.Instance.HaveZombie)
-        {
-            return "이미 좀비가 있어..";
-        }
-        return "납치하기";
     }
 }

@@ -39,13 +39,11 @@ public class PlayerInventory : GenericSingleton<PlayerInventory>
     {
         if (IsFull)
         {
-            Debug.LogWarning("[Inventory] 인벤토리가 가득 찼습니다!");
             return false;
         }
 
         // PlayerDataManager의 데이터에 직접 추가
         CurrentInventory.Add(item); 
-        Debug.Log($"[Inventory] {item.itemName} (index:{item.index}) 추가됨. ({CurrentInventory.Count}/{MaxSlots})");
         
         // 3. 데이터 변경 후 UI 갱신 이벤트 호출
         OnInventoryUpdated?.Invoke(); 

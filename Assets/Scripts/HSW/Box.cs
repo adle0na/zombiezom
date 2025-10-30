@@ -42,6 +42,7 @@ public class Box : MonoBehaviour, IInteractable
             {
                 SoundManager.Instance.PlaySFX(3);
                 GameObject go = Instantiate(_catBoxPrefab, transform.position + Vector3.up * 0.3f, Quaternion.identity);
+                PlayerDataManager.Instance.isFindCat = true;
                 Destroy(go, 1f);
 
             }
