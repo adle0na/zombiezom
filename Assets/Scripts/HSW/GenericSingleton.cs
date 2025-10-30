@@ -1,14 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GenericSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T _instance;
+    private static bool _applicationIsQuitting;
     public static T Instance
     {
         get
         {
+            if (_applicationIsQuitting)
+            {
+                return null;
+            }
+
             if (_instance == null)
             {
                 _instance = (T)FindObjectOfType(typeof(T));
@@ -25,6 +29,11 @@ public class GenericSingleton<T> : MonoBehaviour where T : MonoBehaviour
 
     protected virtual void Awake()
     {
+        if (_applicationIsQuitting)
+        {
+            return;
+        }
+
         if (_instance != null && _instance != this)
         {
             Destroy(gameObject);
@@ -62,5 +71,10 @@ public class GenericSingleton<T> : MonoBehaviour where T : MonoBehaviour
         {
             _instance = null;
         }
+    }
+
+    protected virtual void OnApplicationQuit()
+    {
+        _applicationIsQuitting = true;
     }
 }

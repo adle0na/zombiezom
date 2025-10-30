@@ -65,7 +65,6 @@ public class PlayerInventory : GenericSingleton<PlayerInventory>
         {
             // PlayerDataManager의 데이터에서 직접 제거
             CurrentInventory.Remove(target);
-            Debug.Log($"[Inventory] {target.itemName} (index:{itemIndex}) 제거됨.");
             
             // 3. 데이터 변경 후 UI 갱신 이벤트 호출
             OnInventoryUpdated?.Invoke(); 
@@ -73,7 +72,6 @@ public class PlayerInventory : GenericSingleton<PlayerInventory>
             return true;
         }
 
-        Debug.LogWarning($"[Inventory] index:{itemIndex} 아이템이 없습니다.");
         return false;
     }
 

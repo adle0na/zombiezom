@@ -39,7 +39,6 @@ public class HomeUIScript : MonoBehaviour
         
         // 1. 인벤토리 데이터를 리스트 변수에 저장합니다.
         var playerInventory = PlayerDataManager.Instance.PlayerInventoryData;
-        bool hasBroughtZombieHome = false;
         
         // 2. 리스트를 끝에서부터 (역순으로) 순회합니다. (요소 제거 시 인덱스 오류 방지)
         for (int i = playerInventory.Count - 1; i >= 0; i--)
@@ -53,8 +52,6 @@ public class HomeUIScript : MonoBehaviour
                 caringNum = invenData.index;
                 
                 PlayerInventory.Instance.RemoveItemByIndex(invenData.index);
-                
-                hasBroughtZombieHome = true;
                 
                 switch (invenData.index)
                 {
@@ -90,7 +87,6 @@ public class HomeUIScript : MonoBehaviour
                 caringNum = invenData.index;
                 sua.SetActive(true);
                 chair.SetActive(false);
-                hasBroughtZombieHome = true;
 
                 foreach (var cure in fivethFloor)
                 {
@@ -99,7 +95,6 @@ public class HomeUIScript : MonoBehaviour
             }
         }
         UpdateQuiz();
-        PlayerDataManager.Instance.IsZombieInHome = hasBroughtZombieHome;
     }
     
     public void RemoveFirst()
@@ -176,6 +171,7 @@ public class HomeUIScript : MonoBehaviour
 
     private void OnDisable()
     {
+        PlayerDataManager.Instance.IsZombieInHome = remainCure.Count > 0;
         _fadeTween?.Kill();
         if (remainCure.Count <= 0)
             normalZombie.SetActive(false);
