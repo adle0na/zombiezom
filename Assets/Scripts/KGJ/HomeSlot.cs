@@ -3,11 +3,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-// ⬇️ IPointerExitHandler 추가
-public class HomeSlot : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerExitHandler
+public class HomeSlot : MonoBehaviour, IPointerClickHandler
 {
-    public static event Action<int, ItemCsvRow> OnSlotClicked;
-    public static event Action<ItemCsvRow> OnDropItemRequested; 
+    public static event Action<int, ItemCsvRow> OnSlotSelected;
+    public static event Action<ItemCsvRow> OnDropItemRequested;
 
     [SerializeField] private Image _itemIcon;
     
@@ -33,13 +32,11 @@ public class HomeSlot : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
 
         if (_currentItem != null)
         {
-            // ... (아이콘 설정 로직) ...
             _itemIcon.sprite = _currentItem.itemSprite; 
             _itemIcon.enabled = true;
         }
         else
         {
-            // ... (아이콘 초기화 로직) ...
             _itemIcon.sprite = null;
             _itemIcon.enabled = false;
         }
@@ -49,49 +46,38 @@ public class HomeSlot : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     {
         if (_currentItem == null) return;
 
-        // 좌클릭: 아이템 제출
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            OnDropItem();
+            OnSlotSelected?.Invoke(_slotIndex, _currentItem);
         }
     }
-    
-    private void OnDropItem()
-    {
-        if (_currentItem == null) return;
 
-        if (_homeUI.remainCure.Count <= 0) return;
-        if (_homeUI.remainCure[0] != _currentItem.index) return;
-        
+    public bool TryUseItem()
+    {
+        if (_currentItem == null) return false;
+
+        if (_homeUI.remainCure.Count <= 0) return false;
+        if (_homeUI.remainCure[0] != _currentItem.index) return false;
+
         ItemCsvRow itemToDrop = _currentItem;
-        
+
         // 1. 인벤토리 데이터에서 제거 요청 (슬롯 인덱스 사용이 권장됨)
         // 현재 코드는 ItemCsvRow의 데이터 ID를 사용합니다. (기존 로직 유지)
-        if (PlayerInventory.Instance.RemoveItemByIndex(itemToDrop.index)) 
+        if (PlayerInventory.Instance.RemoveItemByIndex(itemToDrop.index))
         {
             // 2. 아이템 제출 이벤트 발생
-            OnDropItemRequested?.Invoke(itemToDrop); 
-            
-            // 3. 정보 패널 초기화 요청 및 배경을 '아무것도 선택되지 않은' 상태로 변경 요청
-            OnSlotClicked?.Invoke(-1, null); 
-            
-            _homeUI.RemoveFirst();
-        }
-    }
+            OnDropItemRequested?.Invoke(itemToDrop);
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        // 호버 시작: 정보 패널 업데이트 및 배경 변경
-        OnSlotClicked?.Invoke(_slotIndex, _currentItem);
+            // 3. 선택 초기화 요청
+            OnSlotSelected?.Invoke(-1, null);
+
+            _homeUI.RemoveFirst();
+            return true;
+        }
+
+        return false;
     }
     
-    // ⬇️ 새로 추가된 메서드: 마우스를 뗄 때 정보 초기화
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        // 호버 종료: 인덱스 -1과 null을 전달하여 정보 패널 초기화 및 배경 기본 상태로 되돌림
-        OnSlotClicked?.Invoke(-1, null); 
-    }
-
     public ItemCsvRow GetItem()
     {
         return _currentItem;

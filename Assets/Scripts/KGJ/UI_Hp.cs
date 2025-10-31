@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,6 +30,7 @@ public class UI_Hp : MonoBehaviour
 
     private void FullHp()
     {
+        index = 3;
         foreach (var heart in hearts)
         {
             heart.Play("HeartRed");

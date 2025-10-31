@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -48,14 +47,12 @@ public class UI_HomeInventory : MonoBehaviour
     private void OnEnable()
     {
         OnInventoryChanged();
-        HomeSlot.OnSlotClicked += OnSlotClicked;
-        HomeSlot.OnDropItemRequested += OnDropItemRequested;
+        HomeSlot.OnSlotSelected += OnSlotSelected;
     }
 
     private void OnDisable()
     {
-        HomeSlot.OnSlotClicked -= OnSlotClicked;
-        HomeSlot.OnDropItemRequested -= OnDropItemRequested;
+        HomeSlot.OnSlotSelected -= OnSlotSelected;
     }
 
     private void OnDestroy()
@@ -91,7 +88,7 @@ public class UI_HomeInventory : MonoBehaviour
         }
     }
     
-    public void OnInventoryChanged()
+    private void OnInventoryChanged()
     {
         if (PlayerInventory.Instance == null) return;
         
@@ -118,7 +115,7 @@ public class UI_HomeInventory : MonoBehaviour
             ItemCsvRow newItem = currentItems[currentItems.Count - 1];
             int newSlotIndex = currentItems.Count - 1;
             // ⬇️ 인덱스와 아이템을 함께 호출하여 자동 선택 및 배경 갱신
-            OnSlotClicked(newSlotIndex, newItem);
+            OnSlotSelected(newSlotIndex, newItem);
         }
         else if (currentItemCount < _previousItemCount)
         {
@@ -127,12 +124,12 @@ public class UI_HomeInventory : MonoBehaviour
             {
                 if (currentItemCount > 0)
                 {
-                    OnSlotClicked(0, currentItems[0]);
+                    OnSlotSelected(0, currentItems[0]);
                 }
                 else
                 {
                     // 인벤토리가 비면 선택 초기화
-                    OnSlotClicked(-1, null);
+                    OnSlotSelected(-1, null);
                 }
             }
         }
@@ -144,43 +141,58 @@ public class UI_HomeInventory : MonoBehaviour
         SetInfoPanel(_selectedItem);
     }
     
-    // HomeSlot.OnSlotClicked 이벤트 핸들러 (호버 시작/종료 또는 자동 선택 시 호출)
-    private void OnSlotClicked(int slotIndex, ItemCsvRow item)
+    private void Update()
     {
-        // 호버 종료 (-1, null) 요청이 아닐 때만 _selectedItem을 업데이트합니다.
-        // 마우스를 떼도 제출 시 선택한 아이템 정보는 유지되도록 하기 위함입니다.
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            TryUseSelectedItem();
+        }
+    }
+
+    private void OnSlotSelected(int slotIndex, ItemCsvRow item)
+    {
         if (item != null)
         {
             _selectedItem = item;
+            _selectedSlotIndex = slotIndex;
         }
-        
-        // 호버 종료 시에도 _selectedItem은 유지되지만, 정보 패널은 item(null)로 초기화됩니다.
-        // 1. 슬롯 인덱스 저장 (호버 상태 추적)
-        _selectedSlotIndex = slotIndex;
-        
-        // 2. 정보 패널 업데이트 (호버 시 item 정보 표시, 호버 종료 시 null로 초기화)
+        else
+        {
+            _selectedItem = null;
+            _selectedSlotIndex = -1;
+        }
+
+        UpdateInfoPanel(_selectedItem);
+        UpdatePanelBackground(_selectedSlotIndex, _selectedItem != null);
+    }
+
+    private void TryUseSelectedItem()
+    {
+        if (_selectedSlotIndex < 0 || _selectedSlotIndex >= _slots.Count) return;
+
+        HomeSlot slot = _slots[_selectedSlotIndex];
+        if (slot == null) return;
+
+        if (slot.TryUseItem())
+        {
+            UpdateInfoPanel(null);
+            UpdatePanelBackground(-1, false);
+        }
+    }
+
+    private void UpdateInfoPanel(ItemCsvRow item)
+    {
         SetInfoPanel(item);
-        
-        // 3. 배경 이미지 변경 (선택 또는 호버 상태 시각화)
-        // item이 null이면 index는 0, 아니면 1부터 시작
-        int imageIndex = (item != null) ? _selectedSlotIndex + 1 : 0;
+    }
+
+    private void UpdatePanelBackground(int slotIndex, bool hasItem)
+    {
+        int imageIndex = hasItem && slotIndex >= 0 ? slotIndex + 1 : 0;
         
         if (panelImageComponent != null && panelImages.Count > imageIndex)
         {
             panelImageComponent.sprite = panelImages[imageIndex];
         }
-    }
-    
-    // HomeSlot.OnDropItemRequested 이벤트 핸들러 (아이템 제출 로직)
-    private void OnDropItemRequested(ItemCsvRow item)
-    {
-        
-        // 제출 후, _selectedItem을 제거된 아이템으로 초기화
-        _selectedItem = null;
-        
-        // OnInventoryChanged가 호출되어 UI가 갱신되지만,
-        // 제출 후 정보 패널을 바로 초기화할 필요가 있다면 SetInfoPanel(null)을 호출할 수 있습니다.
-        SetInfoPanel(null);
     }
     
     // 정보 패널 업데이트 메서드

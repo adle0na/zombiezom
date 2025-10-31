@@ -5,6 +5,7 @@ public class StartSceneController : MonoBehaviour
 {
     void Start()
     {
+        ResolutionScaler.ApplyTargetResolution();
         SoundManager.Instance.PlayBGM(0);
     }
     
