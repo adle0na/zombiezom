@@ -5,6 +5,13 @@ using UnityEngine.EventSystems;
 public class DropItem : MonoBehaviour, IInteractable, IPointerEnterHandler, IPointerExitHandler
 {
     public static event Action<ItemCsvRow, GameObject> OnItemPickupRequested;
+    public Material InteractableMaterial => getInteractableMaterial();
+
+    private Material getInteractableMaterial()
+    {
+        if (this == null) return null;
+        return GetComponentInParent<SpriteRenderer>().material;
+    }
     private SpriteRenderer _sr;
     private ItemCsvRow _item;
 

@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -48,7 +48,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -116,12 +116,12 @@ TextureImporter:
       name: "\uBC15\uC2A4_\uB354\uB7EC\uC6B42_0"
       rect:
         serializedVersion: 2
-        x: 24
-        y: 9
-        width: 197
-        height: 147
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 21
+        y: 6
+        width: 203
+        height: 152
+      alignment: 9
+      pivot: {x: 0.5, y: 0.025}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []

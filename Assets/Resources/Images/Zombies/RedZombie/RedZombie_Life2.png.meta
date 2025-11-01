@@ -48,7 +48,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 7
   spritePivot: {x: 0.5, y: 0}
   spritePixelsToUnits: 100
@@ -103,10 +103,10 @@ TextureImporter:
       name: "dead \u110C\u1169\u11B7\u1107\u1175 Life2_0"
       rect:
         serializedVersion: 2
-        x: 4
+        x: 0
         y: 0
-        width: 496
-        height: 111
+        width: 500
+        height: 500
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

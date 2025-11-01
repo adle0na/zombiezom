@@ -3,6 +3,7 @@ using static IInteractable;
 
 public class TestInteratable : MonoBehaviour, IInteractable
 {
+    public Material InteractableMaterial => null;
     [SerializeField] private InteractHoldType holdType = InteractHoldType.Instant;
     
     public InteractHoldType HoldType => holdType;

@@ -9,6 +9,7 @@ public class UpStair : MonoBehaviour, IInteractable
     private Coroutine moveCor;
     public IInteractable.InteractHoldType HoldType { get; } = IInteractable.InteractHoldType.Instant;
     public bool IsInteractable { get; } = true;
+    public Material InteractableMaterial => null;
 
     public bool isGoing;
     public void Interact()

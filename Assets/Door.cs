@@ -1,4 +1,3 @@
-using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -13,6 +12,13 @@ public class Door : MonoBehaviour, IInteractable
     [LabelText("생성된 박스 프리팹")]
     public Box boxObj;
     
+    public Material InteractableMaterial => getInteractableMaterial();
+
+    private Material getInteractableMaterial()
+    {
+        if (this == null) return null;
+        return GetComponentInParent<SpriteRenderer>().material;
+    }
     PlayerInteract interact;
 
     public void ApplySpriteByType(Sprite setSprite)

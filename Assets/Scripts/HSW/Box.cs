@@ -12,6 +12,13 @@ public class Box : MonoBehaviour, IInteractable
     public BoxData boxData;
     public InteractHoldType HoldType { get; } = InteractHoldType.Long;
     public bool IsInteractable => !boxData.isOpened;
+    public Material InteractableMaterial => getInteractableMaterial();
+
+    private Material getInteractableMaterial()
+    {
+        if (this == null) return null;
+        return GetComponentInParent<SpriteRenderer>().material;
+    }
     private GameObject _dropItemPrefab;
     private GameObject _catBoxPrefab;
     

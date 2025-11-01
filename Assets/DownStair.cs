@@ -7,7 +7,7 @@ public class DownStair : MonoBehaviour, IInteractable
     [SerializeField] private GameObject downArrow;
     public IInteractable.InteractHoldType HoldType { get; } = IInteractable.InteractHoldType.Instant;
     public bool IsInteractable { get; } = true;
-    
+    public Material InteractableMaterial => null;
     private Coroutine moveCor;
     
     public bool isGoing;

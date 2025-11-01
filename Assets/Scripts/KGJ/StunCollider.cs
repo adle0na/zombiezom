@@ -11,6 +11,15 @@ public class StunCollider : MonoBehaviour, IInteractable
 
     public Transform HintAnchorTransform => transform.parent;
     public Vector3 HintWorldOffset => _hintOffset;
+
+    public Material InteractableMaterial => getInteractableMaterial();
+
+    private Material getInteractableMaterial()
+    {
+        if (this == null) return null;
+        return GetComponentInParent<SpriteRenderer>().material;
+    }
+    
     [SerializeField] private Vector3 _hintOffset = new Vector3(0, 2.5f, 0);
 
     private void Start()

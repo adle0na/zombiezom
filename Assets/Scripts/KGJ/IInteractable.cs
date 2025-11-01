@@ -6,6 +6,7 @@ public interface IInteractable
     public bool IsInteractable { get; }
     public Transform HintAnchorTransform => (this as MonoBehaviour)?.transform;
     public Vector3 HintWorldOffset => new Vector3(0f, 1.5f, 0f);
+    public Material InteractableMaterial { get; }
     
     /// <summary>
     /// 플레이어가 상호작용 키를 눌렀을 때 실행되는 함수

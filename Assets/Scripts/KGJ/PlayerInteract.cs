@@ -5,6 +5,8 @@ using static IInteractable;
 
 public class PlayerInteract : MonoBehaviour
 {
+    private static readonly int Enable = Shader.PropertyToID("_Enable");
+
     [Header("Interaction Settings")]
     [SerializeField] private float interactRadius = 2f;
     [SerializeField] private LayerMask interactableLayer;
@@ -38,7 +40,7 @@ public class PlayerInteract : MonoBehaviour
         _playerInventory = PlayerInventory.Instance; 
     }
 
-void Update()
+    void Update()
     {
         // 1. 상호작용 루틴이 실행 중이면 Update 로직을 잠급니다.
         if (_isInteracting) return; 
@@ -52,11 +54,18 @@ void Update()
             _closestTarget = GetClosestInteractable();
         }
 
+        if (_closestTarget != null && _closestTarget.IsInteractable)
+            _closestTarget?.InteractableMaterial?.SetFloat(Enable, 1);
+        else if (_closestTarget != null && !_closestTarget.IsInteractable)
+            _closestTarget?.InteractableMaterial?.SetFloat(Enable, 0);
+        
         // 가까운 대상이 바뀌었을 때만 이벤트 발행
         if (_closestTarget != _previousTarget)
         {
+            _previousTarget?.InteractableMaterial?.SetFloat(Enable, 0);
             OnTargetChanged?.Invoke(_closestTarget);
             _previousTarget = _closestTarget;
+            _closestTarget?.InteractableMaterial?.SetFloat(Enable, 1);
         }
 
         if (_closestTarget == null)

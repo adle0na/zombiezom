@@ -9,7 +9,13 @@ public class BackSenseArea : MonoBehaviour, IInteractable
     public Transform HintAnchorTransform => transform.parent;
     [SerializeField] private Vector3 hintOffset = new Vector3(0, 3f, 0);
     public Vector3 HintWorldOffset => hintOffset;
+    public Material InteractableMaterial => getInteractableMaterial();
 
+    private Material getInteractableMaterial()
+    {
+        if (this == null) return null;
+        return GetComponentInParent<SpriteRenderer>().material;
+    }
     public void Init(Zombie zombie, string tagToDetect)
     {
         owner = zombie;
