@@ -14,7 +14,7 @@ public class BackSenseArea : MonoBehaviour, IInteractable
     private Material getInteractableMaterial()
     {
         if (this == null) return null;
-        return GetComponentInParent<SpriteRenderer>().material;
+        return transform.parent.GetComponent<SpriteRenderer>().material;
     }
     public void Init(Zombie zombie, string tagToDetect)
     {

@@ -17,7 +17,7 @@ public class StunCollider : MonoBehaviour, IInteractable
     private Material getInteractableMaterial()
     {
         if (this == null) return null;
-        return GetComponentInParent<SpriteRenderer>().material;
+        return transform.parent.GetComponent<SpriteRenderer>().material;
     }
     
     [SerializeField] private Vector3 _hintOffset = new Vector3(0, 2.5f, 0);
