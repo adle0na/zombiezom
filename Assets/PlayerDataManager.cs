@@ -75,6 +75,8 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
     public void GetHit()
     {
         if (!canHit) return;
+
+        playerObj?.GetComponent<PlayerInteract>()?.ForceCancelInteraction();
         
         OnHpDecreaseEvent?.Invoke();
 

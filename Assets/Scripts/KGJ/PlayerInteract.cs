@@ -357,6 +357,14 @@ public class PlayerInteract : MonoBehaviour
         _sr.color = targetColor;
     }
     
+    public void ForceCancelInteraction()
+    {
+        if (!IsHiding)
+        {
+            EndHold();
+        }
+    }
+    
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
