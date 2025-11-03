@@ -45,23 +45,23 @@ public class Box : MonoBehaviour, IInteractable
         // 암것도 없으면 플레이어 머리위에 팝업 띄우기
         if (boxData.boxItems.Count == 0)
         {
-            if (boxData.boxType == BoxType.NormalBox_S)
+            if (boxData.boxType == BoxType.CatBox_S)
             {
                 SoundManager.Instance.PlaySFX(3);
                 GameObject go = Instantiate(_catBoxPrefab, transform.position + Vector3.up * 0.3f, Quaternion.identity);
                 PlayerDataManager.Instance.isFindCat = true;
-                Destroy(go, 1f);
-
+                Destroy(go, 1.5f);
             }
-            else if (UI_Popup.OnShowPopupRequested != null)
+            else
             {
-                UI_Popup.OnShowPopupRequested.Invoke("텅 비어있다..."); 
+                UI_Popup.OnShowPopupRequested.Invoke("텅 비어있다...");
             }
         }
         else // 하나라도 있으면 아이템 생성해서 바닥에 뿌리기
         {
             DropItems();
         }
+
         Destroy(gameObject);
     }
 

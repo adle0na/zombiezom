@@ -44,7 +44,9 @@ public enum BoxType
     [InspectorName("큰 찌그러진 박스")]
     CrumpledBox_L,
     [InspectorName("큰 피묻은 박스")]
-    BloodBox_L
+    BloodBox_L,
+    [InspectorName("애용이 박스")]
+    CatBox_S
 }
 
 public enum ZombieType

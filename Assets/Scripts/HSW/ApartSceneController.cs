@@ -106,6 +106,12 @@ public class ApartSceneController : MonoBehaviour
     [LabelText("레이어 컬러")]
     [SerializeField] private Color targetColor;
     
+    // 애용이 생성 체크
+    private static bool s_CatBoxPlaced = false;
+    
+    // 애용이 생성 층
+    private int _catTargetFloorValue = -1;
+    
     // 층 간 간격(Y축)
     private float gapY = 4f;
 
@@ -123,6 +129,19 @@ public class ApartSceneController : MonoBehaviour
 
     void CreateMapWithFloorData()
     {
+        s_CatBoxPlaced = false;
+        
+        if (floorDatas != null && floorDatas.Count > 0)
+        {
+            // 층 값(floorValue) 중 하나를 랜덤 선택
+            var pick = floorDatas[Random.Range(0, floorDatas.Count)];
+            _catTargetFloorValue = pick.floorValue;
+        }
+        else
+        {
+            _catTargetFloorValue = -1;
+        }
+        
         if (floorPrefab == null)
         {
             Debug.LogError("❌ floorPrefab이 설정되지 않았습니다.");
@@ -216,7 +235,7 @@ public class ApartSceneController : MonoBehaviour
         int n = idList.Count;
         int targetBoxes = n / 2 + 1;
         if (targetBoxes <= 0) return;
-
+    
         // 문당 1개 제한
         targetBoxes = Mathf.Min(targetBoxes, floor.doorDatas.Count);
     
@@ -233,7 +252,10 @@ public class ApartSceneController : MonoBehaviour
             BoxType.BloodBox_S,    BoxType.BloodBox_L
         };
     
-        // 3) 박스 생성
+        bool allowCatThisFloor = (!s_CatBoxPlaced) && (data.floorValue == _catTargetFloorValue);
+        int  catPickIndex      = allowCatThisFloor ? Random.Range(0, targetBoxes) : -1;
+        bool catPlacedThisFloor = false;
+
         var createdBoxes = new List<Box>(targetBoxes);
         int created = 0;
     
@@ -274,6 +296,7 @@ public class ApartSceneController : MonoBehaviour
             if (box.boxData == null) box.boxData = new BoxData();
             if (box.boxData.boxItems == null) box.boxData.boxItems = new List<ItemCsvRow>();
             box.boxData.isOpened = false; // 새 상자이므로 닫힘
+    
             // 문 데이터와 동기화(선택)
             if (door.doorData != null)
             {
@@ -281,19 +304,30 @@ public class ApartSceneController : MonoBehaviour
                 door.doorData.boxData = box.boxData;
             }
     
-            // 랜덤 박스 타입 지정 + 스프라이트 반영
-            var bt = boxPool[Random.Range(0, boxPool.Length)];
+            // ★ 타입 결정: catPickIndex 순번이면 CatBox_S, 아니면 랜덤 풀에서
+            BoxType bt;
+            if (!s_CatBoxPlaced && !catPlacedThisFloor && created == catPickIndex)
+            {
+                bt = BoxType.CatBox_S;
+                catPlacedThisFloor = true;   // 이 층에서 배치됨
+                s_CatBoxPlaced = true;       // 건물 전체에서도 배치됨 (이후 어떤 층에서도 생성 불가)
+            }
+            else
+            {
+                bt = boxPool[Random.Range(0, boxPool.Length)];
+            }
             box.boxData.boxType = bt;
             SetBoxSpriteByType(box, bt);
     
             createdBoxes.Add(box);
             created++;
-            
-            floor.settedBox.Add(box);
+    
+            if (floor.settedBox != null) floor.settedBox.Add(box);
         }
 
         floor.SetBox();
     }
+
     
     private void SpawnZombies(ApartmentFloor floor, FloorData data)
     {
@@ -363,6 +397,7 @@ public class ApartSceneController : MonoBehaviour
             case BoxType.NormalBox_L:   box.boxSprite.sprite = normalBox_L;   break;
             case BoxType.BloodBox_L:    box.boxSprite.sprite = bloodBox_L;    break;
             case BoxType.CrumpledBox_L: box.boxSprite.sprite = crumbledBox_L; break;
+            case BoxType.CatBox_S:      box.boxSprite.sprite = normalBox_S;   break;
         }
     }
 

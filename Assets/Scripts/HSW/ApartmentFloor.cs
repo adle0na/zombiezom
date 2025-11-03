@@ -137,6 +137,9 @@ public class ApartmentFloor : MonoBehaviour
                 if (box.boxData.boxItems == null)
                     box.boxData.boxItems = new List<ItemCsvRow>();
 
+                if (box.boxData.boxType == BoxType.CatBox_S)
+                    continue;
+                
                 // 3개 미만이면 사용 가능
                 if (box.boxData.boxItems.Count < 3)
                 {
