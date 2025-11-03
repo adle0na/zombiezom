@@ -4489,6 +4489,7 @@ MonoBehaviour:
   sua: {fileID: 4101137889719785555}
   chair: {fileID: 6306168880552899812}
   quiz: {fileID: 8220335783600642697}
+  homePlayer: {fileID: 5125531978436097271}
   remainCure: 
   caringNum: 0
   item: {fileID: 5489305593709571104}
@@ -5468,6 +5469,7 @@ GameObject:
   - component: {fileID: 2592757434025788303}
   - component: {fileID: 7950835860184243715}
   - component: {fileID: 9167099907034504051}
+  - component: {fileID: 9167099907034504052}
   m_Layer: 5
   m_Name: HomePlayer
   m_TagString: Untagged
@@ -6768,7 +6770,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f48d9d6710234214b8bd1898bfa3da92, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a1dea009c14654affb0d8fc4a4c02600, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7416,6 +7418,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &9167099907034504052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5125531978436097271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae3244f0a150e5442b8a40522b9a1309, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &9175390929606731208
 Transform:
   m_ObjectHideFlags: 0

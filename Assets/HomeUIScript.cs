@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -14,9 +13,10 @@ public class HomeUIScript : MonoBehaviour
     public GameObject sua;
     public GameObject chair;
     public GameObject quiz;
+    public GameObject homePlayer;
 
-    private int[] firstFloor = {5, 9};
-    private int[] secondFloor = {5, 15};
+    private int[] firstFloor = {5, 9, 5};
+    private int[] secondFloor = {5, 15, 5};
     private int[] thirdFloor = {20, 16, 5};
     private int[] fourthFloor = {17, 10, 8, 5};
     private int[] fivethFloor = {0, 1, 2, 3, 4, 5};
@@ -104,15 +104,12 @@ public class HomeUIScript : MonoBehaviour
         remainCure.RemoveAt(0);
         UpdateQuiz();
         cureEffect.PlayEffects();
+        
+        SoundManager.Instance.PlaySFX(11);
 
         if (remainCure.Count <= 0)
         {
-            SoundManager.Instance.PlaySFX(12);
-            ClearCaredZombie();
-        }
-        else
-        {
-            SoundManager.Instance.PlaySFX(11);
+            homePlayer.GetComponent<Animator>().Play("PlayerBlood");
         }
     }
 
@@ -129,8 +126,11 @@ public class HomeUIScript : MonoBehaviour
         }
     }
 
-    private void ClearCaredZombie()
+    public void ClearCaredZombie()
     {
+        Debug.Log("ClearCaredZombie");
+        SoundManager.Instance.PlaySFX(12);
+        
         remainCure.Clear();
         caringNum = 0;
         target = null;
@@ -171,7 +171,8 @@ public class HomeUIScript : MonoBehaviour
 
     private void OnDisable()
     {
-        PlayerDataManager.Instance.IsZombieInHome = remainCure.Count > 0;
+        if (PlayerDataManager.Instance != null)
+            PlayerDataManager.Instance.IsZombieInHome = remainCure.Count > 0;
         _fadeTween?.Kill();
         if (remainCure.Count <= 0)
             normalZombie.SetActive(false);
