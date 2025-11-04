@@ -10,6 +10,6 @@ public class DeadUI : MonoBehaviour
 
     private void BackToMain()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 }

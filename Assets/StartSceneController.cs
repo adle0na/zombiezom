@@ -11,6 +11,6 @@ public class StartSceneController : MonoBehaviour
     
     public void GotoHomeScene()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 }
