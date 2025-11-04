@@ -65,7 +65,9 @@ public class UpStair : MonoBehaviour, IInteractable
         upArrow.SetActive(false);
         
         PlayerDataManager.Instance.playerObj.gameObject.SetActive(true);
-            
+
+        PlayerDataManager.Instance.MoveStair();
+        
         isGoing = false;
     }
 }

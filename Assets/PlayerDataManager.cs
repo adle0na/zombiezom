@@ -71,6 +71,16 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
         // 체력 전부 회복
         tryCount = startCount;
     }
+
+    public void MoveStair()
+    {
+        if (blinkCor != null)
+        {
+            StopCoroutine(blinkCor);
+        }
+
+        blinkCor = StartCoroutine(BlinkCor());
+    }
     
     public void GetHit()
     {
