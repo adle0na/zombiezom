@@ -1457,7 +1457,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Content: {fileID: 718604473}
   m_Horizontal: 0
-  m_Vertical: 1
+  m_Vertical: 0
   m_MovementType: 1
   m_Elasticity: 0.1
   m_Inertia: 1
@@ -3149,6 +3149,7 @@ MonoBehaviour:
   scrollView: {fileID: 900142510}
   ending1: {fileID: 1944890393}
   ending2: {fileID: 1461448258}
+  scrollTime: 10
 --- !u!1 &1874424576
 GameObject:
   m_ObjectHideFlags: 0
@@ -4487,7 +4488,6 @@ MonoBehaviour:
     cureItem: 
   normalZombie: {fileID: 790946379903465211}
   sua: {fileID: 4101137889719785555}
-  chair: {fileID: 6306168880552899812}
   quiz: {fileID: 8220335783600642697}
   homePlayer: {fileID: 5125531978436097271}
   remainCure: 
@@ -6150,7 +6150,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &6331436691600656721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7042,13 +7042,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4101137889719785555}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3620731168919243472}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -210, y: -273}

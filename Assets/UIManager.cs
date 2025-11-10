@@ -28,7 +28,8 @@ public class UIManager : GenericSingleton<UIManager>
     
     public GameObject getHit;
     public GameObject gameOver;
-
+    public GameObject settingPopup;
+    
     [SerializeField, LabelText("마스터 캔버스 태그(선택)")]
     private string targetCanvasTag = "MainCanvas"; 
     
@@ -91,8 +92,6 @@ public class UIManager : GenericSingleton<UIManager>
                 }
             }
         }
-
-        DarkBGCheck();
     }
 
     // UI 전환시 모든 팝업 종료
@@ -106,17 +105,15 @@ public class UIManager : GenericSingleton<UIManager>
             }
         }
         PopupList.Clear();
+        
+        Destroy(CurrentPopup);
+        
         CurrentPopup = null;
 
-        DarkBGCheck();
+        Time.timeScale = 1f;
+
     }
     
-    // 팝업이 한개라도 있는 경우 DargBG를 통해 UI 터치를 막음
-    private void DarkBGCheck()
-    {
-        popupParent.gameObject.SetActive(PopupList.Count > 0);
-    }
-
     public void OpenFadeInUI()
     {
         GameObject getUI = Instantiate(fadeUI, popupParent);
@@ -139,5 +136,14 @@ public class UIManager : GenericSingleton<UIManager>
         GameObject getUI = Instantiate(gameOver, popupParent);
 
         PlayerDataManager.Instance.ResetData();
+    }
+
+    public void OpenSettingPopup()
+    {
+        GameObject getUI = Instantiate(settingPopup, popupParent);
+
+        CurrentPopup = getUI;
+        
+        Time.timeScale = 0f;
     }
 }

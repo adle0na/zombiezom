@@ -21,11 +21,19 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-        }
         
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (UIManager.Instance.CurrentPopup != null)
+            {
+                UIManager.Instance.AllPopupClear();
+
+                return;
+            }
+            
+            UIManager.Instance.OpenSettingPopup();
+        }
+
         _ani.SetFloat(Speed, Mathf.Abs(_rb.linearVelocityX));
         if (!_canMove)
         {

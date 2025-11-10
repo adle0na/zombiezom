@@ -385,7 +385,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -500}
-  m_SizeDelta: {x: 900, y: 250}
+  m_SizeDelta: {x: 1087.5, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &105737563
 MonoBehaviour:
@@ -437,8 +437,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -600,7 +600,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -500}
-  m_SizeDelta: {x: 1138.7, y: 250}
+  m_SizeDelta: {x: 1387.5, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &234276049
 MonoBehaviour:
@@ -652,8 +652,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -850,7 +850,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 501653978}
-  - component: {fileID: 501653977}
+  - component: {fileID: 501653979}
   m_Layer: 0
   m_Name: StartSceneController
   m_TagString: Untagged
@@ -858,18 +858,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &501653977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 501653976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4edf07364a65864182df1cade0641db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &501653978
 Transform:
   m_ObjectHideFlags: 0
@@ -885,6 +873,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &501653979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501653976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 907facbd00488d84e9b42f234ce97fdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &635043113
 GameObject:
   m_ObjectHideFlags: 0
@@ -1187,6 +1187,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0e986df7547704c86ae1abf18fa802fe, type: 3}
   - {fileID: 8300000, guid: e38a68612badd4098be8f7578f9ea066, type: 3}
   - {fileID: 8300000, guid: c4cace84aca4041a998e93e3dfb3aae1, type: 3}
+  - {fileID: 8300000, guid: 3d6c1fb3644119d4fad5ce070e55eaa4, type: 3}
   sfxList:
   - {fileID: 8300000, guid: 9a0fd89d39b9048de9ebee0373c475bd, type: 3}
   - {fileID: 8300000, guid: 9ea3d2bfd7e7e492b8287c2f4ad8c05c, type: 3}
@@ -1201,6 +1202,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 837bdd22649724ce4a5e3a88855de13f, type: 3}
   - {fileID: 8300000, guid: db04b338ce08c54449d4e62e69872e80, type: 3}
   - {fileID: 8300000, guid: 0b0a1bcc054a1fc439b4917bfc443500, type: 3}
+  bgmVolume: 0.5
+  sfxVolume: 0.5
+  sfxPoolSize: 10
 --- !u!4 &854663501
 Transform:
   m_ObjectHideFlags: 0
@@ -1590,7 +1594,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -500}
-  m_SizeDelta: {x: 1397.3, y: 250}
+  m_SizeDelta: {x: 1600, y: 249.46}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1354028684
 MonoBehaviour:
@@ -1643,8 +1647,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1732,6 +1736,7 @@ MonoBehaviour:
   fadeUI: {fileID: 5014878421191600811, guid: 261fe01e097680d4cbd757c11344fe4e, type: 3}
   getHit: {fileID: 6800074270486982016, guid: d893226662f9b7d48b7f9ba98c3e9812, type: 3}
   gameOver: {fileID: 6800074270486982016, guid: 9351f48d7fdf5b246814ca1394f3e9ac, type: 3}
+  settingPopup: {fileID: 2030415112519772853, guid: dd231cc19ba89a546959af1ff34082bb, type: 3}
   targetCanvasTag: MainCanvas
 --- !u!4 &1535106726
 Transform:
