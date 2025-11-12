@@ -237,8 +237,10 @@ public class PlayerInteract : MonoBehaviour
              Debug.LogWarning("Target object was destroyed before interaction start.");
         }
 
-        // ★★★ 3. 루틴 종료 시 잠금 해제 ★★★
-        _isInteracting = false; 
+        if (_hidingDoor == null)
+        {
+            _isInteracting = false;
+        }
     }
 
     private void OnEnable()
@@ -324,10 +326,8 @@ public class PlayerInteract : MonoBehaviour
 
     private IEnumerator Showing()
     {
-        // 0.5초 간 서서히 플레이어의 투명도가 낮아짐.
-        float duration = 0.5f;
-    
-        // 🚨 플레이어 객체는 Door.ExitHide()에서 이미 활성화(SetActive(true)) 되었다고 가정합니다.
+        // 0.3초 간 서서히 플레이어의 투명도가 낮아짐.
+        float duration = 0.3f;
     
         // ⬇️ 페이드 인 (Alpha를 1.0f로)
         yield return StartCoroutine(FadeRoutine(1.0f, duration)); 
