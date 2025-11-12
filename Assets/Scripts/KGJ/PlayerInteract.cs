@@ -17,6 +17,8 @@ public class PlayerInteract : MonoBehaviour
     private bool _isHolding;
     private bool _isInteracting = false; // ★★★ 상호작용 잠금 플래그 추가 ★★★
     private bool _wasHoldingCompleted = false;
+    private bool _isTargetLocked;
+    private IInteractable _lockedTarget;
 
     private PlayerMovement _playerMovement;
     private PlayerInventory _playerInventory;
@@ -55,6 +57,10 @@ public class PlayerInteract : MonoBehaviour
         if (_hidingDoor != null)
         {
             _closestTarget = _hidingDoor;
+        }
+        else if (TryGetLockedTarget(out var lockedTarget))
+        {
+            _closestTarget = lockedTarget;
         }
         else
         {
@@ -138,6 +144,7 @@ public class PlayerInteract : MonoBehaviour
             if (!_isHolding)
             {
                 _isHolding = true;
+                LockTarget(_closestTarget);
                 _playerMovement.EnableMove(false);
                 _holdTimer = 0f;
 
@@ -177,6 +184,11 @@ public class PlayerInteract : MonoBehaviour
             _playerMovement.EnableMove(true);
 
         OnHoldEnd?.Invoke();
+        
+        if (!_isInteracting)
+        {
+            UnlockTarget();
+        }
     }
 
     private IInteractable GetClosestInteractable()
@@ -365,9 +377,54 @@ public class PlayerInteract : MonoBehaviour
         }
     }
     
-    private void OnDrawGizmosSelected()
+    private bool TryGetLockedTarget(out IInteractable target)
+    {
+        if (!_isTargetLocked)
+        {
+            target = null;
+            return false;
+        }
+
+        if (_lockedTarget == null || !IsTargetStillValid(_lockedTarget))
+        {
+            UnlockTarget();
+            target = null;
+            return false;
+        }
+
+        target = _lockedTarget;
+        return true;
+    }
+
+    private bool IsTargetStillValid(IInteractable target)
+    {
+        if (target == null) return false;
+
+        if (target is MonoBehaviour mono)
+        {
+            return mono != null && mono.isActiveAndEnabled && mono.gameObject.activeInHierarchy;
+        }
+
+        return true;
+    }
+
+    private void LockTarget(IInteractable target)
+    {
+        if (target == null) return;
+
+        _lockedTarget = target;
+        _isTargetLocked = true;
+    }
+
+    private void UnlockTarget()
+    {
+        _lockedTarget = null;
+        _isTargetLocked = false;
+    }
+    
+    /*private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, interactRadius);
-    }
+    }*/
 }
