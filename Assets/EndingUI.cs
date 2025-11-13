@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
@@ -9,7 +10,7 @@ public class EndingUI : MonoBehaviour
     [SerializeField] private GameObject ending2;
 
     // 스크롤 속도 조절
-    [SerializeField] private float scrollTime = 10f;
+    [SerializeField] private float scrollTime = 15f;
 
     private ScrollRect scrollRect;
 
@@ -19,13 +20,8 @@ public class EndingUI : MonoBehaviour
             scrollRect = scrollView.GetComponentInChildren<ScrollRect>();
     }
 
-    public void CheckEnding()
+    private void Start()
     {
-        bool isFindCat = PlayerDataManager.Instance.isFindCat;
-
-        ending1.SetActive(isFindCat);
-        ending2.SetActive(!isFindCat);
-
         // 스크롤 자동 진행 시작
         if (scrollRect != null)
             StartCoroutine(AutoScrollRoutine());
@@ -33,11 +29,22 @@ public class EndingUI : MonoBehaviour
             Debug.LogWarning("ScrollRect 컴포넌트를 찾지 못했습니다.");
     }
 
+    public void CheckEnding()
+    {
+        bool isFindCat = PlayerDataManager.Instance.isFindCat;
+
+        ending1.SetActive(isFindCat);
+        ending2.SetActive(!isFindCat);
+    }
+
     private IEnumerator AutoScrollRoutine()
     {
         // 스크롤 위치 맨 위로 초기화
         scrollRect.normalizedPosition = new Vector2(0, 1);
 
+        // 1초뒤 스크롤 재생
+        yield return new WaitForSeconds(1);
+        
         float t = 0f;
         while (t < scrollTime)
         {

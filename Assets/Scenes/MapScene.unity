@@ -3149,7 +3149,7 @@ MonoBehaviour:
   scrollView: {fileID: 900142510}
   ending1: {fileID: 1944890393}
   ending2: {fileID: 1461448258}
-  scrollTime: 10
+  scrollTime: 15
 --- !u!1 &1874424576
 GameObject:
   m_ObjectHideFlags: 0
