@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8feafb334a49ba648835e4ed8ecb8ddb
+guid: d52cb64d68a31214caf81dfeec8b30c2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5191144831026968929
-    second: Blood9_0
+      213: -855298285791758126
+    second: 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,23 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Blood9_0
+      name: 1_0
       rect:
         serializedVersion: 2
-        x: 139
+        x: 4
         y: 0
-        width: 242
-        height: 341
+        width: 396
+        height: 400
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f964801b74955f7b0800000000000000
-      internalID: -5191144831026968929
+      spriteID: 2d8b16a9dbe5124f0800000000000000
+      internalID: -855298285791758126
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 3280ae599323866478550c02b246fd1e
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Blood9_0: -5191144831026968929
+      1_0: -855298285791758126
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

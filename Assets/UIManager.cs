@@ -29,6 +29,7 @@ public class UIManager : GenericSingleton<UIManager>
     public GameObject getHit;
     public GameObject gameOver;
     public GameObject settingPopup;
+    public GameObject infoPopup;
     
     [SerializeField, LabelText("마스터 캔버스 태그(선택)")]
     private string targetCanvasTag = "MainCanvas"; 
@@ -141,6 +142,15 @@ public class UIManager : GenericSingleton<UIManager>
     public void OpenSettingPopup()
     {
         GameObject getUI = Instantiate(settingPopup, popupParent);
+
+        CurrentPopup = getUI;
+        
+        Time.timeScale = 0f;
+    }
+    
+    public void OpenInfoPopup()
+    {
+        GameObject getUI = Instantiate(infoPopup, popupParent);
 
         CurrentPopup = getUI;
         

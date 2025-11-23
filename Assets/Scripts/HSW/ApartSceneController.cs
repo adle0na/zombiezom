@@ -512,6 +512,11 @@ public class ApartSceneController : MonoBehaviour
         PlayerDataManager.Instance.playerObj.SetActive(true);
     }
 
+    public void OpenInfoUI()
+    {
+        UIManager.Instance.OpenInfoPopup();
+    }
+    
     public void BackToMain()
     {
         SceneManager.LoadScene(0);

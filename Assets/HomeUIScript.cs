@@ -10,6 +10,7 @@ public class HomeUIScript : MonoBehaviour
     public ZombieData target;
 
     public GameObject normalZombie;
+    public GameObject suaChair;
     public GameObject sua;
     public GameObject quiz;
     public GameObject homePlayer;
@@ -85,6 +86,7 @@ public class HomeUIScript : MonoBehaviour
                 PlayerInventory.Instance.RemoveItemByIndex(invenData.index);
                 caringNum = invenData.index;
                 sua.SetActive(true);
+                suaChair.SetActive(true);
 
                 foreach (var cure in fivethFloor)
                 {
