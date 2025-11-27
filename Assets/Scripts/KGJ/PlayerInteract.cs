@@ -278,8 +278,23 @@ public class PlayerInteract : MonoBehaviour
         if (success)
         {
             // 2. 성공 시 아이템 오브젝트 파괴
-            Destroy(dropItemObject);
-            
+            if (dropItemObject != null)
+            {
+                GameObject target = dropItemObject;
+
+                // 좀비의 자식 콜라이더가 전달된 경우 부모 좀비 오브젝트를 제거
+                if (target.GetComponent<Zombie>() == null && target.transform.parent != null)
+                {
+                    Zombie parentZombie = target.transform.parent.GetComponent<Zombie>();
+                    if (parentZombie != null)
+                    {
+                        target = target.transform.parent.gameObject;
+                    }
+                }
+
+                Destroy(target);
+            }
+
             UI_Popup.OnShowPopupRequested?.Invoke($"'{item.itemName}' 획득!");
         }
         else

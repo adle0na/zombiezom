@@ -48,8 +48,10 @@ public class StunCollider : MonoBehaviour, IInteractable
 
         ItemCsvRow zombieItem = ItemDataManager.Instance.GetItemByIndex(index);
         if (gameObject != null)
-            OnItemPickupRequested?.Invoke(zombieItem, gameObject);
-        Destroy(transform.parent.gameObject);
+        {
+            GameObject targetObject = transform.parent != null ? transform.parent.gameObject : gameObject;
+            OnItemPickupRequested?.Invoke(zombieItem, targetObject);
+        }
     }
 
     public string GetInteractPrompt()
