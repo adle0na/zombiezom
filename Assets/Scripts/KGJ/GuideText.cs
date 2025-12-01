@@ -22,7 +22,7 @@ public class GuideText : MonoBehaviour
     private void UpdateText(bool isEnable)
     {
         if (!isEnable)
-            _text.text = "A/D : 좌우 이동\nSpacebar : 상호작용";
+            _text.text = "A/D : 좌우 이동\nSpacebar : 상호작용\nESC : 환경설정";
         else
             _text.text = "좌클릭 : 정보 보기\n우클릭 : 아이템 버리기";
     }
