@@ -15,10 +15,10 @@ public class HomeUIScript : MonoBehaviour
     public GameObject quiz;
     public GameObject homePlayer;
 
-    private int[] firstFloor = {5, 9, 5};
-    private int[] secondFloor = {5, 15, 5};
+    private int[] firstFloor = {9, 5};
+    private int[] secondFloor = {15, 5};
     private int[] thirdFloor = {20, 16, 5};
-    private int[] fourthFloor = {17, 10, 8, 5};
+    private int[] fourthFloor = {17, 8, 10, 5};
     private int[] fivethFloor = {0, 1, 2, 3, 4, 5};
 
     public List<int> remainCure = new List<int>();
