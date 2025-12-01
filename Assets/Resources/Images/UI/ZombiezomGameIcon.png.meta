@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      ZombiezomGameIcon_0: 8300935645163441526
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
