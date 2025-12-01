@@ -8,6 +8,12 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
 {
     [LabelText("시작 목숨 값")]
     [SerializeField] private int startCount;
+
+    [LabelText("피격 무적 시간")]
+    [SerializeField] private float hitInvincibleTime = 2f;
+
+    [LabelText("계단 무적 시간")]
+    [SerializeField] private float stairInvincibleTime = 2f;
     
     [LabelText("현재 플레이어 목숨 값")]
     [SerializeField] private int tryCount;
@@ -79,7 +85,7 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
             StopCoroutine(blinkCor);
         }
 
-        blinkCor = StartCoroutine(BlinkCor());
+        blinkCor = StartCoroutine(BlinkCor(stairInvincibleTime));
     }
     
     public void GetHit()
@@ -103,7 +109,7 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
                 StopCoroutine(blinkCor);
             }
 
-            blinkCor = StartCoroutine(BlinkCor());
+            blinkCor = StartCoroutine(BlinkCor(hitInvincibleTime));
         }
         else
             GameOver();
@@ -116,13 +122,13 @@ public class PlayerDataManager : GenericSingleton<PlayerDataManager>
         Debug.Log("게임 오버 처리");
     }
 
-    IEnumerator BlinkCor()
+    IEnumerator BlinkCor(float duration)
     {
         SpriteRenderer playerSprite = playerObj.GetComponent<SpriteRenderer>();
         
         canHit = false;
         
-        float duration = 2f;      // 깜빡임 총 시간 (1초)
+        // float duration = 2f;      // 깜빡임 총 시간 (1초)
         float blinkSpeed = 10f;   // 깜빡이는 속도(값이 높을수록 빠름)
         float time = 0f;
 

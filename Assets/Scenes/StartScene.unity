@@ -1115,6 +1115,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startCount: 3
+  hitInvincibleTime: 2
+  stairInvincibleTime: 1
   tryCount: 0
   playerInven:
   - index: 27
