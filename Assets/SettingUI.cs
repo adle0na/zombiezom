@@ -68,6 +68,8 @@ public class SettingUI : MonoBehaviour
 
     public void RestartScene()
     {
+        PlayerDataManager.Instance.ResetData();
+        
         Time.timeScale = 1f;
         
         SceneManager.LoadScene(2);
@@ -75,6 +77,8 @@ public class SettingUI : MonoBehaviour
 
     public void BackToMain()
     {
+        PlayerDataManager.Instance.ResetData();
+        
         Time.timeScale = 1f;
         
         SceneManager.LoadScene(0);
