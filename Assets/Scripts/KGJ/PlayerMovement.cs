@@ -47,11 +47,6 @@ public class PlayerMovement : MonoBehaviour
             _isFacingRight = true;
         else if (_hInput < 0)
             _isFacingRight = false;
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene(0);
-        }
     }
 
     public Animator GetPlayerAnimator()

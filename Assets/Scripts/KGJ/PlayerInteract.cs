@@ -44,13 +44,6 @@ public class PlayerInteract : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            PlayerInventory.Instance.AddItem(ItemDataManager.Instance.GetItemByIndex(5));
-            PlayerInventory.Instance.AddItem(ItemDataManager.Instance.GetItemByIndex(9));
-            PlayerInventory.Instance.AddItem(ItemDataManager.Instance.GetItemByIndex(5));
-            PlayerInventory.Instance.AddItem(ItemDataManager.Instance.GetItemByIndex(22));
-        }
         // 1. 상호작용 루틴이 실행 중이면 Update 로직을 잠급니다.
         if (_isInteracting) return; 
         
