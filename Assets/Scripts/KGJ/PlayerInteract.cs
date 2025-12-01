@@ -340,8 +340,7 @@ public class PlayerInteract : MonoBehaviour
 
     private IEnumerator Hiding()
     {
-        // 0.5초 간 서서히 _hidingDoor의 중심으로 이동하며 투명해짐
-        float duration = 0.5f;
+        float duration = 0.1f;
     
         // ⬇️ 페이드 아웃 (Alpha를 0.0f로)
         yield return StartCoroutine(FadeRoutine(0.0f, duration)); 
@@ -359,8 +358,7 @@ public class PlayerInteract : MonoBehaviour
 
     private IEnumerator Showing()
     {
-        // 0.3초 간 서서히 플레이어의 투명도가 낮아짐.
-        float duration = 0.3f;
+        float duration = 0.1f;
     
         // ⬇️ 페이드 인 (Alpha를 1.0f로)
         yield return StartCoroutine(FadeRoutine(1.0f, duration)); 
