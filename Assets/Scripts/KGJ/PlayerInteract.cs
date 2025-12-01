@@ -117,13 +117,18 @@ public class PlayerInteract : MonoBehaviour
             {
                 if (!PlayerDataManager.Instance.canHit) return;
                 
-                // 루틴 시작 시 코루틴을 실행합니다.
-                StartCoroutine(InstantInteractRoutine(_closestTarget));
-                
-                // ★★★ 추가: 키를 누르는 순간, 바로 _wasHoldingCompleted를 설정하여 
-                // 다음 프레임에서 홀드 상호작용이 시작되지 않도록 합니다. 
-                // 키를 놓을 때까지 이 상태를 유지합니다. ★★★
-                _wasHoldingCompleted = true; 
+                // 숨어있는 상태에서 나갈 때는 딜레이 없이 즉시 처리
+                if (IsHiding)
+                {
+                    _closestTarget.Interact();
+                    _wasHoldingCompleted = true;
+                }
+                else
+                {
+                    // 루틴 시작 시 코루틴을 실행합니다.
+                    StartCoroutine(InstantInteractRoutine(_closestTarget));
+                    _wasHoldingCompleted = true; 
+                }
             }
             return;
         }
@@ -139,7 +144,8 @@ public class PlayerInteract : MonoBehaviour
         }
 
         // Space 키를 누르는 중 (홀드형 상호작용)
-        if (Input.GetKey(KeyCode.Space))
+        // ★★★ 수정: 숨어있는 상태에서는 홀드 상호작용을 하지 않음 ★★★
+        if (Input.GetKey(KeyCode.Space) && !IsHiding)
         {
             if (!_isHolding)
             {
@@ -362,8 +368,20 @@ public class PlayerInteract : MonoBehaviour
         // 나가기 완료 후, 모든 상태를 해제합니다.
         _hidingDoor = null;
         _collider.enabled = true;
+        
+        // ★★★ 추가: 나가기 완료 시 강제로 타겟 락과 홀드 상태 해제 ★★★
+        UnlockTarget();
+        _isHolding = false;
+
         _isInteracting = false; // 입력 잠금 해제
+        if (!Input.GetKey(KeyCode.Space))
+        {
+            _wasHoldingCompleted = false;
+        }
         _playerMovement.EnableMove(true); // 이동 잠금 해제
+        
+        // ★★★ 추가: 상태 변경에 따른 UI 텍스트 갱신 (나가기 -> 숨기) ★★★
+        OnTargetChanged?.Invoke(_closestTarget);
     }
     
     private IEnumerator FadeRoutine(float targetAlpha, float duration)
