@@ -617,6 +617,104 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 305345741}
   m_CullTransparentMesh: 1
+--- !u!1 &398446804
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 398446808}
+  - component: {fileID: 398446807}
+  - component: {fileID: 398446806}
+  - component: {fileID: 398446805}
+  m_Layer: 5
+  m_Name: Special
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!95 &398446805
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398446804}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 631a3839f4363344ab1b2b678611ca7f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &398446806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398446804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: e958b323a5c930245baa9b286541a4e1, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &398446807
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398446804}
+  m_CullTransparentMesh: 1
+--- !u!224 &398446808
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398446804}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3620731168919243472}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -209.32, y: -272.6}
+  m_SizeDelta: {x: 400, y: 400}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &441380160
 GameObject:
   m_ObjectHideFlags: 0
@@ -3798,7 +3896,7 @@ MonoBehaviour:
   - floorValue: 2
     floorType: 1
     closedPer: 0.491
-    itemList: 01000000050000000f000000100000000d0000000900000007000000
+    itemList: 01000000050000000f000000100000000d00000009000000070000001f000000
     zombieDatas:
     - isLeftSpawn: 1
       zombieType: 0
@@ -3806,7 +3904,7 @@ MonoBehaviour:
   - floorValue: 3
     floorType: 1
     closedPer: 0.479
-    itemList: 0200000005000000140000000a0000000b0000000e0000000f000000
+    itemList: 0200000005000000140000000a0000000b0000000e0000000f0000001c000000
     zombieDatas:
     - isLeftSpawn: 1
       zombieType: 0
@@ -3817,11 +3915,11 @@ MonoBehaviour:
   - floorValue: 4
     floorType: 1
     closedPer: 0.515
-    itemList: 030000000500000008000000110000000d000000130000001500000002000000
+    itemList: 030000000500000008000000110000000d0000001300000015000000020000001d0000001e000000
     zombieDatas:
     - isLeftSpawn: 0
-      zombieType: 0
-      cureItem: 110000000a0000000800000006000000
+      zombieType: 3
+      cureItem: 1d00000006000000
     - isLeftSpawn: 1
       zombieType: 1
       cureItem: 
@@ -3865,6 +3963,7 @@ MonoBehaviour:
   normalZombie: {fileID: 6373092420197233015, guid: be97c7cb97f0fed469094c549059f931, type: 3}
   discureZombie: {fileID: 6373092420197233015, guid: 0c74df65fd8c94d539fe7682258fbd03, type: 3}
   suaZombie: {fileID: 6373092420197233015, guid: 0608a9c8493a6414aa10abca162958d5, type: 3}
+  specialZombie: {fileID: 6373092420197233015, guid: 003e49bd8e5966145ad596714a9960fe, type: 3}
   homeUI: {fileID: 3085663885452881257}
   endingUI: {fileID: 1827494066}
   targetColor: {r: 0.8301887, g: 0.7774121, b: 0.747953, a: 1}
@@ -4719,6 +4818,7 @@ MonoBehaviour:
   normalZombie: {fileID: 790946379903465211}
   suaChair: {fileID: 705607631}
   sua: {fileID: 4101137889719785555}
+  specialZombie: {fileID: 398446804}
   quiz: {fileID: 8220335783600642697}
   homePlayer: {fileID: 5125531978436097271}
   remainCure: 
@@ -5187,6 +5287,7 @@ RectTransform:
   - {fileID: 705607634}
   - {fileID: 398490748528800083}
   - {fileID: 8514814857974599046}
+  - {fileID: 398446808}
   - {fileID: 986257655964142480}
   - {fileID: 32843952395052112}
   - {fileID: 507518289}

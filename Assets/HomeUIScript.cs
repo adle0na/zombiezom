@@ -89,6 +89,9 @@ public class HomeUIScript : MonoBehaviour
             }
             else if (invenData.index == 26)
             {
+                normalZombie.SetActive(false);
+                specialZombie.SetActive(false);
+                
                 PlayerInventory.Instance.RemoveItemByIndex(invenData.index);
                 caringNum = invenData.index;
                 sua.SetActive(true);

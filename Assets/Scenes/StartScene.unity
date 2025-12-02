@@ -694,7 +694,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 501653977}
         m_TargetAssemblyTypeName: StartSceneController, Assembly-CSharp
-        m_MethodName: GotoHomeScene
+        m_MethodName: GotoStoryScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -963,7 +963,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9a0fd89d39b9048de9ebee0373c475bd, type: 3}
   - {fileID: 8300000, guid: 9ea3d2bfd7e7e492b8287c2f4ad8c05c, type: 3}
   - {fileID: 8300000, guid: 0d19d1b1315634d3f8c8f4d09d279f0e, type: 3}
-  - {fileID: 8300000, guid: c6d00453051b3ad40a6459c95931abf3, type: 3}
+  - {fileID: 8300000, guid: 500199ae8a7fb445a9914466aaff2a46, type: 3}
   - {fileID: 8300000, guid: 9d465c12265e1df42bdcef7da2d88989, type: 3}
   - {fileID: 8300000, guid: 1d5124047ecba4d84a59729793fe325f, type: 3}
   - {fileID: 8300000, guid: 92b19d55a7677984984174f83c7ecc73, type: 3}
@@ -1115,8 +1115,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startCount: 3
-  hitInvincibleTime: 2
-  stairInvincibleTime: 1
+  hitInvincibleTime: 1.5
+  stairInvincibleTime: 0.7
   tryCount: 0
   playerInven:
   - index: 27
