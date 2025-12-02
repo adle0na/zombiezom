@@ -12,13 +12,14 @@ public class HomeUIScript : MonoBehaviour
     public GameObject normalZombie;
     public GameObject suaChair;
     public GameObject sua;
+    public GameObject specialZombie;
     public GameObject quiz;
     public GameObject homePlayer;
 
     private int[] firstFloor = {9, 5};
     private int[] secondFloor = {15, 5};
     private int[] thirdFloor = {20, 16, 5};
-    private int[] fourthFloor = {17, 8, 10, 5};
+    private int[] fourthFloor = {29, 5};
     private int[] fivethFloor = {0, 1, 2, 3, 4, 5};
 
     public List<int> remainCure = new List<int>();
@@ -73,7 +74,12 @@ public class HomeUIScript : MonoBehaviour
                             remainCure.Add(cure);
                         }
                         break;
+                    // 이윤창 작가 여기서 처리
                     case 25 :
+                        
+                        normalZombie.SetActive(false);
+                        specialZombie.SetActive(true);
+                        
                         foreach (var cure in fourthFloor)
                         {
                             remainCure.Add(cure);
@@ -141,6 +147,12 @@ public class HomeUIScript : MonoBehaviour
             FadeOutAndDisableImage(normalZombie, 1f, 1f);
         }
 
+        if (specialZombie != null && specialZombie.activeSelf)
+        {
+            specialZombie.GetComponent<Animator>().Play("Special1");
+            FadeOutAndDisableImage(specialZombie, 1f, 1f);
+        }
+        
         if (sua != null && sua.activeSelf)
         {
             sua.GetComponent<Animator>().Play("Sua2");

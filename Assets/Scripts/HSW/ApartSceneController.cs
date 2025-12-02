@@ -99,6 +99,7 @@ public class ApartSceneController : MonoBehaviour
     [LabelText("일반좀비")] [SerializeField] private GameObject normalZombie;
     [LabelText("치료불가좀비")] [SerializeField] private GameObject discureZombie;
     [LabelText("수아좀비")] [SerializeField] private GameObject suaZombie;
+    [LabelText("이윤창작가님좀비")] [SerializeField] private GameObject specialZombie;
 
     [LabelText("홈 UI")] [SerializeField] private GameObject homeUI;
     [LabelText("엔딩 UI")] [SerializeField] private GameObject endingUI;
@@ -349,6 +350,9 @@ public class ApartSceneController : MonoBehaviour
                     break;
                 case ZombieType.SuaZombie:
                     spawnTarget = suaZombie;
+                    break;
+                case ZombieType.SpecialZombie:
+                    spawnTarget = specialZombie;
                     break;
             }
             

@@ -56,7 +56,9 @@ public enum ZombieType
     [InspectorName("치료불가좀비")]
     DisCureZombie,
     [InspectorName("수아좀비")]
-    SuaZombie
+    SuaZombie,
+    [InspectorName("이윤창작가님좀비")]
+    SpecialZombie
 }
 
 public enum ZombieStatus

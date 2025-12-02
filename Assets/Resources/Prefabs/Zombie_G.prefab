@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3481399011467158262}
   - component: {fileID: 5061228159257759698}
   m_Layer: 6
-  m_Name: StunCollider
+  m_Name: GetCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

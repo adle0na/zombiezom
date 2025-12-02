@@ -9,8 +9,8 @@ public class StorySceneController : MonoBehaviour
         SoundManager.Instance.PlayBGM(4);
     }
 
-    public void GotoStartScene()
+    public void GotoMapScene()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 }
